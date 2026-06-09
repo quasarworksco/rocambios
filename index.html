@@ -1105,7 +1105,6 @@
           <label>Moneda</label>
           <div class="moneda-toggle">
             <button type="button" class="moneda-btn active" id="btn-usd" onclick="selectMoneda('usd');event.preventDefault();event.stopPropagation();">🇺🇸 USD — Dólar</button>
-            <button type="button" class="moneda-btn" id="btn-eur" onclick="selectMoneda('eur');event.preventDefault();event.stopPropagation();">🇪🇺 EUR — Euro</button>
           </div>
         </div>
 
@@ -1130,21 +1129,7 @@
           <textarea id="doc-nota" placeholder="Ej: Realizar pago vía Zelle al correo pagos@dgpgroup.com..."></textarea>
         </div>
 
-        <div class="ff" id="field-contrato">
-          <div id="contrato-btn" onclick="toggleContrato()" style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--off);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.2s;user-select:none;">
-            <div style="display:flex;align-items:center;gap:8px;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-              <div>
-                <div style="font-size:12px;font-weight:600;color:var(--black);">Requiere firma de contrato</div>
-                <div style="font-size:10px;color:var(--text-soft);margin-top:1px;">El cliente deberá firmar antes de poder pagar</div>
-              </div>
-            </div>
-            <div id="contrato-pill" style="width:42px;height:24px;border-radius:20px;background:#e2e8f0;position:relative;flex-shrink:0;transition:background 0.2s;">
-              <div id="contrato-knob" style="width:18px;height:18px;border-radius:50%;background:white;position:absolute;top:3px;left:3px;transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.2);"></div>
-            </div>
-          </div>
-          <input type="hidden" id="contrato-toggle" value="0">
-        </div>
+        <input type="hidden" id="contrato-toggle" value="0">
 
         <div style="border-top:1px solid var(--border); margin:16px 0 16px;"></div>
         <div class="panel-title-f" style="margin-bottom:14px;">Añadir Operación</div>
@@ -1551,12 +1536,9 @@ const CLOUDINARY_UPLOAD_PRESET = 'rocambios';
 const WA_NUM = '584121002090';
 
 const EMPLEADOS = [
-  { nombre: 'Kevin Bermudez',    ini: 'K', id: 'Kevin'  },
-  { nombre: 'Angel Rosales',     ini: 'A', id: 'Angel'  },
-  { nombre: 'Jose Acosta',       ini: 'J', id: 'Jose'   },
-  { nombre: 'Paul Espina',       ini: 'P', id: 'Paul'   },
-  { nombre: 'Carlos de Vicente', ini: 'C', id: 'Carlos' },
-  { nombre: 'Lisnay Gimenez',    ini: 'L', id: 'Lisnay' },
+  { nombre: 'Andrea Ramirez', ini: 'A', id: 'Andrea'  },
+  { nombre: 'Jullys Ortega',  ini: 'J', id: 'Jullys'  },
+  { nombre: 'Duglas Larreal', ini: 'D', id: 'Duglas'  },
 ];
 
 /* ═══════════════════════════════════════════════════════
@@ -1639,7 +1621,6 @@ function servicesOptionsHTML() {
     <optgroup label="Cambio de Divisas">
       <option value="Cambio USD → Bolívares">Cambio USD → Bolívares</option>
       <option value="Cambio USDT → Bolívares">Cambio USDT → Bolívares</option>
-      <option value="Cambio EUR → Bolívares">Cambio EUR → Bolívares</option>
       <option value="Cambio Bolívares → USD">Cambio Bolívares → USD</option>
     </optgroup>
     <optgroup label="Otros envíos">
@@ -1790,7 +1771,6 @@ function populateServiceSelects() {
     'Remesa Transferencia → USDT',
     'Cambio USD → Bolívares',
     'Cambio USDT → Bolívares',
-    'Cambio EUR → Bolívares',
     'Cambio Bolívares → USD',
     'Envío Western Union → Venezuela',
     'Envío PayPal → Venezuela',
@@ -1932,7 +1912,6 @@ function openEditVentaModal(id) {
     'Remesa Transferencia → USDT',
     'Cambio USD → Bolívares',
     'Cambio USDT → Bolívares',
-    'Cambio EUR → Bolívares',
     'Cambio Bolívares → USD',
     'Envío Western Union → Venezuela',
     'Envío PayPal → Venezuela',
