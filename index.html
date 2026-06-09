@@ -877,73 +877,6 @@
 }
 
 /* ─── PROYECTOS ─── */
-.proy-main { max-width:900px; margin:0 auto; padding:28px 24px; }
-.proy-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
-.proy-filter-row { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
-.proy-filter-btn { padding:7px 16px; border:1.5px solid var(--border); border-radius:20px; background:var(--off); color:var(--text-mid); font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; cursor:pointer; transition:all 0.2s; }
-.proy-filter-btn.active { background:var(--blue); color:white; border-color:var(--blue); }
-.proy-card { background:white; border:1.5px solid var(--border); border-radius:14px; margin-bottom:12px; overflow:hidden; transition:border-color 0.2s; }
-.proy-card:hover { border-color:var(--blue); }
-.proy-card-head { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; gap:12px; }
-.proy-card-left { display:flex; align-items:center; gap:12px; min-width:0; }
-.proy-card-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.proy-card-icon.web  { background:#f0fdf4; color:#2D6A4F; }
-.proy-card-icon.seg  { background:#f0fdf4; color:#059669; }
-.proy-card-icon.red  { background:#fff7ed; color:#ea580c; }
-.proy-card-icon.ads  { background:#fdf2f8; color:#be185d; }
-.proy-card-title { font-size:13px; font-weight:600; color:var(--black); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.proy-card-sub { font-size:11px; color:var(--text-soft); margin-top:2px; }
-.proy-card-right { display:flex; align-items:center; gap:10px; flex-shrink:0; }
-.proy-badge { font-size:9px; font-weight:700; letter-spacing:1px; padding:3px 10px; border-radius:20px; text-transform:uppercase; }
-.proy-badge.web  { background:#f0fdf4; color:#2D6A4F; }
-.proy-badge.seg  { background:#f0fdf4; color:#059669; }
-.proy-badge.red  { background:#fff7ed; color:#ea580c; }
-.proy-badge.ads  { background:#fdf2f8; color:#be185d; }
-.proy-arrow { font-size:11px; color:var(--text-soft); transition:transform 0.2s; }
-.proy-arrow.open { transform:rotate(180deg); }
-.proy-card-body { display:none; padding:0 20px 18px; border-top:1px solid var(--border); }
-.proy-card-body.open { display:block; }
-.proy-section { margin-top:14px; }
-.proy-section-title { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--text-soft); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
-.proy-section-title::after { content:''; flex:1; height:1px; background:var(--border); }
-.proy-row { display:flex; gap:8px; margin-bottom:6px; font-size:12px; }
-.proy-row-key { color:var(--text-soft); flex-shrink:0; width:120px; font-weight:600; font-size:11px; }
-.proy-row-val { color:var(--black); flex:1; word-break:break-word; }
-.proy-colores { display:flex; gap:6px; align-items:center; margin-top:4px; }
-.proy-color-dot { width:24px; height:24px; border-radius:6px; border:1px solid var(--border); }
-.proy-paginas { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
-.proy-chip { background:var(--off); border:1px solid var(--border); border-radius:20px; padding:3px 10px; font-size:11px; color:var(--text-mid); }
-.proy-empty { text-align:center; padding:48px 24px; color:var(--text-soft); font-size:13px; }
-.proy-link-btn { font-size:11px; font-weight:600; color:var(--blue); background:none; border:none; cursor:pointer; padding:0; text-decoration:underline; }
-.proy-done-btn { font-size:11px; font-weight:600; padding:6px 14px; border-radius:8px; border:1.5px solid var(--border); background:var(--off); color:var(--text-mid); cursor:pointer; transition:all 0.2s; }
-.proy-done-btn:hover { border-color:var(--green-dark); color:var(--green-dark); }
-.proy-done-btn.done { background:#f0fdf4; border-color:var(--green-dark); color:var(--green-dark); }
-.proy-card.done .proy-card-head { background:#f0fdf4; }
-.proy-done-badge { font-size:9px; font-weight:700; letter-spacing:1px; padding:3px 10px; border-radius:20px; background:#f0fdf4; color:var(--green-dark); }
-.proy-prompt-btn { font-size:11px; font-weight:600; padding:6px 14px; border-radius:8px; border:1.5px solid rgba(20,56,204,0.25); background:#f0fdf4; color:var(--blue); cursor:pointer; transition:all 0.2s; }
-.proy-prompt-btn:hover { background:rgba(20,56,204,0.12); }
-.proy-prompt-box { background:var(--off); border:1.5px solid var(--border); border-radius:10px; margin-top:12px; display:none; position:relative; overflow:hidden; }
-.proy-prompt-box.open { display:block; }
-.proy-prompt-toolbar { display:flex; align-items:center; justify-content:space-between; padding:8px 14px; border-bottom:1px solid var(--border); background:white; }
-.proy-prompt-toolbar span { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:var(--text-soft); }
-.proy-prompt-copy { display:flex; align-items:center; gap:5px; padding:5px 12px; background:var(--blue); color:white; border:none; border-radius:6px; font-size:10px; font-weight:600; cursor:pointer; font-family:'IBM Plex Sans',sans-serif; transition:background 0.2s; }
-.proy-prompt-copy:hover { background:var(--blue-light); }
-.proy-prompt-copy svg { flex-shrink:0; }
-.proy-prompt-text { padding:14px 16px; font-size:11px; color:var(--text-mid); line-height:1.7; white-space:pre-wrap; word-break:break-word; font-family:'IBM Plex Mono',monospace; }
-@media (max-width:700px) {
-  .proy-main { padding:14px 12px; }
-  .proy-row-key { width:90px; }
-  .proy-card-head { padding:12px 14px; gap:8px; }
-  .proy-card-icon { width:34px; height:34px; border-radius:8px; }
-  .proy-card-title { font-size:12px; }
-  .proy-card-right { gap:6px; }
-  .proy-badge { display:none; }
-  .proy-card-body { padding:0 14px 14px; }
-  .proy-prompt-toolbar { flex-wrap:wrap; gap:6px; }
-  .proy-prompt-text { font-size:10px; padding:10px 12px; }
-  .proy-done-btn, .proy-prompt-btn { padding:5px 10px; font-size:10px; }
-  .proy-filter-row { gap:6px; }
-  .proy-filter-btn { padding:6px 12px; font-size:10px; }
 }
 /* ─── CALENDARIO ─── */
 .cal-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
@@ -1214,7 +1147,7 @@
         </div>
 
         <div style="border-top:1px solid var(--border); margin:16px 0 16px;"></div>
-        <div class="panel-title-f" style="margin-bottom:14px;">Añadir Servicio</div>
+        <div class="panel-title-f" style="margin-bottom:14px;">Añadir Operación</div>
 
         <div class="ff">
           <label>Servicio</label>
@@ -1374,21 +1307,6 @@
     <div class="panel-f" style="margin-top:12px;">
       <div class="panel-title-f">Actividad reciente</div>
       <div id="actividad-list"><div style="text-align:center;color:var(--text-soft);font-size:12px;padding:16px;">Cargando...</div></div>
-    </div>
-
-    <!-- Color del sistema -->
-    <div class="panel-f" style="margin-top:12px;">
-      <div class="panel-title-f">Personalización</div>
-      <div class="ff" style="margin-top:10px;"><label style="font-size:11px;color:var(--text-soft);font-weight:600;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:8px;">Color principal del sistema</label>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button onclick="setColor('#2D6A4F')" style="width:32px;height:32px;border-radius:50%;background:#2D6A4F;border:3px solid #2D6A4F;cursor:pointer;" title="Azul (default)"></button>
-          <button onclick="setColor('#7c3aed')" style="width:32px;height:32px;border-radius:50%;background:#7c3aed;border:3px solid #7c3aed;cursor:pointer;" title="Violeta"></button>
-          <button onclick="setColor('#059669')" style="width:32px;height:32px;border-radius:50%;background:#059669;border:3px solid #059669;cursor:pointer;" title="Verde"></button>
-          <button onclick="setColor('#dc2626')" style="width:32px;height:32px;border-radius:50%;background:#dc2626;border:3px solid #dc2626;cursor:pointer;" title="Rojo"></button>
-          <button onclick="setColor('#d97706')" style="width:32px;height:32px;border-radius:50%;background:#d97706;border:3px solid #d97706;cursor:pointer;" title="Ámbar"></button>
-          <button onclick="setColor('#0891b2')" style="width:32px;height:32px;border-radius:50%;background:#0891b2;border:3px solid #0891b2;cursor:pointer;" title="Cyan"></button>
-        </div>
-      </div>
     </div>
 
   </div>
@@ -1623,9 +1541,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db   = firebase.firestore();
-// Cloudinary — reemplaza a Firebase Storage (gratis hasta 25GB)
-const CLOUDINARY_CLOUD_NAME   = 'dgden7fws';
-const CLOUDINARY_UPLOAD_PRESET = 'm87e1jog';
+// Cloudinary — pendiente de configurar
+const CLOUDINARY_CLOUD_NAME   = '';
+const CLOUDINARY_UPLOAD_PRESET = '';
 
 /* ═══════════════════════════════════════════════════════
    CONSTANTS
@@ -1671,7 +1589,7 @@ function fmtDate(d) {
    SERVICES OPTIONS HTML (shared)
 ═══════════════════════════════════════════════════════ */
 let monedaSeleccionada = 'usd';
-let marcaSeleccionada  = 'dgp';
+const marcaSeleccionada = 'rocambios';
 
 const METODOS_CAMPOS = {
   zelle:        [
@@ -2114,7 +2032,7 @@ async function registrar() {
     });
 
     document.getElementById('pResumen').textContent =
-      `${e.split(' ')[0]} cerró $${m.toFixed(2)} con ${c} — ${s}`;
+      `${e.split(' ')[0]} procesó $${m.toFixed(2)} con ${c} — ${s}`;
 
     const waText = encodeURIComponent(
       `*NUEVA OPERACIÓN RO CAMBIOS*\n👤 ${e}\n🤝 ${c}\n💼 ${s}\n💰 $${m.toFixed(2)}`
@@ -2302,7 +2220,7 @@ async function saveDoc() {
     fecha,
     total,
     moneda:     monedaSeleccionada,
-    marca:      marcaSeleccionada,
+    marca:      'rocambios',
     metodoPago: document.getElementById('metodo-pago').value || null,
     infoPago:   getInfoPago(),
     contrato:   document.getElementById('contrato-toggle').value === '1',
@@ -2321,7 +2239,7 @@ async function saveDoc() {
     const ct = document.getElementById('contrato-toggle');
     if (ct.value === '1') toggleContrato();
     resetMetodoPago();
-    selectMarca('dgp');
+    
     btn.disabled = false;
     btn.innerHTML = type === 'factura' ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Generar Factura' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Generar Recibo';
     logActividad('Nuevo documento', `${docId} · ${cli} · $${total.toFixed(2)}`);
@@ -2601,15 +2519,6 @@ async function confirmarPagoParcial() {
 }
 
 let histFilter      = 'todos';
-let histMarcaFilter = 'todas';
-
-function setHistMarcaFilter(f, btn) {
-  histMarcaFilter = f;
-  document.querySelectorAll('[data-marcaf]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderHistorial();
-}
-
 function setHistFilter(f, btn) {
   histFilter = f;
   document.querySelectorAll('.hist-filter-btn').forEach(b => b.classList.remove('active'));
@@ -2636,8 +2545,6 @@ function renderHistorial() {
   if (histFilter === 'factura') allDocs = allDocs.filter(d => d.type === 'factura' && !d.pagado && !d.pagadoParcial);
   else if (histFilter === 'parcial') allDocs = allDocs.filter(d => !!d.pagadoParcial);
   else if (histFilter === 'recibo')  allDocs = allDocs.filter(d => d.pagado || d.type === 'recibo');
-  if (histMarcaFilter === 'dgp')      allDocs = allDocs.filter(d => !d.marca || d.marca === 'dgp');
-  else if (histMarcaFilter === 'vanguard') allDocs = allDocs.filter(d => d.marca === 'vanguard');
 
   if (allDocs.length === 0) {
     container.innerHTML = `<div style="text-align:center;color:var(--text-soft);font-size:12px;padding:24px 0;">${search || histFilter !== 'todos' ? 'No se encontraron resultados.' : 'Sin documentos registrados aún'}</div>`;
@@ -2680,8 +2587,7 @@ function renderHistorial() {
       <button class="btn-sm paid" onclick='marcarPagado("${esc(fsId)}")'     style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Pagado total</button>`;
     }
 
-    const vngBadge = doc.marca === 'vanguard'
-      ? `<span class="marca-badge-vng">VBS</span>` : '';
+    const vngBadge = '';
 
     return `
     <div class="doc-item">
@@ -3072,7 +2978,7 @@ function duplicarFactura(fsId) {
   const notaEl = document.getElementById('doc-nota');
   if (notaEl) notaEl.value = doc.nota || '';
 
-  if (doc.marca) selectMarca(doc.marca);
+  
 
   const metEl = document.getElementById('metodo-pago');
   if (metEl && doc.metodoPago) { metEl.value = doc.metodoPago; onMetodoPagoChange(); }
@@ -3499,55 +3405,11 @@ function openComprobanteModal(ventaId) {
 }
 
 async function uploadComprobante(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { toast('La imagen no puede superar 5MB.', 'err'); return; }
-  if (!comprobanteVentaId) return;
-
-  const progressWrap = document.getElementById('upload-progress');
-  const progressBar  = document.getElementById('upload-progress-bar');
-  progressWrap.style.display = 'block';
-  progressBar.style.width = '0%';
-
-  try {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-    formData.append('folder', 'comprobantes');
-    formData.append('public_id', `${comprobanteVentaId}_${Date.now()}`);
-
-    const xhr = new XMLHttpRequest();
-    xhr.upload.addEventListener('progress', e => {
-      if (e.lengthComputable) {
-        progressBar.style.width = Math.round(e.loaded / e.total * 100) + '%';
-      }
-    });
-
-    const url = await new Promise((resolve, reject) => {
-      xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`);
-      xhr.onload = () => {
-        const res = JSON.parse(xhr.responseText);
-        if (xhr.status === 200) resolve(res.secure_url);
-        else reject(new Error(res.error?.message || 'Error Cloudinary'));
-      };
-      xhr.onerror = () => reject(new Error('Error de red'));
-      xhr.send(formData);
-    });
-
-    await db.collection('ventas').doc(comprobanteVentaId).update({ comprobante_url: url });
-    toast('Comprobante guardado ✅');
-    document.getElementById('comp-img').src = url;
-    const dl = document.getElementById('comp-download');
-    dl.href = url;
-    dl.download = `comprobante_${comprobanteVentaId}.jpg`;
-    document.getElementById('comp-img-container').style.display = 'block';
-  } catch(e) {
-    toast('Error al subir imagen.', 'err');
-    console.error(e);
-  } finally {
-    progressWrap.style.display = 'none';
-  }
+  // Cloudinary pendiente de configurar — se habilitará próximamente
+  toast('Carga de comprobantes disponible próximamente.', 'ok');
+  input.value = '';
 }
+
 
 async function eliminarComprobante() {
   if (!comprobanteVentaId || !confirm('¿Eliminar el comprobante?')) return;
@@ -3566,15 +3428,6 @@ document.getElementById('modalComprobante').addEventListener('click', function(e
 /* ═══════════════════════════════════════════════════════
    MÉTODO DE PAGO
 ═══════════════════════════════════════════════════════ */
-function selectMarca(val) {
-  marcaSeleccionada = val;
-  const btnDgp = document.getElementById('btn-marca-dgp');
-  const btnVng = document.getElementById('btn-marca-vng');
-  if (!btnDgp || !btnVng) return;
-  btnDgp.className = 'marca-btn' + (val === 'dgp'      ? ' active-dgp' : '');
-  btnVng.className = 'marca-btn' + (val === 'vanguard' ? ' active-vng' : '');
-}
-
 function selectMoneda(val) {
   monedaSeleccionada = val;
   document.getElementById('btn-usd').classList.toggle('active', val === 'usd');
