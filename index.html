@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>DGP Group | Sistema Completo</title>
+  <title>RO Cambios | Sistema de Gestión</title>
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Favicon -->
@@ -13,10 +13,10 @@
   <link rel="apple-touch-icon" href="/favicon.svg">
 
   <!-- PWA -->
-  <meta name="theme-color" content="#1438cc">
+  <meta name="theme-color" content="#2D6A4F">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="DGP Group">
+  <meta name="apple-mobile-web-app-title" content="RO Cambios">
   <link rel="manifest" href="/manifest.json">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,21 +37,21 @@
 
     :root {
       --white:      #ffffff;
-      --off:        #f7f7f5;
+      --off:        #f7f8f7;
       --black:      #0a0a0a;
-      --blue:       #1438cc;
-      --blue-light: #2a52e0;
-      --blue-xlight:#eff6ff;
-      --muted:      #2a3f7e;
-      --border:     #e8e8e4;
-      --text-soft:  #64748b;
-      --green:      #22c55e;
-      --green-dark: #059669;
-      --green-light:#ecfdf5;
+      --blue:       #2D6A4F;
+      --blue-light: #40916C;
+      --blue-xlight:#D8F3DC;
+      --muted:      #1B4332;
+      --border:     #e0e8e3;
+      --text-soft:  #52796F;
+      --green:      #52B788;
+      --green-dark: #2D6A4F;
+      --green-light:#D8F3DC;
       --amber:      #d97706;
       --amber-light:#fffbeb;
-      --text-mid:   #334155;
-      --bg-alt:     #f0f5ff;
+      --text-mid:   #2d3a35;
+      --bg-alt:     #f0faf4;
     }
 
     body {
@@ -74,7 +74,7 @@
       content: '';
       position: fixed;
       width: 800px; height: 800px;
-      background: radial-gradient(circle, rgba(20,56,204,0.05) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(45,106,79,0.06) 0%, transparent 65%);
       top: 0; left: 50%; transform: translateX(-50%);
       pointer-events: none; z-index: 0;
     }
@@ -93,7 +93,7 @@
       font-size: 42px; letter-spacing: 8px; color: #fff;
       animation: splashFadeUp 0.7s ease both;
     }
-    .splash-logo-text span { color: #1438cc; }
+    .splash-logo-text span { color: #52B788; }
     .splash-logo-sub {
       font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 4px;
       text-transform: uppercase; margin-top: 4px;
@@ -1001,21 +1001,21 @@
 
 <!-- ─── LOGIN SCREEN ─── -->
 <div id="splash-screen">
-  <div class="splash-logo-text">DGP GROUP <span>USA</span></div>
-  <div class="splash-logo-sub">Sistema de Gestión</div>
+  <div class="splash-logo-text">RO <span>CAMBIOS</span></div>
+  <div class="splash-logo-sub">Sistema de Gestión · Remesas USA→VEN</div>
   <div class="splash-bar-wrap"><div class="splash-bar"></div></div>
 </div>
 
 <div id="login-screen" style="display:none;">
   <div class="login-box">
     <div class="login-logo">
-      <div class="login-logo-text">DGP GROUP <span>USA</span></div>
-      <div class="login-logo-sub">Sistema de Gestión</div>
+      <div class="login-logo-text">RO <span>CAMBIOS</span></div>
+      <div class="login-logo-sub">Sistema de Gestión · Remesas USA→VEN</div>
     </div>
     <div class="login-title">Iniciar Sesión</div>
     <div class="login-field">
       <label>Correo electrónico</label>
-      <input type="email" id="login-email" placeholder="usuario@dgpgroup.com" autocomplete="username">
+      <input type="email" id="login-email" placeholder="usuario@rocambios.com" autocomplete="username">
     </div>
     <div class="login-field">
       <label>Contraseña</label>
@@ -1043,12 +1043,11 @@
 <!-- HEADER -->
 <header class="header">
   <div>
-    <div class="logo-text">DGP GROUP <span>USA</span></div>
-    <div class="logo-sub">Sistema de Gestión</div>
+    <div class="logo-text">RO <span>CAMBIOS</span></div>
+    <div class="logo-sub">Remesas USA → Venezuela</div>
   </div>
   <div class="header-right">
-    <div class="badge-bono"><i class="fa-solid fa-gift" style="color:var(--blue);margin-right:6px"></i> BONO $30</div>
-    <div class="live-dot">EN VIVO</div>
+    <div class="live-dot">EN LÍNEA</div>
     <div class="user-avatar" id="user-avatar-init">?</div>
     <button class="btn-logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
   </div>
@@ -1547,7 +1546,7 @@
       <span class="sheet-total-amount">$<span id="s-total">0.00</span></span>
     </div>
     <div class="sheet-footer">
-      <p id="s-footer-text">¡Gracias por su preferencia!<br><strong>DGP Group — Servicios Digitales Profesionales</strong></p>
+      <p id="s-footer-text">¡Gracias por su preferencia!<br><strong>RO Cambios — Remesas USA → Venezuela</strong></p>
     </div>
     <div class="sheet-actions" id="sheet-actions"></div>
   </div>
@@ -2884,7 +2883,7 @@ function openSheet(doc) {
   const topEl = document.getElementById('sheet-top');
   topEl.innerHTML = `
     <div class="${headerClass}" style="position:relative;">
-      <div class="sheet-doc-type">DGP GROUP USA · dgp-link.com</div>
+      <div class="sheet-doc-type">RO CAMBIOS · rocambios.com</div>
       <div class="sheet-title">${(isFactura || isParcial) ? L('FACTURA','INVOICE') : L('RECIBO DE PAGO','PAYMENT RECEIPT')}</div>
       <div style="font-family:'Bebas Neue',sans-serif;font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;letter-spacing:2px;">N° ${esc(doc.docId || '—')}</div>
       <div class="sheet-status-badge ${statusClass}">${statusText}</div>
@@ -2955,8 +2954,8 @@ function openSheet(doc) {
   document.getElementById('s-total').textContent = (doc.total || 0).toFixed(2);
 
   document.getElementById('s-footer-text').innerHTML = isRecibo
-    ? L('¡Gracias por su preferencia!','Thank you for your business!') + '<br><strong>DGP Group — Servicios Digitales Profesionales</strong>'
-    : L('Una vez realizado el pago, recibirás tu recibo de confirmación.','Once payment is received, you will get your receipt.') + '<br><strong>DGP Group — Servicios Digitales Profesionales</strong>';
+    ? L('¡Gracias por su preferencia!','Thank you for your business!') + '<br><strong>RO Cambios — Remesas USA → Venezuela</strong>'
+    : L('Una vez realizado el pago, recibirás tu recibo de confirmación.','Once payment is received, you will get your receipt.') + '<br><strong>RO Cambios — Remesas USA → Venezuela</strong>';
 
   const fsId = doc._fsId || '';
   const actions = document.getElementById('sheet-actions');
@@ -3726,14 +3725,14 @@ function enviarWhatsApp(fsId) {
       : '⏳ PENDIENTE DE PAGO';
   const items = (doc.items || []).map(it => `  • ${it.s} x${it.c} — $${it.t.toFixed(2)}`).join('\n');
   const msg =
-    `*${tipo} — DGP Group USA*\n\n` +
+    `*${tipo} — RO Cambios*\n\n` +
     `📋 *N°:* ${doc.docId || '—'}\n` +
     `👤 *Cliente:* ${doc.cli || '—'}\n` +
     `📅 *Fecha:* ${doc.fecha || '—'}\n\n` +
     `*Servicios:*\n${items}\n\n` +
     `💰 *Total: $${(doc.total || 0).toFixed(2)}*\n` +
     `${estado}\n\n` +
-    `_DGP Group USA — dgp-link.com_`;
+    `_RO Cambios — rocambios.com_`;
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 }
 
@@ -3748,7 +3747,7 @@ function enviarEmail(fsId) {
     `Fecha: ${doc.fecha || '—'}\n\n` +
     `Servicios:\n${items}\n\n` +
     `Total: $${(doc.total || 0).toFixed(2)}\n\n` +
-    `DGP Group USA — dgp-link.com`;
+    `RO Cambios — rocambios.com`;
   window.location.href = `mailto:?subject=${encodeURIComponent(tipo + ' ' + (doc.docId || ''))}&body=${encodeURIComponent(body)}`;
 }
 
@@ -4244,7 +4243,7 @@ function toggleContrato() {
 }
 
 function copiarLinkEncuesta(fsId) {
-  const url = `https://adv.dgp-link.com/encuesta.html?id=${fsId}`;
+  const url = `https://adv.rocambios.com/encuesta.html?id=${fsId}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url).then(() => toast('Link de encuesta copiado ✍️'));
   } else {
@@ -4256,7 +4255,7 @@ function copiarLinkEncuesta(fsId) {
 }
 
 function copiarLinkFactura(fsId) {
-  const url = `https://adv.dgp-link.com/factura-publica.html?id=${fsId}`;
+  const url = `https://adv.rocambios.com/factura-publica.html?id=${fsId}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url).then(() => toast('Link copiado al portapapeles 🔗'));
   } else {
