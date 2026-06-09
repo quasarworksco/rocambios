@@ -82,7 +82,7 @@
     /* ─── SPLASH SCREEN ─── */
     #splash-screen {
       position: fixed; inset: 0;
-      background: #080d1a;
+      background: #0D2B1E;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 99999;
       transition: opacity 0.5s ease, visibility 0.5s ease;
@@ -108,7 +108,7 @@
     }
     .splash-bar {
       height: 100%; width: 0;
-      background: #1438cc;
+      background: #2D6A4F;
       border-radius: 2px;
       animation: splashLoad 1.2s 0.3s cubic-bezier(.4,0,.2,1) forwards;
     }
@@ -124,7 +124,7 @@
     /* ─── LOGIN SCREEN ─── */
     #login-screen {
       position: fixed; inset: 0;
-      background: #080d1a;
+      background: #0D2B1E;
       display: flex; align-items: center; justify-content: center;
       z-index: 99000;
       padding: 16px;
@@ -573,17 +573,17 @@
       animation: modalIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
       max-height: 92vh; overflow-y: auto;
     }
-    .sheet-top-factura { background: linear-gradient(135deg,#0f172a,#1e3a5f); padding: 26px 28px 22px; position: relative; overflow: hidden; }
+    .sheet-top-factura { background: linear-gradient(135deg,#1B4332,#2D6A4F); padding: 26px 28px 22px; position: relative; overflow: hidden; }
     .sheet-top-factura::before { content:''; position:absolute; bottom:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.05); }
-    .sheet-top-recibo { background: linear-gradient(135deg,var(--blue),#2979ff); padding: 26px 28px 22px; position: relative; overflow: hidden; }
+    .sheet-top-recibo { background: linear-gradient(135deg,var(--blue),#40916C); padding: 26px 28px 22px; position: relative; overflow: hidden; }
     .sheet-top-recibo::before { content:''; position:absolute; bottom:-30px; right:-30px; width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.08); }
     .sheet-doc-type { font-family:'IBM Plex Sans',sans-serif; font-size:10px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.6); margin-bottom:5px; }
     .sheet-title { font-family:'Bebas Neue',sans-serif; font-size:30px; font-weight:900; color:white; letter-spacing:1px; }
     .sheet-status-badge { display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.15); color:white; font-size:10px; font-weight:600; letter-spacing:2px; padding:4px 12px; border-radius:20px; margin-top:10px; font-family:'IBM Plex Sans',sans-serif; }
     .sheet-status-badge.pendiente::before { content:''; width:6px; height:6px; border-radius:50%; background:#fbbf24; display:block; }
     .sheet-status-badge.pagado::before   { content:''; width:6px; height:6px; border-radius:50%; background:#34d399; display:block; }
-    .sheet-zigzag-dark { height:16px; background:linear-gradient(-45deg,white 8px,transparent 0) 0 0,linear-gradient(45deg,white 8px,transparent 0) 0 0; background-color:#1e3a5f; background-size:16px 16px; background-repeat:repeat-x; }
-    .sheet-zigzag-blue { height:16px; background:linear-gradient(-45deg,white 8px,transparent 0) 0 0,linear-gradient(45deg,white 8px,transparent 0) 0 0; background-color:#2979ff; background-size:16px 16px; background-repeat:repeat-x; }
+    .sheet-zigzag-dark { height:16px; background:linear-gradient(-45deg,white 8px,transparent 0) 0 0,linear-gradient(45deg,white 8px,transparent 0) 0 0; background-color:#2D6A4F; background-size:16px 16px; background-repeat:repeat-x; }
+    .sheet-zigzag-blue { height:16px; background:linear-gradient(-45deg,white 8px,transparent 0) 0 0,linear-gradient(45deg,white 8px,transparent 0) 0 0; background-color:#40916C; background-size:16px 16px; background-repeat:repeat-x; }
     .sheet-body { padding:22px 28px 0; }
     .sheet-meta { display:flex; justify-content:space-between; margin-bottom:16px; padding-bottom:16px; border-bottom:1px dashed #e2e8f0; }
     .sheet-meta-label { font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--text-soft); margin-bottom:3px; }
@@ -841,7 +841,7 @@
 /* ─── WHATSAPP / EMAIL SHEET BUTTONS ─── */
 .btn-sheet.wa { background:#dcfce7; color:#15803d; border-color:rgba(5,150,105,0.25); }
 .btn-sheet.wa:hover { background:#bbf7d0; }
-.btn-sheet.email { background:#eff6ff; color:#1d4ed8; border-color:rgba(29,78,216,0.2); }
+.btn-sheet.email { background:#f0fdf4; color:#2D6A4F; border-color:rgba(45,106,79,0.25); }
 .btn-sheet.email:hover { background:#dbeafe; }
 .sheet-actions.four { grid-template-columns: 1fr 1fr; }
 
@@ -887,7 +887,7 @@
 .proy-card-head { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; cursor:pointer; gap:12px; }
 .proy-card-left { display:flex; align-items:center; gap:12px; min-width:0; }
 .proy-card-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-.proy-card-icon.web  { background:#eff3ff; color:#1438cc; }
+.proy-card-icon.web  { background:#f0fdf4; color:#2D6A4F; }
 .proy-card-icon.seg  { background:#f0fdf4; color:#059669; }
 .proy-card-icon.red  { background:#fff7ed; color:#ea580c; }
 .proy-card-icon.ads  { background:#fdf2f8; color:#be185d; }
@@ -895,7 +895,7 @@
 .proy-card-sub { font-size:11px; color:var(--text-soft); margin-top:2px; }
 .proy-card-right { display:flex; align-items:center; gap:10px; flex-shrink:0; }
 .proy-badge { font-size:9px; font-weight:700; letter-spacing:1px; padding:3px 10px; border-radius:20px; text-transform:uppercase; }
-.proy-badge.web  { background:#eff3ff; color:#1438cc; }
+.proy-badge.web  { background:#f0fdf4; color:#2D6A4F; }
 .proy-badge.seg  { background:#f0fdf4; color:#059669; }
 .proy-badge.red  { background:#fff7ed; color:#ea580c; }
 .proy-badge.ads  { background:#fdf2f8; color:#be185d; }
@@ -920,7 +920,7 @@
 .proy-done-btn.done { background:#f0fdf4; border-color:var(--green-dark); color:var(--green-dark); }
 .proy-card.done .proy-card-head { background:#f0fdf4; }
 .proy-done-badge { font-size:9px; font-weight:700; letter-spacing:1px; padding:3px 10px; border-radius:20px; background:#f0fdf4; color:var(--green-dark); }
-.proy-prompt-btn { font-size:11px; font-weight:600; padding:6px 14px; border-radius:8px; border:1.5px solid rgba(20,56,204,0.25); background:#eff3ff; color:var(--blue); cursor:pointer; transition:all 0.2s; }
+.proy-prompt-btn { font-size:11px; font-weight:600; padding:6px 14px; border-radius:8px; border:1.5px solid rgba(20,56,204,0.25); background:#f0fdf4; color:var(--blue); cursor:pointer; transition:all 0.2s; }
 .proy-prompt-btn:hover { background:rgba(20,56,204,0.12); }
 .proy-prompt-box { background:var(--off); border:1.5px solid var(--border); border-radius:10px; margin-top:12px; display:none; position:relative; overflow:hidden; }
 .proy-prompt-box.open { display:block; }
@@ -1066,12 +1066,6 @@
   </button>
   <button class="nav-tab" onclick="switchPage('clientes', this)">
     <i class="fa-solid fa-address-book"></i> Clientes
-  </button>
-  <button class="nav-tab" onclick="switchPage('proyectos', this)">
-    <i class="fa-solid fa-layer-group"></i> Proyectos
-  </button>
-  <button class="nav-tab" id="nav-tab-encuestas" onclick="switchPage('encuestas', this)">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:-2px;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Encuestas<span id="encuestas-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
   </button>
 </nav>
 
@@ -1310,7 +1304,7 @@
           </div>
           <div class="hist-filters" style="margin-top:6px;">
             <button class="hist-filter-btn active" data-marcaf="todas" onclick="setHistMarcaFilter('todas',this)">Ambas marcas</button>
-            <button class="hist-filter-btn" data-marcaf="dgp" onclick="setHistMarcaFilter('dgp',this)" style="color:#1438cc;display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 21V8"/><path d="M16 21V8"/><path d="M2 8h20"/><rect x="6" y="12" width="4" height="9"/><rect x="14" y="12" width="4" height="9"/></svg> DGP</button>
+            <button class="hist-filter-btn" data-marcaf="dgp" onclick="setHistMarcaFilter('dgp',this)" style="color:#2D6A4F;display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 21V8"/><path d="M16 21V8"/><path d="M2 8h20"/><rect x="6" y="12" width="4" height="9"/><rect x="14" y="12" width="4" height="9"/></svg> DGP</button>
             <button class="hist-filter-btn" data-marcaf="vanguard" onclick="setHistMarcaFilter('vanguard',this)" style="color:#b8960c;display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Vanguard</button>
           </div>
         </div>
@@ -1430,7 +1424,7 @@
       <div class="panel-title-f">Personalización</div>
       <div class="ff" style="margin-top:10px;"><label style="font-size:11px;color:var(--text-soft);font-weight:600;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:8px;">Color principal del sistema</label>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button onclick="setColor('#1438cc')" style="width:32px;height:32px;border-radius:50%;background:#1438cc;border:3px solid #1438cc;cursor:pointer;" title="Azul (default)"></button>
+          <button onclick="setColor('#2D6A4F')" style="width:32px;height:32px;border-radius:50%;background:#2D6A4F;border:3px solid #2D6A4F;cursor:pointer;" title="Azul (default)"></button>
           <button onclick="setColor('#7c3aed')" style="width:32px;height:32px;border-radius:50%;background:#7c3aed;border:3px solid #7c3aed;cursor:pointer;" title="Violeta"></button>
           <button onclick="setColor('#059669')" style="width:32px;height:32px;border-radius:50%;background:#059669;border:3px solid #059669;cursor:pointer;" title="Verde"></button>
           <button onclick="setColor('#dc2626')" style="width:32px;height:32px;border-radius:50%;background:#dc2626;border:3px solid #dc2626;cursor:pointer;" title="Rojo"></button>
@@ -1459,44 +1453,6 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     PAGE: PROYECTOS
-══════════════════════════════════════ -->
-<div id="page-proyectos" class="page">
-  <div class="proy-main">
-    <div class="proy-header">
-      <div>
-        <div class="panel-title-v" style="margin-bottom:2px;">Proyectos</div>
-        <div style="font-size:11px;color:var(--text-soft);">Briefs enviados por clientes desde sus facturas</div>
-      </div>
-    </div>
-    <div class="proy-filter-row">
-      <button class="proy-filter-btn active" onclick="filterProyectos('todos',this)">Todos</button>
-      <button class="proy-filter-btn" onclick="filterProyectos('web',this)" style="display:inline-flex;align-items:center;gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Web</button>
-      <button class="proy-filter-btn" onclick="filterProyectos('seguidores',this)" style="display:inline-flex;align-items:center;gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Seguidores</button>
-      <button class="proy-filter-btn" onclick="filterProyectos('redes',this)" style="display:inline-flex;align-items:center;gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Redes</button>
-      <button class="proy-filter-btn" onclick="filterProyectos('ads',this)" style="display:inline-flex;align-items:center;gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> ADS</button>
-    </div>
-    <div id="proy-list"></div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
-     PAGE: ENCUESTAS
-══════════════════════════════════════ -->
-<div id="page-encuestas" class="page">
-  <div class="proy-main">
-    <div class="proy-header">
-      <div>
-        <div class="panel-title-v" style="margin-bottom:2px;">Encuestas de Satisfacción</div>
-        <div style="font-size:11px;color:var(--text-soft);">Respuestas de clientes enviadas desde sus facturas</div>
-      </div>
-      <button class="btn-sm" onclick="renderEncuestas()" style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg> Actualizar</button>
-    </div>
-    <div id="encuestas-stats" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;"></div>
-    <div id="encuestas-list"></div>
-  </div>
-</div>
 
 </div><!-- /app-shell -->
 
@@ -1940,8 +1896,6 @@ function initPage() {
   initVentas();
   initDocs();
   initClientes();
-  initClientesCRM();
-  setSemanaLabel();
   onTypeChange();
 }
 
@@ -1985,13 +1939,6 @@ function populateServiceSelects() {
   ].map(s => `<option>${s}</option>`).join('');
 }
 
-function setSemanaLabel() {
-  const h = new Date();
-  const numSemana = Math.ceil(h.getDate() / 7);
-  const mes = h.toLocaleString('es-ES', { month: 'long' }).toUpperCase();
-  document.getElementById('txtSemana').textContent = `${mes} — SEMANA ${numSemana}`;
-}
-
 /* ═══════════════════════════════════════════════════════
    NAVIGATION
 ═══════════════════════════════════════════════════════ */
@@ -2002,349 +1949,6 @@ function switchPage(page, btn) {
   document.getElementById('page-' + page).classList.add('active');
   if (page === 'dashboard')  { renderDashboard(); renderCalendario(); renderActividad(); }
   if (page === 'clientes')   renderClientes();
-  if (page === 'proyectos')  renderProyectos();
-  if (page === 'encuestas')  renderEncuestas();
-}
-
-/* ═══════════════════════════════════════════════════════
-   PROYECTOS — Briefs de clientes
-═══════════════════════════════════════════════════════ */
-let _proyFiltro = 'todos';
-
-function filterProyectos(tipo, btn) {
-  _proyFiltro = tipo;
-  document.querySelectorAll('.proy-filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderProyectos();
-}
-
-function toggleProyCard(id) {
-  const body  = document.getElementById('proy-body-' + id);
-  const arrow = document.getElementById('proy-arrow-' + id);
-  body.classList.toggle('open');
-  arrow.classList.toggle('open', body.classList.contains('open'));
-}
-
-const SVG_COPY   = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
-const SVG_CHECK  = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-const SVG_BOLT   = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`;
-const SVG_CIRCLE = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>`;
-
-function generarPromptBrief(fsId) {
-  const box = document.getElementById('proy-prompt-' + fsId);
-  if (!box) return;
-  if (box.classList.contains('open')) { box.classList.remove('open'); return; }
-
-  const doc = docsMap[fsId];
-  if (!doc || !doc.brief) return;
-  const b = doc.brief;
-  const tipo = b.tipo || 'web';
-
-  let prompt = '';
-
-  if (tipo === 'web') {
-    const paginas  = (b.paginas || []).join(', ') || 'No especificadas';
-    const estilo   = b.estilo   ? b.estilo.charAt(0).toUpperCase() + b.estilo.slice(1) : 'No especificado';
-    const colores  = b.colores  ? `${b.colores.paleta || 'personalizada'} (${[b.colores.c1,b.colores.c2,b.colores.c3].filter(Boolean).join(', ')})` : 'No especificados';
-    const logo     = b.logo === 'si' ? 'Sí tiene logo' : b.logo === 'no' ? 'No tiene logo' : 'No especificado';
-    const contenido = b.contenido === 'si' ? 'Sí tiene contenido listo' : b.contenido === 'parcial' ? 'Tiene contenido parcial' : 'No tiene contenido aún';
-    const refs     = (b.referencias || []).filter(Boolean).join('\n  · ') || 'No proporcionadas';
-    const redesArr = b.redes ? Object.entries({
-      Instagram:b.redes.ig, Facebook:b.redes.fb, TikTok:b.redes.tt, YouTube:b.redes.yt,
-      'Twitter/X':b.redes.tw, LinkedIn:b.redes.li, WhatsApp:b.redes.wa, 'Google Business':b.redes.gmb
-    }).filter(([,v])=>v).map(([k,v])=>`${k}: ${v}`).join('\n  · ') : 'No proporcionadas';
-
-    prompt = `Hola Andrés, aquí está el brief completo del proyecto de sitio web para que lo trabajes:
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 BRIEF DE PROYECTO — SITIO WEB
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-🏢 NEGOCIO
-  · Nombre: ${b.negocio || '—'}
-  · Contacto: ${b.nombre || '—'}
-  · Correo: ${b.correo || '—'}
-  · Teléfono: ${b.tel || '—'}
-  · Ubicación: ${b.ubicacion || '—'}
-  · Descripción: ${b.descripcion || '—'}
-
-🎨 DISEÑO
-  · Estilo: ${estilo}
-  · Colores: ${colores}
-  · Logo: ${logo}
-
-📄 PÁGINAS REQUERIDAS
-  · ${paginas.split(', ').join('\n  · ')}
-
-📱 REDES SOCIALES
-  · ${redesArr || 'No proporcionadas'}
-
-🎯 OBJETIVOS
-  · Objetivo principal: ${b.objetivo || '—'}
-  · Contenido disponible: ${contenido}
-  · Sitios de referencia:
-  · ${refs}
-
-💬 NOTAS ADICIONALES
-  ${b.extra || 'Ninguna'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Factura: ${doc.docId || fsId} | Cliente: ${doc.cli || '—'}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-
-  } else if (tipo === 'seguidores') {
-    const cuentas = (b.cuentas || []).map(c => `${c.red}: ${c.usuario}${c.cantidad ? ` (${c.cantidad} seguidores)` : ''}`).join('\n  · ') || '—';
-    prompt = `Hola Andrés, aquí está el brief para el servicio de seguidores:
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 BRIEF — SEGUIDORES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👤 CONTACTO
-  · Nombre: ${b.nombre || '—'}
-  · Correo: ${b.correo || '—'}
-
-📱 CUENTAS A TRABAJAR
-  · ${cuentas}
-
-💬 NOTAS
-  ${b.extra || 'Ninguna'}
-
-Factura: ${doc.docId || fsId} | Cliente: ${doc.cli || '—'}`;
-
-  } else if (tipo === 'redes') {
-    const redesArr = b.redes ? Object.entries({Instagram:b.redes.ig,Facebook:b.redes.fb,TikTok:b.redes.tt,YouTube:b.redes.yt})
-      .filter(([,v])=>v).map(([k,v])=>`${k}: ${v}`).join('\n  · ') : '—';
-    prompt = `Hola Andrés, aquí está el brief para manejo de redes sociales:
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 BRIEF — REDES SOCIALES
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👤 CONTACTO
-  · Negocio: ${b.negocio || '—'}
-  · Nombre: ${b.nombre || '—'}
-  · Correo: ${b.correo || '—'}
-
-📱 PERFILES
-  · ${redesArr}
-
-🎯 COMUNICACIÓN
-  · Tono: ${b.tono || '—'}
-  · Descripción: ${b.extra || '—'}
-
-Factura: ${doc.docId || fsId} | Cliente: ${doc.cli || '—'}`;
-
-  } else if (tipo === 'ads') {
-    prompt = `Hola Andrés, aquí está el brief para la campaña publicitaria:
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📋 BRIEF — PUBLICIDAD (ADS)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👤 CONTACTO
-  · Negocio: ${b.negocio || '—'}
-  · Correo: ${b.correo || '—'}
-
-🎯 CAMPAÑA
-  · Objetivo: ${b.objetivo || '—'}
-  · Red publicitaria: ${b.red || '—'}
-  · Descripción / público: ${b.extra || '—'}
-
-Factura: ${doc.docId || fsId} | Cliente: ${doc.cli || '—'}`;
-  }
-
-  box.innerHTML = `
-    <div class="proy-prompt-toolbar">
-      <span>Prompt generado</span>
-      <button class="proy-prompt-copy" id="proy-copy-btn-${esc(fsId)}" onclick="copiarPromptBrief('${esc(fsId)}')">${SVG_COPY} Copiar</button>
-    </div>
-    <div class="proy-prompt-text" id="proy-prompt-text-${esc(fsId)}">${esc(prompt)}</div>`;
-  box.classList.add('open');
-}
-
-function copiarPromptBrief(fsId) {
-  const textEl = document.getElementById('proy-prompt-text-' + fsId);
-  const btn    = document.getElementById('proy-copy-btn-'   + fsId);
-  if (!textEl || !btn) return;
-  navigator.clipboard.writeText(textEl.textContent).then(() => {
-    btn.innerHTML = `${SVG_CHECK} ¡Copiado!`;
-    setTimeout(() => { btn.innerHTML = `${SVG_COPY} Copiar`; }, 1800);
-  });
-}
-
-async function toggleBriefCompletado(fsId) {
-  const doc = docsMap[fsId];
-  if (!doc || !doc.brief) return;
-  const completado = !doc.brief.completado;
-  try {
-    const brief = { ...doc.brief, completado };
-    await db.collection('documentos').doc(fsId).update({ brief });
-    docsMap[fsId].brief.completado = completado;
-    renderProyectos();
-  } catch(e) {
-    toast('Error al actualizar.', 'err');
-  }
-}
-
-function renderProyectos() {
-  const container = document.getElementById('proy-list');
-  if (!container) return;
-
-  const TIPO_LABEL = { web:'Sitio Web', seguidores:'Seguidores', redes:'Redes Sociales', ads:'Publicidad' };
-  const TIPO_CLS   = { web:'web', seguidores:'seg', redes:'red', ads:'ads' };
-  const TIPO_ICON  = {
-    web:        `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-    seguidores: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
-    redes:      `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
-    ads:        `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>`,
-  };
-
-  const docs = Object.values(docsMap)
-    .filter(d => d.brief)
-    .filter(d => _proyFiltro === 'todos' || d.brief.tipo === _proyFiltro)
-    .sort((a,b) => (b.brief.fechaEnvio||'') > (a.brief.fechaEnvio||'') ? 1 : -1);
-
-  if (!docs.length) {
-    container.innerHTML = `<div class="proy-empty">No hay briefs enviados aún${_proyFiltro !== 'todos' ? ' para este filtro' : ''}.<br><span style="font-size:11px;">Cuando un cliente llene el formulario desde su factura pública, aparecerá aquí.</span></div>`;
-    return;
-  }
-
-  container.innerHTML = docs.map(doc => {
-    const b    = doc.brief;
-    const tipo = b.tipo || 'web';
-    const cls  = TIPO_CLS[tipo]  || 'web';
-    const icon = TIPO_ICON[tipo] || '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>';
-    const id   = doc._fsId;
-    const fecha = b.fechaEnvio ? new Date(b.fechaEnvio).toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'}) : '—';
-
-    let detalles = '';
-
-    if (tipo === 'web') {
-      const colores = b.colores ? `
-        <div class="proy-colores">
-          <div class="proy-color-dot" style="background:${esc(b.colores.c1||'#ccc')}" title="Principal"></div>
-          <div class="proy-color-dot" style="background:${esc(b.colores.c2||'#ccc')}" title="Secundario"></div>
-          <div class="proy-color-dot" style="background:${esc(b.colores.c3||'#ccc')}" title="Fondo"></div>
-          <span style="font-size:10px;color:var(--text-soft);">${esc(b.colores.paleta||'personalizada')}</span>
-        </div>` : '—';
-
-      const paginas = (b.paginas||[]).length
-        ? `<div class="proy-paginas">${b.paginas.map(p => `<span class="proy-chip">${esc(p)}</span>`).join('')}</div>`
-        : '—';
-
-      const redes = b.redes ? Object.entries({
-        '📸 Instagram':b.redes.ig,'📘 Facebook':b.redes.fb,'🎵 TikTok':b.redes.tt,
-        '▶️ YouTube':b.redes.yt,'🐦 Twitter/X':b.redes.tw,'💼 LinkedIn':b.redes.li,
-        '💬 WhatsApp':b.redes.wa,'🗺️ Google Business':b.redes.gmb
-      }).filter(([,v])=>v).map(([k,v])=>`<div class="proy-row"><span class="proy-row-key">${esc(k)}</span><span class="proy-row-val">${esc(v)}</span></div>`).join('') : '';
-
-      const refs = (b.referencias||[]).filter(Boolean);
-
-      detalles = `
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M8 21V8"/><path d="M16 21V8"/><path d="M2 8h20"/><rect x="6" y="12" width="4" height="9"/><rect x="14" y="12" width="4" height="9"/></svg> Negocio</div>
-          <div class="proy-row"><span class="proy-row-key">Negocio</span><span class="proy-row-val">${esc(b.negocio||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Contacto</span><span class="proy-row-val">${esc(b.nombre||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Correo</span><span class="proy-row-val">${esc(b.correo||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Teléfono</span><span class="proy-row-val">${esc(b.tel||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Ubicación</span><span class="proy-row-val">${esc(b.ubicacion||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Descripción</span><span class="proy-row-val">${esc(b.descripcion||'—')}</span></div>
-        </div>
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Diseño</div>
-          <div class="proy-row"><span class="proy-row-key">Estilo</span><span class="proy-row-val" style="text-transform:capitalize;">${esc(b.estilo||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Colores</span><span class="proy-row-val">${colores}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Logo</span><span class="proy-row-val" style="display:inline-flex;align-items:center;gap:4px;">${b.logo === 'si' ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Tiene logo' : b.logo === 'no' ? 'Sin logo' : '—'}</span></div>
-        </div>
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Páginas</div>
-          ${paginas}
-        </div>
-        ${redes ? `<div class="proy-section"><div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Redes sociales</div>${redes}</div>` : ''}
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Objetivo</div>
-          <div class="proy-row"><span class="proy-row-key">Objetivo</span><span class="proy-row-val">${esc(b.objetivo||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Contenido</span><span class="proy-row-val">${esc(b.contenido||'—')}</span></div>
-          ${refs.length ? `<div class="proy-row"><span class="proy-row-key">Referencias</span><span class="proy-row-val">${refs.map(r=>`<a href="${esc(r)}" target="_blank" style="display:block;color:var(--blue);font-size:11px;">${esc(r)}</a>`).join('')}</span></div>` : ''}
-          ${b.extra ? `<div class="proy-row"><span class="proy-row-key">Notas</span><span class="proy-row-val">${esc(b.extra)}</span></div>` : ''}
-        </div>`;
-
-    } else if (tipo === 'seguidores') {
-      const cuentas = (b.cuentas||[]).map(c =>
-        `<div class="proy-row"><span class="proy-row-key" style="text-transform:capitalize;">${esc(c.red)}</span><span class="proy-row-val">${esc(c.usuario)}${c.cantidad ? ` · <strong>${esc(c.cantidad)}</strong> seguidores` : ''}</span></div>`
-      ).join('');
-      detalles = `
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Contacto</div>
-          <div class="proy-row"><span class="proy-row-key">Nombre</span><span class="proy-row-val">${esc(b.nombre||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Correo</span><span class="proy-row-val">${esc(b.correo||'—')}</span></div>
-        </div>
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Cuentas</div>
-          ${cuentas || '<div style="font-size:12px;color:var(--text-soft);">Sin cuentas registradas</div>'}
-        </div>
-        ${b.extra ? `<div class="proy-section"><div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Notas</div><div style="font-size:12px;color:var(--text-mid);">${esc(b.extra)}</div></div>` : ''}`;
-
-    } else if (tipo === 'redes') {
-      const redes = b.redes ? Object.entries({'📸 Instagram':b.redes.ig,'📘 Facebook':b.redes.fb,'🎵 TikTok':b.redes.tt,'▶️ YouTube':b.redes.yt})
-        .filter(([,v])=>v).map(([k,v])=>`<div class="proy-row"><span class="proy-row-key">${esc(k)}</span><span class="proy-row-val">${esc(v)}</span></div>`).join('') : '';
-      detalles = `
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Contacto</div>
-          <div class="proy-row"><span class="proy-row-key">Negocio</span><span class="proy-row-val">${esc(b.negocio||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Nombre</span><span class="proy-row-val">${esc(b.nombre||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Correo</span><span class="proy-row-val">${esc(b.correo||'—')}</span></div>
-        </div>
-        ${redes ? `<div class="proy-section"><div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Perfiles</div>${redes}</div>` : ''}
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Línea</div>
-          <div class="proy-row"><span class="proy-row-key">Tono</span><span class="proy-row-val">${esc(b.tono||'—')}</span></div>
-          ${b.extra ? `<div class="proy-row"><span class="proy-row-key">Notas</span><span class="proy-row-val">${esc(b.extra)}</span></div>` : ''}
-        </div>`;
-
-    } else if (tipo === 'ads') {
-      detalles = `
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Contacto</div>
-          <div class="proy-row"><span class="proy-row-key">Negocio</span><span class="proy-row-val">${esc(b.negocio||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Correo</span><span class="proy-row-val">${esc(b.correo||'—')}</span></div>
-        </div>
-        <div class="proy-section">
-          <div class="proy-section-title" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Campaña</div>
-          <div class="proy-row"><span class="proy-row-key">Objetivo</span><span class="proy-row-val">${esc(b.objetivo||'—')}</span></div>
-          <div class="proy-row"><span class="proy-row-key">Red</span><span class="proy-row-val">${esc(b.red||'—')}</span></div>
-          ${b.extra ? `<div class="proy-row"><span class="proy-row-key">Descripción</span><span class="proy-row-val">${esc(b.extra)}</span></div>` : ''}
-        </div>`;
-    }
-
-    const isDone = !!b.completado;
-    return `
-      <div class="proy-card${isDone ? ' done' : ''}">
-        <div class="proy-card-head" onclick="toggleProyCard('${esc(id)}')">
-          <div class="proy-card-left">
-            <div class="proy-card-icon ${cls}">${icon}</div>
-            <div>
-              <div class="proy-card-title">${esc(b.negocio || b.nombre || doc.cli || '—')}</div>
-              <div class="proy-card-sub">${esc(doc.docId||id)} · ${esc(doc.cli||'—')} · ${fecha}</div>
-            </div>
-          </div>
-          <div class="proy-card-right">
-            ${isDone ? `<span class="proy-done-badge" style="display:inline-flex;align-items:center;gap:4px;">${SVG_CHECK} Completado</span>` : `<span class="proy-badge ${cls}">${esc(TIPO_LABEL[tipo]||tipo)}</span>`}
-            <span class="proy-arrow" id="proy-arrow-${esc(id)}">▼</span>
-          </div>
-        </div>
-        <div class="proy-card-body" id="proy-body-${esc(id)}">
-          ${detalles}
-          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <button class="proy-done-btn${isDone ? ' done' : ''}" style="display:flex;align-items:center;gap:5px;" onclick="event.stopPropagation();toggleBriefCompletado('${esc(id)}')">${isDone ? SVG_CHECK : SVG_CIRCLE} ${isDone ? 'Completado' : 'Marcar completado'}</button>
-            <button class="proy-prompt-btn" style="display:flex;align-items:center;gap:5px;" onclick="event.stopPropagation();generarPromptBrief('${esc(id)}')">${SVG_BOLT} Generar prompt</button>
-            <button class="proy-link-btn" onclick="event.stopPropagation();openSheet(docsMap['${esc(id)}'])">Ver factura →</button>
-          </div>
-          <div class="proy-prompt-box" id="proy-prompt-${esc(id)}"></div>
-        </div>
-      </div>`;
-  }).join('');
 }
 
 function switchSubTab(tab, btn) {
@@ -2691,11 +2295,6 @@ function initDocs() {
             toast(`Contrato firmado — ${doc.cliente || doc.docId || ''}`, 'ok');
             _addNotifBadge();
           }
-          if (doc.encuestaCompletada && !prev.encuestaCompletada) {
-            const b = document.getElementById('encuestas-badge');
-            if (b) { b.textContent = '+1'; b.style.display = 'inline'; }
-            toast(`Nueva encuesta completada — ${doc.cliente || doc.docId || ''}`, 'ok');
-          }
         });
       }
       _docsFirstLoad = false;
@@ -2988,7 +2587,6 @@ function openSheet(doc) {
       <button class="btn-sheet print"  onclick="window.print()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</button>
       <button class="btn-sheet wa"     onclick="enviarWhatsApp('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
-      <button class="btn-sheet" style="background:#f0fdf4;color:#059669;border-color:rgba(5,150,105,0.3);display:inline-flex;align-items:center;gap:6px;" onclick="copiarLinkEncuesta('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Encuesta</button>
       <button class="btn-sheet email"  onclick="enviarEmail('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email</button>
       <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
@@ -3603,96 +3201,6 @@ function duplicarFactura(fsId) {
 }
 
 /* ═══════════════════════════════════════════════════════
-   ENCUESTAS DE SATISFACCIÓN
-═══════════════════════════════════════════════════════ */
-function renderEncuestas() {
-  const listEl  = document.getElementById('encuestas-list');
-  const statsEl = document.getElementById('encuestas-stats');
-  if (!listEl) return;
-  listEl.innerHTML  = '<div style="text-align:center;padding:32px;color:var(--text-soft);font-size:13px;">Cargando...</div>';
-  statsEl.innerHTML = '';
-
-  const badge = document.getElementById('encuestas-badge');
-  if (badge) badge.style.display = 'none';
-
-  db.collection('encuestas').orderBy('fecha', 'desc').get().then(snap => {
-    if (snap.empty) {
-      listEl.innerHTML = '<div style="text-align:center;padding:48px 0;color:var(--text-soft);font-size:13px;">No hay encuestas completadas aún.</div>';
-      return;
-    }
-
-    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    const totalCal  = docs.reduce((a, d) => a + (d.calidad || 0), 0);
-    const totalCom  = docs.reduce((a, d) => a + (d.comunicacion || 0), 0);
-    const recomienda = docs.filter(d => d.recomienda === true).length;
-    const avgCal = docs.length ? (totalCal / docs.length).toFixed(1) : '—';
-    const avgCom = docs.length ? (totalCom / docs.length).toFixed(1) : '—';
-    const pctRec = docs.length ? Math.round(recomienda / docs.length * 100) : 0;
-    const testimoniales = docs.filter(d => d.autorizaTestimonio);
-
-    statsEl.innerHTML = `
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Calidad del servicio</div>
-        <div class="dash-kpi-value">${avgCal} <span style="font-size:14px;">/ 5</span></div>
-        <div style="font-size:10px;color:var(--text-soft);margin-top:2px;">${docs.length} respuesta${docs.length !== 1 ? 's' : ''}</div>
-      </div>
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Comunicación</div>
-        <div class="dash-kpi-value">${avgCom} <span style="font-size:14px;">/ 5</span></div>
-        <div style="font-size:10px;color:var(--text-soft);margin-top:2px;">Promedio general</div>
-      </div>
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Recomendarían DGP</div>
-        <div class="dash-kpi-value">${pctRec}%</div>
-        <div style="font-size:10px;color:var(--text-soft);margin-top:2px;">${recomienda} de ${docs.length}</div>
-      </div>`;
-
-    const stars = n => Array.from({length:5}, (_,i) => `<svg width="13" height="13" viewBox="0 0 24 24" fill="${i < n ? '#f59e0b' : 'none'}" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`).join('');
-
-    let html = '';
-    if (testimoniales.length) {
-      html += `<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px;margin-top:4px;">Testimoniales autorizados (${testimoniales.length})</div>`;
-      html += testimoniales.map(d => {
-        const txt  = d.comentario || '';
-        const avg5 = ((d.calidad || 0) + (d.comunicacion || 0)) / 2;
-        return `<div style="background:var(--off);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;">
-            <div>
-              <div style="font-size:12px;font-weight:600;color:var(--black);margin-bottom:3px;">${esc(d.clienteNombre || '—')}</div>
-              <div style="display:flex;gap:2px;margin-bottom:6px;">${stars(Math.round(avg5))}</div>
-              ${txt ? `<div style="font-size:12px;color:var(--text-mid);font-style:italic;">"${esc(txt)}"</div>` : ''}
-            </div>
-            ${txt ? `<button class="btn-sm" onclick="navigator.clipboard.writeText(${JSON.stringify(txt)});toast('Copiado ✓','ok')" style="flex-shrink:0;display:inline-flex;align-items:center;gap:4px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar</button>` : ''}
-          </div>
-        </div>`;
-      }).join('');
-      html += `<div style="border-top:1px solid var(--border);margin:16px 0 12px;"></div>`;
-    }
-
-    html += `<div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-soft);margin-bottom:10px;">Todas las respuestas (${docs.length})</div>`;
-    html += docs.map(d => {
-      const fechaStr = d.fecha?.toDate ? d.fecha.toDate().toLocaleDateString('es-ES',{day:'2-digit',month:'short',year:'numeric'}) : '—';
-      return `<div style="background:white;border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:start;">
-        <div>
-          <div style="font-size:12px;font-weight:600;color:var(--black);margin-bottom:4px;">${esc(d.clienteNombre || '—')} <span style="font-weight:400;color:var(--text-soft);font-size:11px;">· ${fechaStr}</span></div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px;">
-            <span style="font-size:11px;color:var(--text-mid);">Calidad: <b>${d.calidad||'—'}/5</b></span>
-            <span style="font-size:11px;color:var(--text-mid);">Comunicación: <b>${d.comunicacion||'—'}/5</b></span>
-            <span style="font-size:11px;color:${d.recomienda ? '#059669' : '#ef4444'};">${d.recomienda ? '✓ Recomienda' : '✗ No recomienda'}</span>
-          </div>
-          ${d.comentario ? `<div style="font-size:11px;color:var(--text-mid);font-style:italic;">"${esc(d.comentario)}"</div>` : ''}
-        </div>
-        ${d.autorizaTestimonio ? '<span style="background:#f0fdf4;color:#059669;border:1px solid rgba(5,150,105,0.2);border-radius:6px;font-size:9px;font-weight:700;padding:2px 7px;white-space:nowrap;">TESTIMONIO</span>' : ''}
-      </div>`;
-    }).join('');
-
-    listEl.innerHTML = html;
-  }).catch(err => {
-    listEl.innerHTML = `<div style="color:#ef4444;font-size:12px;padding:8px;">Error: ${err.message}</div>`;
-  });
-}
-
-/* ═══════════════════════════════════════════════════════
    COMPARTIR FACTURA — WhatsApp / Email
 ═══════════════════════════════════════════════════════ */
 function descargarPDF(fsId) {
@@ -4239,21 +3747,8 @@ function toggleContrato() {
   pill.style.background  = active ? '#e2e8f0' : 'var(--blue)';
   knob.style.left        = active ? '3px'     : '21px';
   btn.style.borderColor  = active ? 'var(--border)' : 'var(--blue)';
-  btn.style.background   = active ? 'var(--off)'    : '#eff3ff';
+  btn.style.background   = active ? 'var(--off)'    : '#f0fdf4';
 }
-
-function copiarLinkEncuesta(fsId) {
-  const url = `https://adv.rocambios.com/encuesta.html?id=${fsId}`;
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(() => toast('Link de encuesta copiado ✍️'));
-  } else {
-    const ta = document.createElement('textarea');
-    ta.value = url; document.body.appendChild(ta); ta.select();
-    document.execCommand('copy'); document.body.removeChild(ta);
-    toast('Link de encuesta copiado ✍️');
-  }
-}
-
 function copiarLinkFactura(fsId) {
   const url = `https://adv.rocambios.com/factura-publica.html?id=${fsId}`;
   if (navigator.clipboard) {
