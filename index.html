@@ -79,7 +79,7 @@
       pointer-events: none; z-index: 0;
     }
 
-    /* ─── SPLASH SCREEN ─── */
+    /*  SPLASH SCREEN  */
     #splash-screen {
       position: fixed; inset: 0;
       background: #0D2B1E;
@@ -121,7 +121,7 @@
       to   { width: 100%; }
     }
 
-    /* ─── LOGIN SCREEN ─── */
+    /*  LOGIN SCREEN  */
     #login-screen {
       position: fixed; inset: 0;
       background: #0D2B1E;
@@ -212,7 +212,7 @@
       margin-top: 12px; display: none;
     }
 
-    /* ─── USER AVATAR in HEADER ─── */
+    /*  USER AVATAR in HEADER  */
     .user-avatar {
       width: 32px; height: 32px; border-radius: 50%;
       background: var(--blue);
@@ -231,7 +231,7 @@
     }
     .btn-logout:hover { background: #fef2f2; color: #ef4444; border-color: #fca5a5; }
 
-    /* ─── HEADER ─── */
+    /*  HEADER  */
     .header {
       position: sticky; top: 0; z-index: 200;
       display: flex; justify-content: space-between; align-items: center;
@@ -267,7 +267,7 @@
     }
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
 
-    /* ─── NAV TABS ─── */
+    /*  NAV TABS  */
     .nav-tabs {
       position: relative; z-index: 100;
       display: flex; border-bottom: 1px solid var(--border);
@@ -287,7 +287,7 @@
     .nav-tab:hover { color: var(--blue); }
     .nav-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
 
-    /* ─── TICKER ─── */
+    /*  TICKER  */
     .ticker {
       position: relative; z-index: 9;
       border-bottom: 1px solid var(--border);
@@ -300,13 +300,13 @@
     .ticker-inner { display: inline-block; animation: ticker-scroll 18s linear infinite; white-space: nowrap; }
     @keyframes ticker-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
-    /* ─── PAGE WRAPPERS ─── */
+    /*  PAGE WRAPPERS  */
     .page { display: none; position: relative; z-index: 5; }
     .page.active { display: block; }
 
-    /* ════════════════════════════
+    /* 
        PAGE 1 — PANEL DE VENTAS
-    ════════════════════════════ */
+     */
     .ventas-main {
       max-width: 1050px; margin: 0 auto;
       padding: 32px 24px;
@@ -458,9 +458,9 @@
     .empty-state { text-align: center; padding: 40px 0; color: var(--text-soft); font-size: 13px; font-weight: 300; }
     .empty-state div { font-size: 28px; margin-bottom: 8px; }
 
-    /* ════════════════════════════
+    /* 
        PAGE 2 — FACTURACIÓN
-    ════════════════════════════ */
+     */
     .fact-main {
       max-width: 1000px; margin: 0 auto;
       padding: 28px 24px;
@@ -540,7 +540,7 @@
     .btn-sm.del { background:#fef2f2; border-color:rgba(239,68,68,0.25); color:#ef4444; }
     .btn-sm.del:hover { background:#fee2e2; }
 
-    /* ─── MODAL VENTA ─── */
+    /*  MODAL VENTA  */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(10,10,10,0.65); backdrop-filter: blur(8px);
@@ -565,7 +565,7 @@
     .btn-close { display: block; width: 100%; background: transparent; border: 1px solid var(--border); color: var(--text-soft); padding: 12px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 400; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: background 0.2s, color 0.2s; }
     .btn-close:hover { background: var(--off); color: var(--black); }
 
-    /* ─── MODAL DOCUMENTO ─── */
+    /*  MODAL DOCUMENTO  */
     .doc-sheet {
       background: white; border-radius: 24px;
       max-width: 430px; width: 100%;
@@ -628,25 +628,25 @@
     .btn-sheet.pdf { background:#fef2f2; color:#dc2626; border-color:rgba(220,38,38,0.2); }
     .btn-sheet.pdf:hover { background:#fee2e2; }
 
-    /* ─── PARTIAL PAYMENT BADGE ─── */
+    /*  PARTIAL PAYMENT BADGE  */
     .sheet-status-badge.parcial::before { content:''; width:6px; height:6px; border-radius:50%; background:#fb923c; display:block; }
 
-    /* ─── PAYMENT BREAKDOWN BLOCK ─── */
+    /*  PAYMENT BREAKDOWN BLOCK  */
     .sheet-payment-breakdown { display:flex; justify-content:space-between; background:#fff7ed; border:1px solid rgba(251,146,60,0.3); border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:12px; }
     .sheet-payment-col { display:flex; flex-direction:column; gap:2px; }
     .sheet-payment-label { font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:#9a3412; }
     .sheet-payment-value { font-family:'Bebas Neue',sans-serif; font-size:18px; color:#ea580c; }
     .sheet-payment-value.paid { color:#059669; }
 
-    /* ─── DOC BADGE PARCIAL ─── */
+    /*  DOC BADGE PARCIAL  */
     .doc-badge.parcial { background:#fff7ed; color:#ea580c; border:1px solid rgba(251,146,60,0.3); }
 
-    /* ─── HISTORIAL SECTIONS ─── */
+    /*  HISTORIAL SECTIONS  */
     .hist-section { margin-bottom: 20px; }
     .hist-section-title { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--text-soft); padding:8px 0 6px; border-bottom:2px solid var(--border); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
     .hist-count { background:var(--border); border-radius:20px; padding:2px 8px; font-size:9px; }
 
-    /* ─── EDIT MODAL ─── */
+    /*  EDIT MODAL  */
     .edit-sheet {
       background: white; border-radius: 20px;
       max-width: 500px; width: 100%;
@@ -673,12 +673,12 @@
     .btn-edit-cancel { width:100%; padding:11px; background:#f1f5f9; color:var(--text-soft); border:1.5px solid var(--border); border-radius:10px; font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; cursor:pointer; margin-top:8px; transition:all 0.2s; }
     .btn-edit-cancel:hover { background:var(--border); color:var(--black); }
 
-    /* ─── TOAST ─── */
+    /*  TOAST  */
     .toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--black); color:white; padding:12px 24px; border-radius:100px; font-size:13px; font-weight:500; opacity:0; transition:all 0.3s; z-index:99999; pointer-events:none; white-space:nowrap; }
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
     .toast.err  { background:#ef4444; }
 
-    /* ─── PRINT ─── */
+    /*  PRINT  */
     @media print {
       body * { visibility: hidden; }
       #modalDoc, #modalDoc * { visibility: visible; }
@@ -704,8 +704,8 @@
       .sheet-total-block { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     }
 
-    /* ─── RESPONSIVE ─── */
-    /* ─── RESPONSIVE ─── */
+    /*  RESPONSIVE  */
+    /*  RESPONSIVE  */
     @media (max-width: 700px) {
       /* Layout */
       .ranking-grid { grid-template-columns: repeat(2, 1fr); }
@@ -798,7 +798,7 @@
       .header-right .live-dot { display: none; }
     }
 
-/* ─── DASHBOARD ─── */
+/*  DASHBOARD  */
 .dash-main { max-width:1040px; margin:0 auto; padding:28px 24px; }
 .dash-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; flex-wrap:wrap; gap:12px; }
 .dash-greeting { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--black); letter-spacing:1px; }
@@ -874,7 +874,7 @@
 .dash-empty { text-align:center; padding:28px 0; color:var(--text-soft); font-size:12px; font-weight:600; }
 .dash-empty svg { margin:0 auto 8px; display:block; opacity:0.35; }
 
-/* ─── HISTORIAL SEARCH ─── */
+/*  HISTORIAL SEARCH  */
 .hist-search-bar { margin-bottom:16px; display:flex; flex-direction:column; gap:10px; }
 .hist-search-bar input { width:100%; padding:10px 14px; border:1.5px solid var(--border); border-radius:10px; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--black); background:var(--off); outline:none; transition:border-color 0.2s; box-sizing:border-box; }
 .hist-search-bar input:focus { border-color:var(--blue); background:var(--white); }
@@ -882,7 +882,7 @@
 .hist-filter-btn { padding:5px 14px; border:1.5px solid var(--border); border-radius:100px; font-family:'IBM Plex Sans',sans-serif; font-size:10px; font-weight:600; letter-spacing:1px; cursor:pointer; background:var(--white); color:var(--text-soft); transition:all 0.2s; }
 .hist-filter-btn.active { background:var(--blue); border-color:var(--blue); color:white; }
 
-/* ─── WHATSAPP / EMAIL SHEET BUTTONS ─── */
+/*  WHATSAPP / EMAIL SHEET BUTTONS  */
 .btn-sheet.wa { background:#dcfce7; color:#15803d; border-color:rgba(5,150,105,0.25); }
 .btn-sheet.wa:hover { background:#bbf7d0; }
 .btn-sheet.email { background:#f0fdf4; color:#2D6A4F; border-color:rgba(45,106,79,0.25); }
@@ -897,7 +897,14 @@
   .dash-greeting { font-size:20px; }
 }
 
-/* ─── CRM CLIENTES ─── */
+/*  CALCULADORA REMESA  */
+.remesa-calc-box { background:linear-gradient(135deg,var(--bg-alt),#e8f5ee); border:1.5px solid var(--blue-xlight); border-radius:12px; padding:16px; margin-bottom:10px; }
+.remesa-calc-label { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--blue); margin-bottom:12px; }
+.remesa-result { border-top:1.5px dashed var(--border); padding-top:12px; margin-top:4px; }
+.remesa-result-row { display:flex; justify-content:space-between; align-items:center; font-size:12px; font-weight:600; color:var(--text-soft); padding:3px 0; }
+.remesa-result-total { font-size:15px; font-weight:700; color:var(--blue); margin-top:6px; padding-top:8px; border-top:1px solid var(--border); }
+
+/*  CRM CLIENTES  */
 .clientes-main { max-width:900px; margin:0 auto; padding:28px 24px; }
 .clientes-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; flex-wrap:wrap; gap:10px; }
 .btn-nuevo-cliente { padding:10px 20px; background:var(--blue); color:white; border:none; border-radius:10px; font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; cursor:pointer; transition:all 0.2s; white-space:nowrap; }
@@ -922,9 +929,9 @@
   .cliente-stats { display:none; }
 }
 
-/* ─── PROYECTOS ─── */
+/*  PROYECTOS  */
 }
-/* ─── CALENDARIO ─── */
+/*  CALENDARIO  */
 .cal-nav { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
 .cal-nav-btn { background:none; border:1.5px solid var(--border); border-radius:8px; width:32px; height:32px; cursor:pointer; font-size:12px; color:var(--text-mid); transition:all 0.2s; }
 .cal-nav-btn:hover { border-color:var(--blue); color:var(--blue); }
@@ -940,7 +947,7 @@
 .cal-dot { width:8px; height:8px; border-radius:50%; display:inline-block; }
 @media (max-width:700px) { .cal-day { min-height:36px; } .cal-day-amount { display:none; } }
 
-/* ─── ACTIVIDAD ─── */
+/*  ACTIVIDAD  */
 .actividad-row { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid var(--border); font-size:12px; }
 .actividad-row:last-child { border-bottom:none; }
 .actividad-icon { width:28px; height:28px; border-radius:50%; background:var(--blue-xlight); display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; }
@@ -949,7 +956,7 @@
 .actividad-detalle { color:var(--text-soft); }
 .actividad-meta { font-size:10px; color:var(--text-soft); margin-top:2px; }
 
-/* ─── COMPROBANTE ─── */
+/*  COMPROBANTE  */
 .comprobante-btn { background:none; border:1.5px solid var(--border); border-radius:8px; padding:4px 8px; font-size:11px; cursor:pointer; color:var(--text-soft); transition:all 0.2s; white-space:nowrap; }
 .comprobante-btn:hover { border-color:var(--blue); color:var(--blue); }
 .comprobante-btn.has-file { background:var(--green-light); border-color:rgba(5,150,105,0.3); color:var(--green); }
@@ -963,7 +970,7 @@
 .btn-sheet.link { background:#f0fdf4; color:#166534; border-color:rgba(22,101,52,0.2); }
 .btn-sheet.link:hover { background:#dcfce7; }
 
-    /* ─── MÉTODO DE PAGO ─── */
+    /*  MÉTODO DE PAGO  */
     .moneda-toggle { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px; }
     .moneda-btn { padding:8px; border:1.5px solid var(--border); border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; cursor:pointer; background:var(--white); color:var(--text-soft); transition:all 0.2s; text-align:center; }
     .moneda-btn.active { border-color:var(--blue); background:var(--blue-xlight); color:var(--blue); }
@@ -978,7 +985,7 @@
 </head>
 <body>
 
-<!-- ─── LOGIN SCREEN ─── -->
+<!--  LOGIN SCREEN  -->
 <div id="splash-screen">
   <div class="splash-logo-text">RO <span>CAMBIOS</span></div>
   <div class="splash-logo-sub">Sistema de Gestión · Remesas USA→VEN</div>
@@ -1016,7 +1023,7 @@
   </div>
 </div>
 
-<!-- ─── APP SHELL (hidden until login) ─── -->
+<!--  APP SHELL (hidden until login)  -->
 <div id="app-shell" style="display:none;">
 
 <!-- HEADER -->
@@ -1053,9 +1060,9 @@
   <span class="ticker-inner" id="tickerText"></span>
 </div>
 
-<!-- ══════════════════════════════════════
+<!-- 
      PAGE: PANEL DE VENTAS
-══════════════════════════════════════ -->
+ -->
 <div id="page-ventas" class="page active">
   <div class="ventas-main">
 
@@ -1107,9 +1114,9 @@
 </div><!-- /page-ventas -->
 
 
-<!-- ══════════════════════════════════════
+<!-- 
      PAGE: FACTURACIÓN
-══════════════════════════════════════ -->
+ -->
 <div id="page-facturacion" class="page">
   <div class="fact-main">
 
@@ -1130,8 +1137,8 @@
         <div class="ff">
           <label>Tipo de documento</label>
           <select id="doc-type" onchange="onTypeChange()">
-            <option value="factura">🧾 Factura (pendiente de pago)</option>
-            <option value="recibo">✅ Recibo (pago ya recibido)</option>
+            <option value="factura">Factura — pendiente de pago</option>
+            <option value="recibo">Recibo — pago ya recibido</option>
           </select>
         </div>
         <div class="ff" id="plantillas-wrap" style="margin-top:-8px;">
@@ -1150,7 +1157,7 @@
         <div class="ff">
           <label>Moneda</label>
           <div class="moneda-toggle">
-            <button type="button" class="moneda-btn active" id="btn-usd" onclick="selectMoneda('usd');event.preventDefault();event.stopPropagation();">🇺🇸 USD — Dólar</button>
+            <button type="button" class="moneda-btn active" id="btn-usd" onclick="selectMoneda('usd');event.preventDefault();event.stopPropagation();">USD — Dólar</button>
           </div>
         </div>
 
@@ -1158,12 +1165,12 @@
           <label>Método de pago (para la factura del cliente)</label>
           <select id="metodo-pago" onchange="onMetodoPagoChange()">
             <option value="">— Sin especificar —</option>
-            <option value="zelle">💸 Zelle</option>
-            <option value="bizum">📱 Bizum</option>
-            <option value="usdt">🔐 USDT TRC20</option>
-            <option value="binancepay">🟡 Binance Pay</option>
-            <option value="bolivares">📱 Pago Móvil</option>
-            <option value="transferencia">🏦 Transferencia Interbancaria (USD)</option>
+            <option value="zelle">Zelle</option>
+            <option value="bizum">Bizum</option>
+            <option value="usdt">USDT TRC20</option>
+            <option value="binancepay">Binance Pay</option>
+            <option value="bolivares">Pago Móvil</option>
+            <option value="transferencia">Transferencia Bancaria (USD)</option>
             <option value="paypal">PayPal</option>
             <option value="westernunion">Western Union</option>
           </select>
@@ -1181,18 +1188,63 @@
         <div class="panel-title-f" style="margin-bottom:14px;">Añadir Operación</div>
 
         <div class="ff">
-          <label>Servicio</label>
+          <label>Tipo de servicio</label>
           <select id="srv-sel" onchange="onSrvSelChange()">
           </select>
         </div>
         <div class="ff" id="srv-otro-wrap" style="display:none;">
           <label>Nombre del servicio</label>
-          <input type="text" id="srv-otro-txt" placeholder="Ej. Mantenimiento web, Consultoría...">
+          <input type="text" id="srv-otro-txt" placeholder="Ej. Envío especial...">
         </div>
-        <div class="ff-row">
-          <div class="ff" style="margin:0"><label>Precio ($)</label><input type="number" id="srv-pre" placeholder="0.00" step="0.01"></div>
-          <div class="ff" style="margin:0"><label>Cant.</label><input type="number" id="srv-can" value="1" min="1"></div>
+
+        <!-- CALCULADORA REMESA (mostrar cuando es remesa) -->
+        <div id="remesa-calc-wrap" style="display:none;">
+          <div class="remesa-calc-box">
+            <div class="remesa-calc-label">Calculadora de remesa</div>
+            <div class="ff-row" style="margin-bottom:10px;">
+              <div class="ff" style="margin:0;">
+                <label>Monto físico solicitado (USD)</label>
+                <input type="number" id="remesa-fisico" placeholder="0.00" step="0.01" oninput="calcRemesa()">
+              </div>
+              <div class="ff" style="margin:0;max-width:110px;">
+                <label>Comisión %</label>
+                <select id="remesa-pct" onchange="calcRemesa()">
+                  <option value="6">6%</option>
+                  <option value="7">7%</option>
+                  <option value="8" selected>8%</option>
+                  <option value="9">9%</option>
+                  <option value="10">10%</option>
+                </select>
+              </div>
+            </div>
+            <div class="remesa-result" id="remesa-result" style="display:none;">
+              <div class="remesa-result-row">
+                <span>Físico a entregar:</span>
+                <span id="remesa-fisico-val" style="font-weight:700;color:var(--text-mid);">$0.00</span>
+              </div>
+              <div class="remesa-result-row">
+                <span>Comisión:</span>
+                <span id="remesa-com-val" style="color:var(--amber);">$0.00</span>
+              </div>
+              <div class="remesa-result-row remesa-result-total">
+                <span>Cliente transfiere:</span>
+                <span id="remesa-total-val">$0.00</span>
+              </div>
+            </div>
+          </div>
+          <!-- hidden inputs to carry values to addItem -->
+          <input type="hidden" id="srv-pre">
+          <input type="hidden" id="srv-can" value="1">
         </div>
+
+        <!-- PRECIO ESTÁNDAR (no remesa) -->
+        <div id="standard-price-wrap">
+          <div class="ff-row">
+            <div class="ff" style="margin:0"><label>Monto / Precio ($)</label><input type="number" id="srv-pre-std" placeholder="0.00" step="0.01"></div>
+            <div class="ff" style="margin:0"><label>Cant.</label><input type="number" id="srv-can-std" value="1" min="1"></div>
+          </div>
+        </div>
+
         <button class="btn-add-f" onclick="addItem()">+ Añadir al documento</button>
       </div>
 
@@ -1404,7 +1456,7 @@
 </div><!-- /app-shell -->
 
 
-<!-- ─── MODAL: VENTA REGISTRADA ─── -->
+<!--  MODAL: VENTA REGISTRADA  -->
 <div id="modalExito" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
@@ -1420,7 +1472,7 @@
   </div>
 </div>
 
-<!-- ─── MODAL: DOCUMENTO ─── -->
+<!--  MODAL: DOCUMENTO  -->
 <div class="modal-overlay" id="modalDoc">
   <div class="doc-sheet" id="doc-sheet">
     <div id="sheet-top"></div>
@@ -1455,7 +1507,7 @@
   </div>
 </div>
 
-<!-- ─── MODAL: EDITAR DOCUMENTO ─── -->
+<!--  MODAL: EDITAR DOCUMENTO  -->
 <div class="modal-overlay" id="modalEdit">
   <div class="edit-sheet" id="edit-sheet">
     <div class="edit-sheet-header">
@@ -1466,8 +1518,8 @@
       <div class="ff">
         <label>Tipo de documento</label>
         <select id="edit-type">
-          <option value="factura">🧾 Factura (pendiente de pago)</option>
-          <option value="recibo">✅ Recibo (pago ya recibido)</option>
+          <option value="factura">Factura — pendiente de pago</option>
+          <option value="recibo">Recibo — pago ya recibido</option>
         </select>
       </div>
       <div class="ff">
@@ -1511,7 +1563,7 @@
   </div>
 </div>
 
-<!-- ─── MODAL: EDITAR VENTA ─── -->
+<!--  MODAL: EDITAR VENTA  -->
 <div class="modal-overlay" id="modalEditVenta">
   <div class="edit-sheet" id="edit-venta-sheet">
     <div class="edit-sheet-header">
@@ -1545,7 +1597,7 @@
   </div>
 </div>
 
-<!-- ─── MODAL: PAGO PARCIAL ─── -->
+<!--  MODAL: PAGO PARCIAL  -->
 <div class="modal-overlay" id="modalPagoParcial">
   <div class="edit-sheet" style="max-width:380px;">
     <div class="edit-sheet-header">
@@ -1561,7 +1613,7 @@
   </div>
 </div>
 
-<!-- ─── MODAL: CLIENTE (CRM) ─── -->
+<!--  MODAL: CLIENTE (CRM)  -->
 <div class="modal-overlay" id="modalCliente">
   <div class="edit-sheet" style="max-width:460px;">
     <div class="edit-sheet-header">
@@ -1583,7 +1635,7 @@
   </div>
 </div>
 
-<!-- ─── MODAL: PLANTILLAS ─── -->
+<!--  MODAL: PLANTILLAS  -->
 <div class="modal-overlay" id="modalPlantillas">
   <div class="edit-sheet" style="max-width:440px;">
     <div class="edit-sheet-header"><h3 style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> PLANTILLAS</h3><p>Selecciona una plantilla para cargar</p></div>
@@ -1594,14 +1646,14 @@
   </div>
 </div>
 
-<!-- ─── TOAST ─── -->
+<!--  TOAST  -->
 <div id="toast" class="toast"></div>
 
 
 <script>
-/* ═══════════════════════════════════════════════════════
+/* 
    FIREBASE CONFIG — fill in your project values
-═══════════════════════════════════════════════════════ */
+ */
 const firebaseConfig = {
   apiKey:            "AIzaSyCBDR_FQsRfvakqYCKVSFsMdlw1vGjY2UQ",
   authDomain:        "rocambios-fa3b8.firebaseapp.com",
@@ -1617,9 +1669,9 @@ const db   = firebase.firestore();
 const CLOUDINARY_CLOUD_NAME    = 'dwdnsyc9x';
 const CLOUDINARY_UPLOAD_PRESET = 'rocambios';
 
-/* ═══════════════════════════════════════════════════════
+/* 
    CONSTANTS
-═══════════════════════════════════════════════════════ */
+ */
 const WA_NUM = '584121002090';
 
 const EMPLEADOS = [
@@ -1628,9 +1680,9 @@ const EMPLEADOS = [
   { nombre: 'Duglas Larreal', ini: 'D', id: 'Duglas'  },
 ];
 
-/* ═══════════════════════════════════════════════════════
+/* 
    UTILITIES
-═══════════════════════════════════════════════════════ */
+ */
 function esc(s) {
   return String(s ?? '')
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
@@ -1654,9 +1706,9 @@ function fmtDate(d) {
   return `${String(dt.getDate()).padStart(2,'0')}/${String(dt.getMonth()+1).padStart(2,'0')}/${dt.getFullYear()}`;
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    SERVICES OPTIONS HTML (shared)
-═══════════════════════════════════════════════════════ */
+ */
 let monedaSeleccionada = 'usd';
 const marcaSeleccionada = 'rocambios';
 
@@ -1715,15 +1767,15 @@ function servicesOptionsHTML() {
       <option value="Envío PayPal → Venezuela">Envío PayPal → Venezuela</option>
       <option value="Envío Binance → Venezuela">Envío Binance → Venezuela</option>
     </optgroup>
-    <optgroup label="──────────────────">
+    <optgroup label="">
       <option value="__otro__" data-p="">Otro (especificar)...</option>
     </optgroup>`;
 }
 
 
-/* ═══════════════════════════════════════════════════════
+/* 
    AUTH
-═══════════════════════════════════════════════════════ */
+ */
 let unsubVentas   = null;
 let unsubDocs     = null;
 let currentUser   = null;
@@ -1733,7 +1785,7 @@ auth.onAuthStateChanged(async user => {
     const permitido = await verificarAcceso(user);
     if (!permitido) {
       await auth.signOut();
-      showLoginError('⛔ No tienes acceso al sistema. Contacta al administrador.');
+      showLoginError(' No tienes acceso al sistema. Contacta al administrador.');
       return;
     }
     currentUser = user;
@@ -1751,7 +1803,7 @@ async function verificarAcceso(user) {
   } catch(e) {
     console.error('verificarAcceso error:', e.code, e.message);
     if (e.code === 'permission-denied') {
-      showLoginError('⛔ Error de permisos en Firestore. Revisa las reglas de seguridad de tu base de datos.');
+      showLoginError(' Error de permisos en Firestore. Revisa las reglas de seguridad de tu base de datos.');
     }
     return false;
   }
@@ -1820,9 +1872,9 @@ document.getElementById('login-pass').addEventListener('keydown', e => {
   if (e.key === 'Enter') loginEmail();
 });
 
-/* ═══════════════════════════════════════════════════════
+/* 
    INIT (runs after login)
-═══════════════════════════════════════════════════════ */
+ */
 function initPage() {
   document.getElementById('fFec').value = todayISO();
   buildEmployeeUI();
@@ -1833,7 +1885,7 @@ function initPage() {
   onTypeChange();
 }
 
-/* ─── Build employee selects, ranking cards, filter buttons ─── */
+/*  Build employee selects, ranking cards, filter buttons  */
 function buildEmployeeUI() {
   const fEmp = document.getElementById('fEmp');
   fEmp.innerHTML = EMPLEADOS.map(e =>
@@ -1867,9 +1919,9 @@ function populateServiceSelects() {
 }
 
 
-/* ═══════════════════════════════════════════════════════
+/* 
    NAVIGATION
-═══════════════════════════════════════════════════════ */
+ */
 function switchPage(page, btn) {
   document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -1887,9 +1939,9 @@ function switchSubTab(tab, btn) {
   if (tab === 'historial') renderHistorial();
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    PANEL DE VENTAS — Firestore
-═══════════════════════════════════════════════════════ */
+ */
 let DATOS       = [];
 let filtroActivo = 'Todos';
 
@@ -1977,9 +2029,9 @@ function filtrar(nom, btn) {
   renderLista(DATOS);
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    EDITAR / ELIMINAR VENTAS
-═══════════════════════════════════════════════════════ */
+ */
 let editVentaId = null;
 
 function openEditVentaModal(id) {
@@ -2036,7 +2088,7 @@ async function saveEditVenta() {
   const fecVal = document.getElementById('ev-fec').value || todayISO();
 
   if (!cli || isNaN(mon) || mon <= 0) {
-    toast('⚠️ Ingresa cliente y monto válido.', 'err'); return;
+    toast(' Ingresa cliente y monto válido.', 'err'); return;
   }
 
   const fechaTS = firebase.firestore.Timestamp.fromDate(new Date(fecVal + 'T12:00:00'));
@@ -2045,7 +2097,7 @@ async function saveEditVenta() {
       empleado: emp, cliente: cli, servicio: ser, monto: mon, fecha: fechaTS
     });
     logActividad('Venta editada', `${emp} · ${cli}`);
-    toast('Venta actualizada ✅');
+    toast('Venta actualizada ');
     closeEditVentaModal();
   } catch(e) {
     toast('Error al guardar.', 'err');
@@ -2081,7 +2133,7 @@ async function registrar() {
   const m = parseFloat(document.getElementById('fMon').value);
   const fechaVal = document.getElementById('fFec').value || todayISO();
   if (!c || isNaN(m) || m <= 0) {
-    toast('⚠️ Ingresa el nombre del cliente y el monto.', 'err');
+    toast(' Ingresa el nombre del cliente y el monto.', 'err');
     return;
   }
 
@@ -2105,13 +2157,13 @@ async function registrar() {
       `${e.split(' ')[0]} procesó $${m.toFixed(2)} con ${c} — ${s}`;
 
     const waText = encodeURIComponent(
-      `*NUEVA OPERACIÓN RO CAMBIOS*\n👤 ${e}\n🤝 ${c}\n💼 ${s}\n💰 $${m.toFixed(2)}`
+      `*NUEVA OPERACIÓN RO CAMBIOS*\n ${e}\n🤝 ${c}\n ${s}\n $${m.toFixed(2)}`
     );
     document.getElementById('lnkWA').href = `https://wa.me/${WA_NUM}?text=${waText}`;
     logActividad('Nueva venta', `${e} · $${m.toFixed(2)} · ${c}`);
     saveCliente(c);
     document.getElementById('modalExito').classList.add('show');
-    toast('Venta registrada con éxito ✅');
+    toast('Venta registrada con éxito ');
   } catch(err) {
     toast('Error al registrar. Verifica tu conexión.', 'err');
     resetBtnReg();
@@ -2136,9 +2188,9 @@ function cerrarModalVenta() {
   resetBtnReg();
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    FACTURACIÓN — Firestore
-═══════════════════════════════════════════════════════ */
+ */
 let cart    = [];
 let docsMap = {};   /* firestoreId -> docData */
 let sheetLang = 'es';
@@ -2200,20 +2252,41 @@ function updateHistorialBadge() {
   if (btn) btn.innerHTML = count > 0 ? `${svgClip} Historial (${count})` : `${svgClip} Historial`;
 }
 
-/* ─── Type change ─── */
+/*  Type change  */
 function onTypeChange() {
   const type = document.getElementById('doc-type').value;
   document.getElementById('field-nota').style.display = type === 'factura' ? 'block' : 'none';
   document.getElementById('btn-submit').innerHTML = type === 'factura' ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Generar Factura' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Generar Recibo';
 }
 
+function isRemesaService(val) {
+  return val && (val.startsWith('Remesa ') || val.startsWith('Zelle') || val.startsWith('Transferencia'));
+}
+
 function onSrvSelChange() {
-  const sel = document.getElementById('srv-sel');
-  const isOtro = sel.value === '__otro__';
-  const opt = sel.options[sel.selectedIndex];
-  document.getElementById('srv-otro-wrap').style.display = isOtro ? 'block' : 'none';
-  if (!isOtro) document.getElementById('srv-pre').value =
-    monedaSeleccionada === 'eur' ? (opt?.dataset?.eur || opt?.dataset?.p || '') : (opt?.dataset?.p || '');
+  const sel    = document.getElementById('srv-sel');
+  const val    = sel.value;
+  const isOtro = val === '__otro__';
+  const isRem  = isRemesaService(val);
+  document.getElementById('srv-otro-wrap').style.display        = isOtro ? 'block' : 'none';
+  document.getElementById('remesa-calc-wrap').style.display     = isRem  ? 'block' : 'none';
+  document.getElementById('standard-price-wrap').style.display  = (!isRem && !isOtro) || isOtro ? 'block' : 'none';
+  if (isRem) calcRemesa();
+}
+
+function calcRemesa() {
+  const fisico = parseFloat(document.getElementById('remesa-fisico').value) || 0;
+  const pct    = parseFloat(document.getElementById('remesa-pct').value)    || 8;
+  const com    = parseFloat((fisico * pct / 100).toFixed(2));
+  const total  = parseFloat((fisico + com).toFixed(2));
+  const show   = fisico > 0;
+  document.getElementById('remesa-result').style.display  = show ? 'block' : 'none';
+  document.getElementById('remesa-fisico-val').textContent = '$' + fisico.toFixed(2);
+  document.getElementById('remesa-com-val').textContent    = '$' + com.toFixed(2);
+  document.getElementById('remesa-total-val').textContent  = '$' + total.toFixed(2);
+  // store in hidden inputs for addItem
+  document.getElementById('srv-pre').value = total;
+  document.getElementById('srv-can').value = '1';
 }
 
 function onEditSrvSelChange() {
@@ -2225,21 +2298,43 @@ function onEditSrvSelChange() {
     monedaSeleccionada === 'eur' ? (opt?.dataset?.eur || opt?.dataset?.p || '') : (opt?.dataset?.p || '');
 }
 
-/* ─── Cart ─── */
+/*  Cart  */
 function addItem() {
-  const sel = document.getElementById('srv-sel');
-  let s = sel.value;
-  if (s === '__otro__') s = document.getElementById('srv-otro-txt').value.trim();
-  const p = parseFloat(document.getElementById('srv-pre').value);
-  const c = parseInt(document.getElementById('srv-can').value) || 1;
-  if (!s || isNaN(p) || p <= 0) { toast('Ingresa el nombre del servicio y un precio válido.', 'err'); return; }
+  const sel    = document.getElementById('srv-sel');
+  const val    = sel.value;
+  const isRem  = isRemesaService(val);
+  let s, p, c;
+
+  if (val === '__otro__') {
+    s = document.getElementById('srv-otro-txt').value.trim();
+    p = parseFloat(document.getElementById('srv-pre-std').value);
+    c = parseInt(document.getElementById('srv-can-std').value) || 1;
+  } else if (isRem) {
+    const fisico = parseFloat(document.getElementById('remesa-fisico').value) || 0;
+    const pct    = parseFloat(document.getElementById('remesa-pct').value) || 8;
+    p = parseFloat(document.getElementById('srv-pre').value);
+    c = 1;
+    s = `${val} — $${fisico.toFixed(2)} físico (${pct}% comisión)`;
+  } else {
+    s = val;
+    p = parseFloat(document.getElementById('srv-pre-std').value);
+    c = parseInt(document.getElementById('srv-can-std').value) || 1;
+  }
+
+  if (!s || isNaN(p) || p <= 0) { toast('Completa el tipo de servicio y el monto.', 'err'); return; }
   cart.push({ s, p, c, t: parseFloat((p * c).toFixed(2)) });
   renderCart();
   sel.selectedIndex = 0;
-  document.getElementById('srv-otro-wrap').style.display = 'none';
-  document.getElementById('srv-otro-txt').value = '';
-  document.getElementById('srv-pre').value = '';
-  document.getElementById('srv-can').value = '1';
+  document.getElementById('srv-otro-wrap').style.display        = 'none';
+  document.getElementById('remesa-calc-wrap').style.display     = 'none';
+  document.getElementById('standard-price-wrap').style.display  = 'block';
+  document.getElementById('srv-otro-txt').value  = '';
+  document.getElementById('srv-pre').value       = '';
+  document.getElementById('srv-can').value       = '1';
+  document.getElementById('srv-pre-std').value   = '';
+  document.getElementById('srv-can-std').value   = '1';
+  document.getElementById('remesa-fisico').value = '';
+  document.getElementById('remesa-result').style.display = 'none';
 }
 
 function removeItem(idx) { cart.splice(idx, 1); renderCart(); }
@@ -2267,7 +2362,7 @@ async function saveDoc() {
   const nota = document.getElementById('doc-nota').value.trim();
   const type = document.getElementById('doc-type').value;
   if (!cli || cart.length === 0) {
-    toast('⚠️ Completa el cliente y añade al menos un servicio.', 'err');
+    toast(' Completa el cliente y añade al menos un servicio.', 'err');
     return;
   }
 
@@ -2314,7 +2409,7 @@ async function saveDoc() {
     btn.innerHTML = type === 'factura' ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Generar Factura' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Generar Recibo';
     logActividad('Nuevo documento', `${docId} · ${cli} · $${total.toFixed(2)}`);
     saveCliente(cli);
-    toast('Documento guardado ✅');
+    toast('Documento guardado ');
     /* Show the sheet immediately (use local data since listener may lag) */
     openSheet({ _fsId: added.id, ...docData });
   } catch(err) {
@@ -2325,7 +2420,7 @@ async function saveDoc() {
   }
 }
 
-/* ─── Open sheet modal ─── */
+/*  Open sheet modal  */
 function openSheet(doc) {
   sheetDocCurrent = doc;
   const L = (es, en) => sheetLang === 'en' ? en : es;
@@ -2465,7 +2560,7 @@ function openSheet(doc) {
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
   }
 
-  /* ── Comprobante del cliente (subido desde factura pública) ── */
+  /*  Comprobante del cliente (subido desde factura pública)  */
   let existingComp = document.getElementById('s-comp-block');
   if (existingComp) existingComp.remove();
   if (doc.comprobante_url) {
@@ -2502,7 +2597,7 @@ async function marcarPagado(fsId) {
       ref:           doc.ref && doc.ref !== '—' ? doc.ref : 'Pago confirmado'
     });
     logActividad('Factura pagada', newDocId || fsId);
-    toast('Marcado como pagado ✅');
+    toast('Marcado como pagado ');
     /* Refresh the open sheet */
     const updated = { ...doc, type:'recibo', pagado:true, pagadoParcial:false, fechaPago, docId:newDocId };
     openSheet(updated);
@@ -2511,7 +2606,7 @@ async function marcarPagado(fsId) {
   }
 }
 
-/* ─── Partial payment ─── */
+/*  Partial payment  */
 let pagoParcialFsId = null;
 
 function abrirPagoParcial(fsId) {
@@ -2540,10 +2635,10 @@ async function confirmarPagoParcial() {
   const pendiente = total - yaPageado;
 
   if (isNaN(monto) || monto <= 0) {
-    toast('⚠️ Ingresa un monto válido.', 'err'); return;
+    toast(' Ingresa un monto válido.', 'err'); return;
   }
   if (monto > pendiente + 0.001) {
-    toast(`⚠️ El monto no puede exceder el pendiente ($${pendiente.toFixed(2)}).`, 'err'); return;
+    toast(` El monto no puede exceder el pendiente ($${pendiente.toFixed(2)}).`, 'err'); return;
   }
 
   const newMontoPagado = parseFloat((yaPageado + monto).toFixed(2));
@@ -2566,7 +2661,7 @@ async function confirmarPagoParcial() {
         ref:           ref || (doc.ref && doc.ref !== '—' ? doc.ref : 'Pago confirmado'),
         pagos:         firebase.firestore.FieldValue.arrayUnion({ monto, ref, fecha: fmtDate() })
       });
-      toast('Pago completo registrado ✅');
+      toast('Pago completo registrado ');
     } else {
       /* Partial */
       await db.collection('documentos').doc(fsId).update({
@@ -2574,7 +2669,7 @@ async function confirmarPagoParcial() {
         montoPagado:   newMontoPagado,
         pagos:         firebase.firestore.FieldValue.arrayUnion({ monto, ref, fecha: fmtDate() })
       });
-      toast('Pago parcial registrado 💰');
+      toast('Pago parcial registrado ');
     }
     document.getElementById('modalPagoParcial').classList.remove('show');
     pagoParcialFsId = null;
@@ -2726,9 +2821,9 @@ document.getElementById('modalDoc').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-/* ═══════════════════════════════════════════════════════
+/* 
    EDIT MODAL
-═══════════════════════════════════════════════════════ */
+ */
 let editFsId   = null;
 let editCart   = [];
 
@@ -2803,7 +2898,7 @@ async function saveEditDoc() {
   const type = document.getElementById('edit-type').value;
 
   if (!cli || editCart.length === 0) {
-    toast('⚠️ Ingresa el cliente y al menos un ítem.', 'err');
+    toast(' Ingresa el cliente y al menos un ítem.', 'err');
     return;
   }
 
@@ -2831,7 +2926,7 @@ async function saveEditDoc() {
   try {
     await db.collection('documentos').doc(editFsId).update(updates);
     logActividad('Documento editado', docsMap[editFsId]?.docId || editFsId);
-    toast('Documento actualizado ✅');
+    toast('Documento actualizado ');
     closeEditModal();
   } catch(err) {
     toast('Error al guardar cambios.', 'err');
@@ -2852,9 +2947,9 @@ document.getElementById('edit-type').addEventListener('change', function() {
   document.getElementById('edit-field-nota').style.display = this.value === 'factura' ? 'block' : 'none';
 });
 
-/* ═══════════════════════════════════════════════════════
+/* 
    DASHBOARD
-═══════════════════════════════════════════════════════ */
+ */
 let dashPeriod = 'semana';
 let metaMensual = parseFloat(localStorage.getItem('rocambios-meta-mensual')) || 1000;
 
@@ -3039,9 +3134,9 @@ function renderDashboard() {
   renderMetaBar();
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    DUPLICAR FACTURA
-═══════════════════════════════════════════════════════ */
+ */
 function duplicarFactura(fsId) {
   const doc = docsMap[fsId];
   if (!doc) return;
@@ -3076,9 +3171,9 @@ function duplicarFactura(fsId) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    COMPARTIR FACTURA — WhatsApp / Email
-═══════════════════════════════════════════════════════ */
+ */
 function descargarPDF(fsId) {
   const doc = docsMap[fsId];
   if (!doc) return;
@@ -3103,18 +3198,18 @@ function enviarWhatsApp(fsId) {
   if (!doc) return;
   const tipo   = doc.pagado ? 'RECIBO' : (doc.pagadoParcial ? 'FACTURA (Pago Parcial)' : 'FACTURA');
   const estado = doc.pagado
-    ? '✅ PAGADO'
+    ? ' PAGADO'
     : doc.pagadoParcial
-      ? `💛 PAGO PARCIAL — Pagado: $${(doc.montoPagado || 0).toFixed(2)} · Pendiente: $${((doc.total || 0) - (doc.montoPagado || 0)).toFixed(2)}`
+      ? ` PAGO PARCIAL — Pagado: $${(doc.montoPagado || 0).toFixed(2)} · Pendiente: $${((doc.total || 0) - (doc.montoPagado || 0)).toFixed(2)}`
       : '⏳ PENDIENTE DE PAGO';
   const items = (doc.items || []).map(it => `  • ${it.s} x${it.c} — $${it.t.toFixed(2)}`).join('\n');
   const msg =
     `*${tipo} — RO Cambios*\n\n` +
-    `📋 *N°:* ${doc.docId || '—'}\n` +
-    `👤 *Cliente:* ${doc.cli || '—'}\n` +
-    `📅 *Fecha:* ${doc.fecha || '—'}\n\n` +
+    ` *N°:* ${doc.docId || '—'}\n` +
+    ` *Cliente:* ${doc.cli || '—'}\n` +
+    ` *Fecha:* ${doc.fecha || '—'}\n\n` +
     `*Servicios:*\n${items}\n\n` +
-    `💰 *Total: $${(doc.total || 0).toFixed(2)}*\n` +
+    ` *Total: $${(doc.total || 0).toFixed(2)}*\n` +
     `${estado}\n\n` +
     `_RO Cambios — rocambios.com_`;
   window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
@@ -3135,9 +3230,9 @@ function enviarEmail(fsId) {
   window.location.href = `mailto:?subject=${encodeURIComponent(tipo + ' ' + (doc.docId || ''))}&body=${encodeURIComponent(body)}`;
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    CLIENTES — autocompletar
-═══════════════════════════════════════════════════════ */
+ */
 let clientesCache = [];
 
 function initClientes() {
@@ -3164,9 +3259,9 @@ function refreshClientesDatalist() {
   if (dl) dl.innerHTML = clientesCache.map(c => `<option value="${esc(c)}">`).join('');
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    ACTIVIDAD LOG
-═══════════════════════════════════════════════════════ */
+ */
 function logActividad(accion, detalle) {
   if (!currentUser) return;
   db.collection('actividadLog').add({
@@ -3205,13 +3300,13 @@ function renderActividad() {
   }).catch(() => { el.innerHTML = '<div style="color:#ef4444;font-size:12px;padding:8px;">Error al cargar actividad.</div>'; });
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    PERSONALIZACIÓN DE COLORES
-═══════════════════════════════════════════════════════ */
+ */
 function setColor(hex) {
   document.documentElement.style.setProperty('--blue', hex);
   localStorage.setItem('rocambios-color', hex);
-  toast('Color actualizado 🎨');
+  toast('Color actualizado ');
 }
 
 function loadSavedColor() {
@@ -3220,9 +3315,9 @@ function loadSavedColor() {
 }
 loadSavedColor();
 
-/* ═══════════════════════════════════════════════════════
+/* 
    CALENDARIO DE VENTAS
-═══════════════════════════════════════════════════════ */
+ */
 let calYear  = new Date().getFullYear();
 let calMonth = new Date().getMonth();
 
@@ -3263,9 +3358,9 @@ function renderCalendario() {
   gridEl.innerHTML = html;
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    CRM — CLIENTES
-═══════════════════════════════════════════════════════ */
+ */
 let clientesList = [];
 let editClienteId = null;
 
@@ -3359,13 +3454,13 @@ async function saveCliente2() {
   try {
     if (editClienteId) {
       await db.collection('clientes').doc(editClienteId).update(data);
-      toast('Cliente actualizado ✅');
+      toast('Cliente actualizado ');
     } else {
       data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
       data.creadoPor = currentUser?.email || '';
       const id = (nombre + (apellido?'_'+apellido:'')).toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'') + '_' + Date.now().toString(36);
       await db.collection('clientes').doc(id).set(data);
-      toast('Cliente agregado ✅');
+      toast('Cliente agregado ');
     }
     closeClienteModal();
   } catch(e) { toast('Error al guardar.', 'err'); }
@@ -3385,17 +3480,17 @@ document.getElementById('modalCliente').addEventListener('click', function(e) {
   if (e.target === this) closeClienteModal();
 });
 
-/* ═══════════════════════════════════════════════════════
+/* 
    FACTURA EN INGLÉS — Sheet language toggle
-═══════════════════════════════════════════════════════ */
+ */
 function toggleSheetLang() {
   sheetLang = sheetLang === 'es' ? 'en' : 'es';
   if (sheetDocCurrent) openSheet(sheetDocCurrent);
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    PLANTILLAS
-═══════════════════════════════════════════════════════ */
+ */
 async function guardarComoPlantilla(fsId) {
   const doc = docsMap[fsId];
   if (!doc) return;
@@ -3411,7 +3506,7 @@ async function guardarComoPlantilla(fsId) {
       creadoPor: currentUser?.email || '',
       creadoEn: firebase.firestore.FieldValue.serverTimestamp()
     });
-    toast('Plantilla guardada ✅');
+    toast('Plantilla guardada ');
   } catch(e) { toast('Error al guardar plantilla.', 'err'); }
 }
 
@@ -3447,7 +3542,7 @@ async function cargarPlantilla(id) {
     cart = (p.items || []).map(it => ({...it}));
     renderCart();
     document.getElementById('modalPlantillas').classList.remove('show');
-    toast('Plantilla cargada ✅');
+    toast('Plantilla cargada ');
   } catch(e) { toast('Error al cargar plantilla.', 'err'); }
 }
 
@@ -3462,9 +3557,9 @@ document.getElementById('modalPlantillas').addEventListener('click', function(e)
   if (e.target === this) this.classList.remove('show');
 });
 
-/* ═══════════════════════════════════════════════════════
+/* 
    COMPROBANTE DE PAGO
-═══════════════════════════════════════════════════════ */
+ */
 let comprobanteVentaId = null;
 
 function openComprobanteModal(ventaId) {
@@ -3526,7 +3621,7 @@ async function uploadComprobante(input) {
     });
 
     await db.collection('ventas').doc(comprobanteVentaId).update({ comprobante_url: url });
-    toast('Comprobante guardado ✅');
+    toast('Comprobante guardado ');
     document.getElementById('comp-img').src = url;
     const dl = document.getElementById('comp-download');
     dl.href = url; dl.download = `comprobante_${comprobanteVentaId}.jpg`;
@@ -3554,9 +3649,9 @@ document.getElementById('modalComprobante').addEventListener('click', function(e
   if (e.target === this) this.classList.remove('show');
 });
 
-/* ═══════════════════════════════════════════════════════
+/* 
    MÉTODO DE PAGO
-═══════════════════════════════════════════════════════ */
+ */
 function selectMoneda(val) {
   monedaSeleccionada = val;
   document.getElementById('btn-usd').classList.toggle('active', val === 'usd');
@@ -3600,9 +3695,9 @@ function resetMetodoPago() {
   document.getElementById('metodo-pago-fields').innerHTML = '';
 }
 
-/* ═══════════════════════════════════════════════════════
+/* 
    LINK PÚBLICO DE FACTURA
-═══════════════════════════════════════════════════════ */
+ */
 function toggleContrato() {
   const input = document.getElementById('contrato-toggle');
   const pill  = document.getElementById('contrato-pill');
@@ -3618,7 +3713,7 @@ function toggleContrato() {
 function copiarLinkFactura(fsId) {
   const url = `https://adv.rocambios.com/factura-publica.html?id=${fsId}`;
   if (navigator.clipboard) {
-    navigator.clipboard.writeText(url).then(() => toast('Link copiado al portapapeles 🔗'));
+    navigator.clipboard.writeText(url).then(() => toast('Link copiado al portapapeles '));
   } else {
     const ta = document.createElement('textarea');
     ta.value = url;
@@ -3626,7 +3721,7 @@ function copiarLinkFactura(fsId) {
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
-    toast('Link copiado al portapapeles 🔗');
+    toast('Link copiado al portapapeles ');
   }
 }
 
