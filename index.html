@@ -1085,7 +1085,7 @@
     <div class="bottom-row">
       <!-- FORM -->
       <div class="panel-v">
-        <div class="panel-title-v">Registrar Venta</div>
+        <div class="panel-title-v">Registrar Operación</div>
         <div class="field-group">
           <label class="field-label">Empleado</label>
           <select id="fEmp"></select>
@@ -1110,7 +1110,7 @@
         </div>
         <button class="btn-reg" onclick="registrar()">
           <span style="display:flex;align-items:center;gap:10px">
-            <i class="fa-solid fa-rocket"></i> GUARDAR VENTA
+            <i class="fa-solid fa-rocket"></i> GUARDAR OPERACIÓN
           </span>
           <span class="arr"><i class="fa-solid fa-arrow-right"></i></span>
         </button>
@@ -1118,7 +1118,7 @@
 
       <!-- TABLE -->
       <div class="panel-v">
-        <div class="panel-title-v">Movimientos</div>
+        <div class="panel-title-v">Operaciones</div>
         <div class="filtros" id="filtrosContainer"></div>
         <div id="listaVentas"></div>
       </div>
@@ -1418,11 +1418,11 @@
 <div id="modalExito" class="modal-overlay">
   <div class="modal-box">
     <span class="modal-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
-    <div class="modal-title">¡VENTA REGISTRADA!</div>
+    <div class="modal-title">¡OPERACIÓN REGISTRADA!</div>
     <div class="modal-sub" id="pResumen"></div>
     <a id="lnkWA" href="#" target="_blank" class="btn-wa">
       <span style="display:flex;align-items:center;gap:10px">
-        <i class="fa-brands fa-whatsapp"></i> REPORTAR A WHATSAPP
+        <i class="fa-brands fa-whatsapp"></i> ENVIAR A WHATSAPP
       </span>
       <span class="arr"><i class="fa-solid fa-arrow-right"></i></span>
     </a>
@@ -1710,43 +1710,30 @@ const METODOS_CAMPOS = {
 };
 
 function servicesOptionsHTML() {
-  const eur = monedaSeleccionada === 'eur';
-  const p = (usd, euros) => eur ? euros : usd;
-  const sym = eur ? '€' : '$';
   return `
-    <option value="" disabled selected>Seleccionar servicio...</option>
-    <optgroup label="Sitios Web">
-      <option value="Web Básica" data-p="280" data-eur="260">Web Básica — ${sym}${p(280,260)}</option>
-      <option value="Web Estándar" data-p="455" data-eur="423">Web Estándar — ${sym}${p(455,423)}</option>
-      <option value="Web Premium" data-p="950" data-eur="884">Web Premium — ${sym}${p(950,884)}</option>
-      <option value="Plan Gestión Ecommerce" data-p="750" data-eur="698">Plan Gestión Ecommerce — ${sym}${p(750,698)}</option>
+    <option value="" disabled selected>Seleccionar tipo de operación...</option>
+    <optgroup label="Remesas USA → Venezuela">
+      <option value="Remesa Zelle → Bolívares">Remesa Zelle → Bolívares</option>
+      <option value="Remesa Transferencia → Bolívares">Remesa Transferencia → Bolívares</option>
+      <option value="Remesa Zelle → USDT">Remesa Zelle → USDT</option>
+      <option value="Remesa Transferencia → USDT">Remesa Transferencia → USDT</option>
     </optgroup>
-    <optgroup label="Diseño &amp; Identidad">
-      <option value="Identidad Visual" data-p="85" data-eur="79">Identidad Visual — ${sym}${p(85,79)}</option>
-      <option value="Tarjeta de Presentación" data-p="20" data-eur="19">Tarjeta de Presentación — ${sym}${p(20,19)}</option>
-      <option value="Post / Flyers RRSS" data-p="10" data-eur="9">Post / Flyers RRSS — ${sym}${p(10,9)}</option>
-      <option value="Office Pack" data-p="80" data-eur="74">Office Pack — ${sym}${p(80,74)}</option>
-      <option value="Paquete Básico" data-p="124" data-eur="115">Paquete Básico — ${sym}${p(124,115)}</option>
-      <option value="Paquete Intermedio" data-p="221" data-eur="206">Paquete Intermedio — ${sym}${p(221,206)}</option>
-      <option value="Paquete Avanzado" data-p="553" data-eur="514">Paquete Avanzado — ${sym}${p(553,514)}</option>
+    <optgroup label="Cambio de Divisas">
+      <option value="Cambio USD → Bolívares">Cambio USD → Bolívares</option>
+      <option value="Cambio USDT → Bolívares">Cambio USDT → Bolívares</option>
+      <option value="Cambio EUR → Bolívares">Cambio EUR → Bolívares</option>
+      <option value="Cambio Bolívares → USD">Cambio Bolívares → USD</option>
     </optgroup>
-    <optgroup label="WhatsApp Marketing">
-      <option value="WhatsApp Bronce (1 Sem)" data-p="55" data-eur="51">Bronce — ${sym}${p(55,51)}</option>
-      <option value="WhatsApp Plata (2 Sem)" data-p="75" data-eur="70">Plata — ${sym}${p(75,70)}</option>
-      <option value="WhatsApp Oro (1 Mes)" data-p="108" data-eur="100">Oro — ${sym}${p(108,100)}</option>
-      <option value="WhatsApp Pro (3 Meses)" data-p="225" data-eur="209">Pro — ${sym}${p(225,209)}</option>
-      <option value="WhatsApp Enterprise (1 Año)" data-p="650" data-eur="605">Enterprise — ${sym}${p(650,605)}</option>
-    </optgroup>
-    <optgroup label="Seguidores">
-      <option value="1,000 Seguidores" data-p="55" data-eur="51">1,000 Seguidores — ${sym}${p(55,51)}</option>
-      <option value="3,000 Seguidores" data-p="75" data-eur="70">3,000 Seguidores — ${sym}${p(75,70)}</option>
-      <option value="5,000 Seguidores" data-p="125" data-eur="116">5,000 Seguidores — ${sym}${p(125,116)}</option>
-      <option value="10,000 Seguidores" data-p="190" data-eur="177">10,000 Seguidores — ${sym}${p(190,177)}</option>
+    <optgroup label="Otros envíos">
+      <option value="Envío Western Union → Venezuela">Envío Western Union → Venezuela</option>
+      <option value="Envío PayPal → Venezuela">Envío PayPal → Venezuela</option>
+      <option value="Envío Binance → Venezuela">Envío Binance → Venezuela</option>
     </optgroup>
     <optgroup label="──────────────────">
       <option value="__otro__" data-p="">Otro (especificar)...</option>
     </optgroup>`;
 }
+
 
 /* ═══════════════════════════════════════════════════════
    AUTH
@@ -1875,14 +1862,21 @@ function populateServiceSelects() {
   document.getElementById('srv-sel').innerHTML      = html;
   document.getElementById('edit-srv-sel').innerHTML = html;
   document.getElementById('fSer').innerHTML = [
-    'Web Plan Básico','Web Plan Estándar','Web Plan Premium',
-    'Identidad Visual','Tarjeta de Presentación','Post / Flyers RRSS',
-    'Office Pack','Paquete Básico','Paquete Intermedio','Paquete Avanzado',
-    'WhatsApp Bronce','WhatsApp Plata','WhatsApp Oro','WhatsApp Pro','WhatsApp Enterprise',
-    '1,000 Seguidores','3,000 Seguidores','5,000 Seguidores','10,000 Seguidores',
-    'Publicidad Masiva'
+    'Remesa Zelle → Bolívares',
+    'Remesa Transferencia → Bolívares',
+    'Remesa Zelle → USDT',
+    'Remesa Transferencia → USDT',
+    'Cambio USD → Bolívares',
+    'Cambio USDT → Bolívares',
+    'Cambio EUR → Bolívares',
+    'Cambio Bolívares → USD',
+    'Envío Western Union → Venezuela',
+    'Envío PayPal → Venezuela',
+    'Envío Binance → Venezuela',
+    'Otro',
   ].map(s => `<option>${s}</option>`).join('');
 }
+
 
 /* ═══════════════════════════════════════════════════════
    NAVIGATION
@@ -2010,12 +2004,18 @@ function openEditVentaModal(id) {
 
   const evSer = document.getElementById('ev-ser');
   const serviciosVenta = [
-    'Web Plan Básico','Web Plan Estándar','Web Plan Premium',
-    'Identidad Visual','Tarjeta de Presentación','Post / Flyers RRSS',
-    'Office Pack','Paquete Básico','Paquete Intermedio','Paquete Avanzado',
-    'WhatsApp Bronce','WhatsApp Plata','WhatsApp Oro','WhatsApp Pro','WhatsApp Enterprise',
-    '1,000 Seguidores','3,000 Seguidores','5,000 Seguidores','10,000 Seguidores',
-    'Publicidad Masiva','Otro'
+    'Remesa Zelle → Bolívares',
+    'Remesa Transferencia → Bolívares',
+    'Remesa Zelle → USDT',
+    'Remesa Transferencia → USDT',
+    'Cambio USD → Bolívares',
+    'Cambio USDT → Bolívares',
+    'Cambio EUR → Bolívares',
+    'Cambio Bolívares → USD',
+    'Envío Western Union → Venezuela',
+    'Envío PayPal → Venezuela',
+    'Envío Binance → Venezuela',
+    'Otro',
   ];
   const servicioActual = f.servicio || '';
   let optsHtml = serviciosVenta.map(s => `<option value="${esc(s)}"${s===servicioActual?' selected':''}>${esc(s)}</option>`).join('');
@@ -2117,7 +2117,7 @@ async function registrar() {
       `${e.split(' ')[0]} cerró $${m.toFixed(2)} con ${c} — ${s}`;
 
     const waText = encodeURIComponent(
-      `*NUEVA VENTA DGP GROUP*\n👤 ${e}\n🤝 ${c}\n💼 ${s}\n💰 $${m.toFixed(2)}`
+      `*NUEVA OPERACIÓN RO CAMBIOS*\n👤 ${e}\n🤝 ${c}\n💼 ${s}\n💰 $${m.toFixed(2)}`
     );
     document.getElementById('lnkWA').href = `https://wa.me/${WA_NUM}?text=${waText}`;
     logActividad('Nueva venta', `${e} · $${m.toFixed(2)} · ${c}`);
@@ -2135,7 +2135,7 @@ function resetBtnReg() {
   btn.disabled = false;
   btn.innerHTML = `
     <span style="display:flex;align-items:center;gap:10px">
-      <i class="fa-solid fa-rocket"></i> GUARDAR VENTA
+      <i class="fa-solid fa-rocket"></i> GUARDAR OPERACIÓN
     </span>
     <span class="arr"><i class="fa-solid fa-arrow-right"></i></span>`;
 }
