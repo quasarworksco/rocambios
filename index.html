@@ -799,36 +799,80 @@
     }
 
 /* ─── DASHBOARD ─── */
-.dash-main { max-width:1000px; margin:0 auto; padding:28px 24px; }
-.dash-period-row { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; }
-.dash-period-btn { padding:7px 18px; border:1.5px solid var(--border); background:var(--white); border-radius:100px; font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:1px; cursor:pointer; transition:all 0.2s; color:var(--text-soft); }
-.dash-period-btn.active { background:var(--blue); border-color:var(--blue); color:white; }
-.dash-section-label { font-size:9px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--text-soft); margin-bottom:8px; }
-.dash-kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:16px; }
-.dash-kpi-card { background:var(--white); border:1px solid var(--border); padding:18px 20px; border-radius:0; }
-.dash-kpi-label { font-size:10px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-soft); margin-bottom:8px; }
-.dash-kpi-value { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--black); }
+.dash-main { max-width:1040px; margin:0 auto; padding:28px 24px; }
+.dash-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; flex-wrap:wrap; gap:12px; }
+.dash-greeting { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--black); letter-spacing:1px; }
+.dash-greeting span { color:var(--blue); }
+.dash-period-row { display:flex; gap:6px; flex-wrap:wrap; }
+.dash-period-btn { padding:7px 16px; border:1.5px solid var(--border); background:var(--white); border-radius:100px; font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:700; letter-spacing:1px; cursor:pointer; transition:all 0.2s; color:var(--text-soft); }
+.dash-period-btn.active { background:var(--blue); border-color:var(--blue); color:white; box-shadow:0 2px 8px rgba(45,106,79,0.25); }
+.dash-section-label { font-size:9px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--text-soft); margin-bottom:10px; }
+/* Hero KPI cards */
+.dash-kpi-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:12px; }
+.dash-kpi-card { background:var(--white); border:1.5px solid var(--border); padding:20px 18px; border-radius:14px; position:relative; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s; }
+.dash-kpi-card:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(45,106,79,0.1); }
+.dash-kpi-card.accent { background:linear-gradient(135deg,var(--blue),var(--blue-light)); border-color:transparent; }
+.dash-kpi-card.accent2 { background:linear-gradient(135deg,#1B4332,var(--blue)); border-color:transparent; }
+.dash-kpi-icon { width:36px; height:36px; border-radius:10px; background:var(--bg-alt); display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
+.dash-kpi-card.accent .dash-kpi-icon,
+.dash-kpi-card.accent2 .dash-kpi-icon { background:rgba(255,255,255,0.18); }
+.dash-kpi-label { font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-soft); margin-bottom:6px; }
+.dash-kpi-card.accent .dash-kpi-label,
+.dash-kpi-card.accent2 .dash-kpi-label { color:rgba(255,255,255,0.75); }
+.dash-kpi-value { font-family:'Bebas Neue',sans-serif; font-size:30px; color:var(--black); line-height:1; }
+.dash-kpi-card.accent .dash-kpi-value,
+.dash-kpi-card.accent2 .dash-kpi-value { color:white; }
 .dash-kpi-value.green { color:var(--green); }
 .dash-kpi-value.amber { color:#d97706; }
-.dash-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
-.dash-bar-label { font-size:11px; font-weight:500; color:var(--text-mid); width:120px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.dash-kpi-sub { font-size:10px; color:var(--text-soft); margin-top:4px; font-weight:600; }
+.dash-kpi-card.accent .dash-kpi-sub,
+.dash-kpi-card.accent2 .dash-kpi-sub { color:rgba(255,255,255,0.65); }
+/* Two-column layout */
+.dash-2col { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+.dash-full { margin-bottom:12px; }
+/* Panel */
+.dash-panel { background:var(--white); border:1.5px solid var(--border); border-radius:14px; padding:20px 22px; }
+.dash-panel-title { font-size:13px; font-weight:700; color:var(--black); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+.dash-panel-title svg { color:var(--blue); flex-shrink:0; }
+/* Bar rows */
+.dash-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.dash-bar-row:last-child { margin-bottom:0; }
+.dash-bar-label { font-size:11px; font-weight:600; color:var(--text-mid); width:130px; flex-shrink:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .dash-bar-track { flex:1; height:8px; background:var(--off); border-radius:4px; overflow:hidden; }
-.dash-bar-fill { height:100%; background:var(--blue); border-radius:4px; transition:width 0.6s ease; }
+.dash-bar-fill { height:100%; background:var(--blue); border-radius:4px; transition:width 0.8s cubic-bezier(.22,1,.36,1); }
 .dash-bar-fill.green { background:var(--green); }
-.dash-bar-amount { font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--black); width:60px; text-align:right; flex-shrink:0; }
-.dash-top-row { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--border); font-size:12px; }
+.dash-bar-amount { font-family:'Bebas Neue',sans-serif; font-size:14px; color:var(--black); width:62px; text-align:right; flex-shrink:0; }
+/* Top rows */
+.dash-top-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); }
 .dash-top-row:last-child { border-bottom:none; }
-.dash-top-name { font-weight:500; color:var(--text-mid); flex:1; }
-.dash-top-count { font-size:10px; color:var(--text-soft); margin:0 12px; }
+.dash-top-name { font-size:12px; font-weight:600; color:var(--text-mid); flex:1; }
+.dash-top-count { font-size:10px; font-weight:700; color:var(--text-soft); margin:0 12px; background:var(--bg-alt); padding:2px 8px; border-radius:20px; }
 .dash-top-amt { font-family:'Bebas Neue',sans-serif; font-size:15px; color:var(--black); }
-.dash-emp-card { margin-bottom:10px; }
-.dash-emp-card-top { display:flex; align-items:center; gap:10px; }
-.dash-emp-avatar { width:32px; height:32px; border-radius:50%; background:var(--blue); color:white; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+/* Employee cards */
+.dash-emp-card { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+.dash-emp-card:last-child { border-bottom:none; padding-bottom:0; }
+.dash-emp-avatar { width:38px; height:38px; border-radius:50%; background:linear-gradient(135deg,var(--blue),var(--blue-light)); color:white; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .dash-emp-info { flex:1; min-width:0; }
-.dash-emp-name { font-size:12px; font-weight:600; color:var(--black); }
-.dash-emp-stats { font-size:10px; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:3px; align-items:center; margin-top:1px; }
+.dash-emp-name { font-size:13px; font-weight:700; color:var(--black); }
+.dash-emp-stats { font-size:10px; font-weight:600; color:var(--text-soft); display:flex; flex-wrap:wrap; gap:4px; align-items:center; margin-top:2px; }
 .dash-emp-dot { color:var(--border); }
-.dash-emp-total { font-size:14px; font-weight:700; color:var(--blue); font-family:'Bebas Neue',sans-serif; letter-spacing:0.5px; flex-shrink:0; }
+.dash-emp-total { font-size:16px; font-weight:700; color:var(--blue); font-family:'Bebas Neue',sans-serif; letter-spacing:0.5px; flex-shrink:0; }
+.dash-emp-bar-wrap { height:3px; background:var(--border); border-radius:2px; margin-top:6px; }
+.dash-emp-bar { height:100%; background:linear-gradient(90deg,var(--blue),var(--blue-light)); border-radius:2px; transition:width 0.8s cubic-bezier(.22,1,.36,1); }
+/* Servicio badge */
+.dash-srv-badge { display:inline-flex; align-items:center; gap:5px; padding:4px 10px; border-radius:20px; font-size:10px; font-weight:700; background:var(--bg-alt); color:var(--blue); }
+/* Meta */
+.dash-meta-pct { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--blue); }
+.dash-meta-track { height:10px; background:var(--off); border-radius:20px; overflow:hidden; border:1px solid var(--border); margin:8px 0; }
+.dash-meta-fill { height:100%; background:linear-gradient(90deg,var(--blue),var(--blue-light)); border-radius:20px; transition:width 0.6s ease; }
+/* Actividad reciente */
+.dash-act-row { display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+.dash-act-row:last-child { border-bottom:none; }
+.dash-act-dot { width:8px; height:8px; border-radius:50%; background:var(--blue); margin-top:5px; flex-shrink:0; }
+.dash-act-text { font-size:12px; font-weight:600; color:var(--text-mid); line-height:1.4; }
+.dash-act-time { font-size:10px; color:var(--text-soft); margin-top:2px; }
+.dash-empty { text-align:center; padding:28px 0; color:var(--text-soft); font-size:12px; font-weight:600; }
+.dash-empty svg { margin:0 auto 8px; display:block; opacity:0.35; }
 
 /* ─── HISTORIAL SEARCH ─── */
 .hist-search-bar { margin-bottom:16px; display:flex; flex-direction:column; gap:10px; }
@@ -847,8 +891,10 @@
 
 @media (max-width:700px) {
   .dash-kpi-grid { grid-template-columns:1fr 1fr; }
+  .dash-2col { grid-template-columns:1fr; }
   .dash-bar-label { width:80px; }
   .dash-main { padding:14px 12px; }
+  .dash-greeting { font-size:20px; }
 }
 
 /* ─── CRM CLIENTES ─── */
@@ -1193,105 +1239,146 @@
 <div id="page-dashboard" class="page">
   <div class="dash-main">
 
-    <!-- Period selector — solo afecta ventas -->
-    <div class="dash-period-row">
-      <button class="dash-period-btn active" onclick="setDashPeriod('semana',this)">Esta semana</button>
-      <button class="dash-period-btn" onclick="setDashPeriod('mes',this)">Este mes</button>
-      <button class="dash-period-btn" onclick="setDashPeriod('todo',this)">Todo</button>
+    <!-- Header -->
+    <div class="dash-header">
+      <div class="dash-greeting">Panel · <span>RO Cambios</span></div>
+      <div class="dash-period-row">
+        <button class="dash-period-btn active" onclick="setDashPeriod('semana',this)">Esta semana</button>
+        <button class="dash-period-btn" onclick="setDashPeriod('mes',this)">Este mes</button>
+        <button class="dash-period-btn" onclick="setDashPeriod('todo',this)">Todo</button>
+      </div>
     </div>
 
-    <!-- KPI ventas (filtradas por período) -->
-    <div class="dash-section-label">Ventas registradas</div>
-    <div class="dash-kpi-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:8px;">
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Monto Total</div>
+    <!-- KPI hero row -->
+    <div class="dash-kpi-grid" style="margin-bottom:12px;">
+      <div class="dash-kpi-card accent">
+        <div class="dash-kpi-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="dash-kpi-label">Monto remesado</div>
         <div class="dash-kpi-value" id="dash-total-ventas">$0.00</div>
+        <div class="dash-kpi-sub" id="dash-num-ventas-sub">0 operaciones</div>
+      </div>
+      <div class="dash-kpi-card accent2">
+        <div class="dash-kpi-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <div class="dash-kpi-label">Comisión estimada</div>
+        <div class="dash-kpi-value" id="dash-comision">$0.00</div>
+        <div class="dash-kpi-sub">~8% promedio</div>
       </div>
       <div class="dash-kpi-card">
-        <div class="dash-kpi-label">N° de Ventas</div>
+        <div class="dash-kpi-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="dash-kpi-label">Operaciones</div>
         <div class="dash-kpi-value" id="dash-num-ventas">0</div>
+        <div class="dash-kpi-sub" id="dash-avg-sub">Prom. $0</div>
       </div>
       <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Promedio/Venta</div>
-        <div class="dash-kpi-value" id="dash-avg-venta">$0.00</div>
+        <div class="dash-kpi-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="dash-kpi-label">Clientes únicos</div>
+        <div class="dash-kpi-value" id="dash-clientes-unicos">0</div>
+        <div class="dash-kpi-sub" id="dash-cli-freq-sub">—</div>
       </div>
     </div>
 
-    <!-- KPI facturas (siempre totales, no filtran por período) -->
-    <div class="dash-section-label" style="margin-top:16px;">Estado de facturación (total)</div>
-    <div class="dash-kpi-grid" style="margin-bottom:16px;">
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Facturas Emitidas</div>
-        <div class="dash-kpi-value" id="dash-total-facturas">0</div>
-      </div>
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Cobrado</div>
-        <div class="dash-kpi-value green" id="dash-cobrado">$0.00</div>
-      </div>
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Por Cobrar</div>
-        <div class="dash-kpi-value amber" id="dash-pendiente">$0.00</div>
-      </div>
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-label">Pago Parcial</div>
-        <div class="dash-kpi-value" id="dash-parciales">0</div>
-      </div>
-    </div>
-    <!-- Meta mensual -->
-    <div class="panel-f" style="margin-bottom:12px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-        <div class="panel-title-f" style="margin-bottom:0;">Meta del mes</div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          <span style="font-size:11px;color:var(--text-soft);">$</span>
-          <input type="number" id="meta-input" min="0" step="100"
-            style="width:90px;padding:4px 8px;border:1.5px solid var(--border);border-radius:6px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;color:var(--black);background:var(--off);outline:none;"
+    <!-- Meta mensual + Facturas -->
+    <div class="dash-2col">
+      <!-- Meta mensual -->
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Meta del mes
+          <input type="number" id="meta-input" min="0" step="100" placeholder="0"
+            style="margin-left:auto;width:80px;padding:4px 8px;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;color:var(--black);background:var(--off);outline:none;"
             onchange="guardarMeta(this.value)" oninput="actualizarMeta(this.value)">
         </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+          <div class="dash-meta-pct" id="meta-pct-label">0%</div>
+          <div style="font-size:11px;font-weight:700;color:var(--text-soft);" id="meta-amt-label">$0 / $0</div>
+        </div>
+        <div class="dash-meta-track"><div class="dash-meta-fill" id="meta-bar" style="width:0%"></div></div>
+        <div id="meta-msg" style="font-size:11px;color:var(--text-soft);margin-top:6px;text-align:right;font-weight:600;"></div>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span id="meta-pct-label" style="font-size:11px;font-weight:700;color:var(--blue);">0%</span>
-        <span id="meta-amt-label" style="font-size:11px;color:var(--text-soft);">$0 / $0</span>
+      <!-- Estado de facturas -->
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Facturación
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="padding:12px;background:var(--bg-alt);border-radius:10px;">
+            <div class="dash-kpi-label" style="margin-bottom:4px;">Emitidas</div>
+            <div class="dash-kpi-value" id="dash-total-facturas" style="font-size:22px;">0</div>
+          </div>
+          <div style="padding:12px;background:var(--bg-alt);border-radius:10px;">
+            <div class="dash-kpi-label" style="margin-bottom:4px;">Cobrado</div>
+            <div class="dash-kpi-value green" id="dash-cobrado" style="font-size:22px;">$0</div>
+          </div>
+          <div style="padding:12px;background:#fffbeb;border:1px solid rgba(217,119,6,0.15);border-radius:10px;">
+            <div class="dash-kpi-label" style="margin-bottom:4px;color:#92400e;">Por cobrar</div>
+            <div class="dash-kpi-value amber" id="dash-pendiente" style="font-size:22px;">$0</div>
+          </div>
+          <div style="padding:12px;background:var(--bg-alt);border-radius:10px;">
+            <div class="dash-kpi-label" style="margin-bottom:4px;">Parciales</div>
+            <div class="dash-kpi-value" id="dash-parciales" style="font-size:22px;">0</div>
+          </div>
+        </div>
       </div>
-      <div style="height:8px;background:var(--off);border-radius:20px;overflow:hidden;border:1px solid var(--border);">
-        <div id="meta-bar" style="height:100%;background:var(--blue);border-radius:20px;width:0%;transition:width 0.4s ease;"></div>
-      </div>
-      <div id="meta-msg" style="font-size:11px;color:var(--text-soft);margin-top:6px;text-align:right;"></div>
     </div>
 
-    <!-- Sales by employee -->
-    <div class="panel-f" style="margin-bottom:12px;">
-      <div class="panel-title-f">Ventas por empleado</div>
-      <div id="dash-emp-bars"></div>
+    <!-- Empleados + Top servicios -->
+    <div class="dash-2col">
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+          Operaciones por agente
+        </div>
+        <div id="dash-emp-bars"></div>
+      </div>
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Servicios más operados
+        </div>
+        <div id="dash-top-services"></div>
+      </div>
     </div>
 
-    <!-- Top clients -->
-    <div class="panel-f" style="margin-bottom:12px;">
-      <div class="panel-title-f">Top clientes</div>
-      <div id="dash-top-clients"></div>
-    </div>
-
-    <!-- Top services -->
-    <div class="panel-f">
-      <div class="panel-title-f">Servicios más vendidos</div>
-      <div id="dash-top-services"></div>
+    <!-- Top clientes + Actividad -->
+    <div class="dash-2col">
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Clientes frecuentes
+        </div>
+        <div id="dash-top-clients"></div>
+      </div>
+      <div class="dash-panel">
+        <div class="dash-panel-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Actividad reciente
+        </div>
+        <div id="actividad-list"><div class="dash-empty">Cargando...</div></div>
+      </div>
     </div>
 
     <!-- Calendario -->
-    <div class="panel-f" style="margin-top:12px;">
-      <div class="panel-title-f">Calendario de ventas</div>
+    <div class="dash-full dash-panel" style="margin-top:0;">
+      <div class="dash-panel-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Calendario de operaciones
+      </div>
       <div class="cal-nav">
         <button class="cal-nav-btn" onclick="calPrevMonth()">&#9664;</button>
         <span id="cal-titulo" style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--black);"></span>
         <button class="cal-nav-btn" onclick="calNextMonth()">&#9658;</button>
       </div>
       <div class="cal-grid" id="cal-grid"></div>
-      <div class="cal-legend"><span class="cal-dot" style="background:var(--blue);"></span> Día con ventas</div>
-    </div>
-
-    <!-- Actividad reciente -->
-    <div class="panel-f" style="margin-top:12px;">
-      <div class="panel-title-f">Actividad reciente</div>
-      <div id="actividad-list"><div style="text-align:center;color:var(--text-soft);font-size:12px;padding:16px;">Cargando...</div></div>
+      <div class="cal-legend"><span class="cal-dot" style="background:var(--blue);"></span> Día con operaciones</div>
     </div>
 
   </div>
@@ -2837,9 +2924,20 @@ function renderDashboard() {
   const totalVentas = ventasFiltradas.reduce((a, f) => a + (parseFloat(f.monto) || 0), 0);
   const numVentas   = ventasFiltradas.length;
   const avgVenta    = numVentas > 0 ? totalVentas / numVentas : 0;
-  document.getElementById('dash-total-ventas').textContent = '$' + totalVentas.toFixed(2);
-  document.getElementById('dash-num-ventas').textContent   = numVentas;
-  document.getElementById('dash-avg-venta').textContent    = '$' + avgVenta.toFixed(2);
+  const comision    = totalVentas * 0.08;
+  const cliUnicos   = new Set(ventasFiltradas.map(f => f.cliente).filter(Boolean)).size;
+  const cliFreq     = (() => {
+    const m = {}; ventasFiltradas.forEach(f => { if (f.cliente) m[f.cliente] = (m[f.cliente]||0)+1; });
+    const top = Object.entries(m).sort((a,b)=>b[1]-a[1])[0];
+    return top ? top[0].split(' ')[0] : '—';
+  })();
+  document.getElementById('dash-total-ventas').textContent   = '$' + totalVentas.toFixed(2);
+  document.getElementById('dash-num-ventas-sub').textContent = numVentas + ' operacion' + (numVentas !== 1 ? 'es' : '');
+  document.getElementById('dash-comision').textContent       = '$' + comision.toFixed(2);
+  document.getElementById('dash-num-ventas').textContent     = numVentas;
+  document.getElementById('dash-avg-sub').textContent        = 'Prom. $' + avgVenta.toFixed(0);
+  document.getElementById('dash-clientes-unicos').textContent = cliUnicos;
+  document.getElementById('dash-cli-freq-sub').textContent   = cliUnicos > 0 ? 'Más frecuente: ' + cliFreq : '—';
 
   /* KPIs de FACTURAS — siempre totales, no filtran por período */
   const allDocs   = Object.values(docsMap);
@@ -2876,26 +2974,24 @@ function renderDashboard() {
     const v   = empSums[e.nombre]   || 0;
     const cnt = empCounts[e.nombre] || 0;
     const avg = cnt > 0 ? (v / cnt) : 0;
-    const pct = (v / maxEmp * 100).toFixed(1);
-    const topSrv = Object.entries(empServices[e.nombre]).sort((a,b) => b[1]-a[1])[0];
-    const topSrvLabel = topSrv ? topSrv[0].split(' ')[0] : '—';
+    const pct = maxEmp > 0 ? (v / maxEmp * 100).toFixed(1) : 0;
+    const topSrv = Object.entries(empServices[e.nombre] || {}).sort((a,b) => b[1]-a[1])[0];
+    const topSrvLabel = topSrv ? topSrv[0].replace('Remesa ','').split(' ')[0] : '—';
     return `<div class="dash-emp-card">
-    <div class="dash-emp-card-top">
       <div class="dash-emp-avatar">${e.ini}</div>
       <div class="dash-emp-info">
-        <div class="dash-emp-name">${esc(e.nombre.split(' ')[0])}</div>
+        <div class="dash-emp-name">${esc(e.nombre)}</div>
         <div class="dash-emp-stats">
-          <span>${cnt} venta${cnt !== 1 ? 's' : ''}</span>
+          <span>${cnt} op.</span>
           <span class="dash-emp-dot">·</span>
           <span>Prom. $${avg.toFixed(0)}</span>
           ${topSrv ? `<span class="dash-emp-dot">·</span><span>${esc(topSrvLabel)}</span>` : ''}
         </div>
+        <div class="dash-emp-bar-wrap"><div class="dash-emp-bar" style="width:${pct}%"></div></div>
       </div>
       <div class="dash-emp-total">$${v.toFixed(0)}</div>
-    </div>
-    <div class="dash-bar-track" style="margin-top:8px;"><div class="dash-bar-fill" style="width:${pct}%"></div></div>
-  </div>`;
-  }).join('');
+    </div>`;
+  }).join('') || '<div class="dash-empty">Sin datos</div>';
 
   /* Top clientes */
   const cliMap = {};
@@ -2906,13 +3002,15 @@ function renderDashboard() {
     cliMap[c].count++;
   });
   const topCli = Object.entries(cliMap).sort((a, b) => b[1].total - a[1].total).slice(0, 6);
+  const emptyMsg = '<div class="dash-empty"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Sin datos para este período</div>';
+
   document.getElementById('dash-top-clients').innerHTML = topCli.length
     ? topCli.map(([n, d]) => `<div class="dash-top-row">
         <span class="dash-top-name">${esc(n)}</span>
-        <span class="dash-top-count">${d.count} venta${d.count > 1 ? 's' : ''}</span>
-        <span class="dash-top-amt">$${d.total.toFixed(2)}</span>
+        <span class="dash-top-count">${d.count} op.</span>
+        <span class="dash-top-amt">$${d.total.toFixed(0)}</span>
       </div>`).join('')
-    : '<div style="color:var(--text-soft);font-size:12px;padding:12px 0;">Sin datos para este período</div>';
+    : emptyMsg;
 
   /* Top servicios */
   const srvMap = {};
@@ -2922,14 +3020,19 @@ function renderDashboard() {
     srvMap[s].total += parseFloat(f.monto) || 0;
     srvMap[s].count++;
   });
-  const topSrv = Object.entries(srvMap).sort((a, b) => b[1].count - a[1].count).slice(0, 6);
-  document.getElementById('dash-top-services').innerHTML = topSrv.length
-    ? topSrv.map(([n, d]) => `<div class="dash-top-row">
-        <span class="dash-top-name">${esc(n)}</span>
-        <span class="dash-top-count">${d.count} vez${d.count > 1 ? 'ces' : ''}</span>
-        <span class="dash-top-amt">$${d.total.toFixed(2)}</span>
-      </div>`).join('')
-    : '<div style="color:var(--text-soft);font-size:12px;padding:12px 0;">Sin datos para este período</div>';
+  const topSrvList = Object.entries(srvMap).sort((a, b) => b[1].count - a[1].count).slice(0, 6);
+  const maxSrv = Math.max(...topSrvList.map(([,d])=>d.count), 1);
+  document.getElementById('dash-top-services').innerHTML = topSrvList.length
+    ? topSrvList.map(([n, d]) => {
+        const pct = (d.count / maxSrv * 100).toFixed(0);
+        const label = n.replace('Remesa ','').replace('Cambio ','').replace('Envío ','');
+        return `<div class="dash-bar-row">
+          <span class="dash-bar-label" title="${esc(n)}">${esc(label)}</span>
+          <div class="dash-bar-track"><div class="dash-bar-fill" style="width:${pct}%"></div></div>
+          <span class="dash-bar-amount">${d.count}x</span>
+        </div>`;
+      }).join('')
+    : emptyMsg;
 
   renderCalendario();
   renderActividad();
