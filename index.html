@@ -1681,6 +1681,10 @@ async function verificarAcceso(user) {
     const doc = await db.collection('accesos').doc(user.email).get();
     return doc.exists;
   } catch(e) {
+    console.error('verificarAcceso error:', e.code, e.message);
+    if (e.code === 'permission-denied') {
+      showLoginError('⛔ Error de permisos en Firestore. Revisa las reglas de seguridad de tu base de datos.');
+    }
     return false;
   }
 }
