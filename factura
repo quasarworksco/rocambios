@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Factura — DGP Group USA</title>
+  <title>Comprobante — RO Cambios</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon"             href="/favicon.svg" type="image/svg+xml">
   <link rel="shortcut icon"    href="/favicon.svg" type="image/svg+xml">
@@ -18,8 +18,8 @@
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     body { background:#f1f5f9; font-family:'IBM Plex Sans',sans-serif; min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:24px 16px; }
     .pub-card { background:white; max-width:520px; width:100%; border-radius:20px; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,0.12); }
-    .pub-header-factura { background:linear-gradient(135deg,#0f172a,#1e3a5f); padding:28px 32px 24px; position:relative; }
-    .pub-header-recibo  { background:linear-gradient(135deg,#1438cc,#2979ff); padding:28px 32px 24px; position:relative; }
+    .pub-header-factura { background:linear-gradient(135deg,#1B4332,#2D6A4F); padding:28px 32px 24px; position:relative; }
+    .pub-header-recibo  { background:linear-gradient(135deg,#2D6A4F,#40916C); padding:28px 32px 24px; position:relative; }
     .pub-brand { font-size:10px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-bottom:6px; }
     .pub-title { font-family:'Bebas Neue',sans-serif; font-size:36px; color:white; letter-spacing:1px; }
     .pub-docnum { font-family:'Bebas Neue',sans-serif; font-size:13px; color:rgba(255,255,255,0.45); margin-top:4px; letter-spacing:2px; }
@@ -28,8 +28,8 @@
     .pub-badge.pendiente::before { background:#fbbf24; }
     .pub-badge.pagado::before   { background:#34d399; }
     .pub-badge.parcial::before  { background:#fb923c; }
-    .pub-zigzag-dark { height:14px; background:linear-gradient(-45deg,white 7px,transparent 0) 0 0,linear-gradient(45deg,white 7px,transparent 0) 0 0; background-color:#1e3a5f; background-size:14px 14px; background-repeat:repeat-x; }
-    .pub-zigzag-blue { height:14px; background:linear-gradient(-45deg,white 7px,transparent 0) 0 0,linear-gradient(45deg,white 7px,transparent 0) 0 0; background-color:#2979ff; background-size:14px 14px; background-repeat:repeat-x; }
+    .pub-zigzag-dark { height:14px; background:linear-gradient(-45deg,white 7px,transparent 0) 0 0,linear-gradient(45deg,white 7px,transparent 0) 0 0; background-color:#2D6A4F; background-size:14px 14px; background-repeat:repeat-x; }
+    .pub-zigzag-blue { height:14px; background:linear-gradient(-45deg,white 7px,transparent 0) 0 0,linear-gradient(45deg,white 7px,transparent 0) 0 0; background-color:#40916C; background-size:14px 14px; background-repeat:repeat-x; }
     /* ── Vanguard theme ── */
     .vng-header-factura { background:linear-gradient(135deg,#0a0f1e 0%,#1c1500 100%); padding:28px 32px 24px; position:relative; border-bottom:2px solid #d4af37; }
     .vng-header-recibo  { background:linear-gradient(135deg,#b8960c 0%,#d4af37 100%); padding:28px 32px 24px; position:relative; }
@@ -52,10 +52,10 @@
     .pub-meta-value { font-family:'Bebas Neue',sans-serif; font-size:14px; color:#0a0f1e; }
     .pub-client { border-radius:10px; padding:12px 16px; margin-bottom:18px; }
     .pub-client.dark { background:rgba(15,23,42,0.05); border:1px solid rgba(15,23,42,0.1); }
-    .pub-client.blue { background:#eff3ff; border:1px solid rgba(20,56,204,0.12); }
+    .pub-client.blue { background:#D8F3DC; border:1px solid rgba(45,106,79,0.12); }
     .pub-client-label { font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:3px; }
     .pub-client-label.dark { color:#475569; }
-    .pub-client-label.blue { color:#1438cc; }
+    .pub-client-label.blue { color:#2D6A4F; }
     .pub-client-name { font-family:'Bebas Neue',sans-serif; font-size:20px; color:#0a0f1e; }
     .pub-nota { background:#fffbeb; border:1px solid rgba(217,119,6,0.2); border-radius:10px; padding:10px 14px; margin-bottom:18px; font-size:12px; color:#92400e; line-height:1.5; }
     .pub-partial { background:#fff7ed; border:1px solid rgba(251,146,60,0.3); border-radius:10px; padding:12px 16px; margin-bottom:18px; display:flex; justify-content:space-between; }
@@ -73,7 +73,7 @@
     .item-qty  { font-size:10px; color:#94a3b8; margin-top:1px; }
     .pub-total { margin:0 -32px; padding:18px 32px; display:flex; justify-content:space-between; align-items:center; }
     .pub-total.dark { background:#0a0f1e; }
-    .pub-total.blue { background:#1438cc; }
+    .pub-total.blue { background:#2D6A4F; }
     .pub-total-label { font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.55); }
     .pub-total-amount { font-family:'Bebas Neue',sans-serif; font-size:34px; color:white; }
     .pub-footer { padding:16px 32px 24px; text-align:center; }
@@ -81,8 +81,8 @@
     .pub-footer strong { color:#0a0f1e; }
     .pub-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; padding:0 32px 28px; }
     .pub-btn { padding:12px; border-radius:10px; font-family:'IBM Plex Sans',sans-serif; font-size:11px; font-weight:600; letter-spacing:1px; cursor:pointer; transition:all 0.2s; border:1.5px solid; text-align:center; }
-    .pub-btn.print { background:#eff3ff; color:#1438cc; border-color:rgba(20,56,204,0.2); }
-    .pub-btn.print:hover { background:rgba(20,56,204,0.12); }
+    .pub-btn.print { background:#D8F3DC; color:#2D6A4F; border-color:rgba(45,106,79,0.2); }
+    .pub-btn.print:hover { background:rgba(45,106,79,0.12); }
     .pub-btn.wa { background:#dcfce7; color:#15803d; border-color:rgba(5,150,105,0.25); }
     .pub-btn.wa:hover { background:#bbf7d0; }
     .pub-loading { padding:60px 32px; text-align:center; color:#94a3b8; font-size:14px; }
@@ -111,11 +111,11 @@
     .pub-pago-row:last-child { border-bottom:none; }
     .pub-pago-key { font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; color:#94a3b8; flex-shrink:0; }
     .pub-pago-val { font-size:12px; color:#0a0f1e; font-weight:500; word-break:break-all; text-align:right; }
-    .pub-pago-copy { background:none; border:1px solid #e2e8f0; border-radius:6px; padding:3px 8px; font-size:10px; cursor:pointer; color:#1438cc; flex-shrink:0; margin-left:8px; }
+    .pub-pago-copy { background:none; border:1px solid #e2e8f0; border-radius:6px; padding:3px 8px; font-size:10px; cursor:pointer; color:#2D6A4F; flex-shrink:0; margin-left:8px; }
     .helio-section { margin:0 32px 16px; padding-top:8px; }
     .helio-toggle { display:flex; align-items:center; justify-content:space-between; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:11px 14px; cursor:pointer; user-select:none; }
     .helio-toggle-left { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:500; color:#475569; }
-    .helio-toggle-badge { background:#eff3ff; color:#1438cc; font-size:9px; font-weight:700; letter-spacing:1px; padding:2px 8px; border-radius:20px; }
+    .helio-toggle-badge { background:#D8F3DC; color:#2D6A4F; font-size:9px; font-weight:700; letter-spacing:1px; padding:2px 8px; border-radius:20px; }
     .helio-toggle-arrow { font-size:11px; color:#94a3b8; transition:transform 0.2s; }
     .helio-toggle-arrow.open { transform:rotate(180deg); }
     .helio-body { overflow:hidden; max-height:0; transition:max-height 0.3s ease; }
@@ -123,7 +123,7 @@
     @media print { .helio-section { display:none; } }
     /* ── Brief del Proyecto ── */
     .brief-section { margin:0 32px 20px; }
-    .brief-toggle { display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg,#0f172a,#1e3a5f); border-radius:12px; padding:14px 18px; cursor:pointer; user-select:none; }
+    .brief-toggle { display:flex; align-items:center; justify-content:space-between; background:linear-gradient(135deg,#1B4332,#2D6A4F); border-radius:12px; padding:14px 18px; cursor:pointer; user-select:none; }
     .brief-toggle-left { display:flex; align-items:center; gap:10px; }
     .brief-toggle-icon { font-size:22px; }
     .brief-toggle-text strong { display:block; font-size:13px; font-weight:600; color:white; }
@@ -215,19 +215,19 @@
       .pub-actions { display:none; }
       .pub-header-factura, .pub-header-recibo, .pub-total { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     }
-    .pub-pago-copy:hover { background:#eff3ff; }
+    .pub-pago-copy:hover { background:#D8F3DC; }
     .pub-comp-wrap { margin:0 32px 20px; }
     .pub-comp-uploaded { background:#f0fdf4; border:1px solid rgba(5,150,105,0.25); border-radius:12px; padding:14px 18px; text-align:center; }
     .pub-comp-uploaded img { width:100%; border-radius:8px; margin-bottom:10px; display:block; }
     .pub-comp-uploaded p { font-size:12px; color:#059669; font-weight:600; }
     .pub-comp-area { border:2px dashed #e2e8f0; border-radius:12px; padding:24px; text-align:center; cursor:pointer; transition:all 0.2s; }
-    .pub-comp-area:hover { border-color:#1438cc; background:#eff3ff; }
+    .pub-comp-area:hover { border-color:#2D6A4F; background:#D8F3DC; }
     .pub-comp-area input { display:none; }
     .pub-comp-icon { font-size:28px; margin-bottom:8px; }
     .pub-comp-txt { font-size:13px; font-weight:600; color:#475569; }
     .pub-comp-sub { font-size:11px; color:#94a3b8; margin-top:4px; }
     .pub-comp-progress { height:4px; background:#e2e8f0; border-radius:2px; margin-top:12px; overflow:hidden; display:none; }
-    .pub-comp-bar { height:100%; background:#1438cc; border-radius:2px; width:0; transition:width 0.3s; }
+    .pub-comp-bar { height:100%; background:#2D6A4F; border-radius:2px; width:0; transition:width 0.3s; }
     .pub-comp-ok { background:#f0fdf4; border:1px solid rgba(5,150,105,0.2); border-radius:12px; padding:12px; text-align:center; font-size:12px; color:#059669; font-weight:600; display:none; margin-top:10px; }
     /* ── Consolidated mobile styles ── */
     @media (max-width:560px) {
@@ -287,21 +287,18 @@
 </div>
 
 <script>
-  const CLOUDINARY_CLOUD_NAME    = 'dgden7fws';
-  const CLOUDINARY_UPLOAD_PRESET = 'm87e1jog';
-
-  const TG_TOKEN   = '8938228745:AAHXuxCaO6EZlC-vafwTGvUCT6ILHGOnQuk';
-  const TG_CHAT_ID = '8446165096';
+  const CLOUDINARY_CLOUD_NAME    = 'dwdnsyc9x';
+  const CLOUDINARY_UPLOAD_PRESET = 'rocambios';
 
   let _currentDoc = null;
 
   const firebaseConfig = {
-    apiKey:            "AIzaSyAFI1WRnS5VvFKp8sAuYiIsiT_wXdnNMKc",
-    authDomain:        "dgp-group.firebaseapp.com",
-    projectId:         "dgp-group",
-    storageBucket:     "dgp-group.firebasestorage.app",
-    messagingSenderId: "492620738391",
-    appId:             "1:492620738391:web:e497fdfe134e6e781b5812"
+    apiKey:            "AIzaSyCBDR_FQsRfvakqYCKVSFsMdlw1vGjY2UQ",
+    authDomain:        "rocambios-fa3b8.firebaseapp.com",
+    projectId:         "rocambios-fa3b8",
+    storageBucket:     "rocambios-fa3b8.firebasestorage.app",
+    messagingSenderId: "994726269930",
+    appId:             "1:994726269930:web:d42266d59dd7e9d4bbd893"
   };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
@@ -391,18 +388,16 @@
 
     return `
       <div class="pub-terms">
-        <div class="pub-terms-title">Información del Servicio</div>
-        <div class="pub-term-item"><span class="pub-term-num ok">✓</span><span>Trabajo 100% personalizado, entregado en los tiempos acordados con acompañamiento durante todo el proceso.</span></div>
-        <div class="pub-term-item"><span class="pub-term-num ok">✓</span><span>Al completar el pago, ${cliente} recibe licencia de uso permanente sobre todo el material entregado.</span></div>
-        <div class="pub-term-item"><span class="pub-term-num">i</span><span>El trabajo inicia y se entrega según los pagos acordados. Cambios fuera del alcance original se cotizan por separado antes de realizarse.</span></div>
-        <div class="pub-term-item"><span class="pub-term-num">i</span><span>Los pagos realizados no son reembolsables, ya que representan tiempo y recursos comprometidos desde el inicio del proyecto.</span></div>
-        <div class="pub-term-item"><span class="pub-term-num">i</span><span>DGP Group no asume responsabilidad por interrupciones en servicios de terceros como Meta, Google o proveedores de hosting.</span></div>
-        ${terminosEspecificos.join('')}
+        <div class="pub-terms-title">Términos de la Operación</div>
+        <div class="pub-term-item"><span class="pub-term-num ok">✓</span><span>RO Cambios procesa remesas de forma segura y confidencial para ${cliente}.</span></div>
+        <div class="pub-term-item"><span class="pub-term-num ok">✓</span><span>La tasa de cambio aplicada es la vigente al momento de confirmar la operación.</span></div>
+        <div class="pub-term-item"><span class="pub-term-num">i</span><span>La entrega en destino se realiza una vez confirmado el pago en origen. Los tiempos pueden variar según el método de pago.</span></div>
+        <div class="pub-term-item"><span class="pub-term-num">i</span><span>Las operaciones realizadas no son reembolsables una vez que el monto ha sido entregado al beneficiario.</span></div>
+        <div class="pub-term-item"><span class="pub-term-num">i</span><span>RO Cambios no asume responsabilidad por demoras causadas por plataformas de pago externas (Zelle, PayPal, etc.).</span></div>
       </div>
       <div class="pub-terms-contact">
-        <div class="pub-terms-contact-col"><strong>Proveedor</strong>Andrés Espina — DGP Group USA</div>
-        <div class="pub-terms-contact-col"><strong>WhatsApp</strong>+1 (239) 823-1738</div>
-        <div class="pub-terms-contact-col"><strong>Correo</strong>dgpgroup.usa@gmail.com</div>
+        <div class="pub-terms-contact-col"><strong>Proveedor</strong>RO Cambios</div>
+        <div class="pub-terms-contact-col"><strong>Correo</strong>quasarworksco@gmail.com</div>
       </div>
       <div class="pub-terms-accept">Al realizar el pago, ${cliente} acepta los términos descritos anteriormente.</div>`;
   }
@@ -478,10 +473,10 @@
   /* ── Contrato digital ── */
   function renderContrato(doc, fsId, isVanguard) {
     if (!doc.contrato) return '';
-    const brand   = isVanguard ? 'Vanguard Business Solutions LLC' : 'DGP Group USA';
-    const color   = isVanguard ? '#b8960c' : '#1438cc';
-    const bgAccent = isVanguard ? '#fffbeb' : '#eff3ff';
-    const borderAccent = isVanguard ? 'rgba(184,150,12,0.3)' : 'rgba(20,56,204,0.2)';
+    const brand   = 'RO Cambios';
+    const color   = '#2D6A4F';
+    const bgAccent = '#D8F3DC';
+    const borderAccent = 'rgba(45,106,79,0.2)';
 
     if (doc.contratoFirmado) {
       return `
@@ -569,14 +564,14 @@
       <div class="pub-pago">
         <div class="pub-pago-title">Cómo Pagar</div>
         <div class="pub-pago-card">
-          <div class="pub-pago-metodo">${label} · <span style="color:#1438cc">${moneda}${(doc.total||0).toFixed(2)}</span></div>
+          <div class="pub-pago-metodo">${label} · <span style="color:#2D6A4F">${moneda}${(doc.total||0).toFixed(2)}</span></div>
           ${filas}
         </div>
       </div>`;
   }
 
   function renderComprobante(doc, fsId, isVanguard) {
-    const equipoNombre = isVanguard ? 'Vanguard Business Solutions' : 'DGP Group';
+    const equipoNombre = 'RO Cambios';
     if (doc.comprobante_url) {
       return `
         <div class="pub-comp-wrap">
@@ -694,8 +689,8 @@
       const cliente   = doc.cliente  || 'Cliente';
       const numero    = doc.numero   || fsId;
       const total     = doc.total    ? `$${Number(doc.total).toFixed(2)}` : '';
-      const marca     = doc.marca === 'vanguard' ? 'Vanguard Business Solutions' : 'DGP Group';
-      const factUrl   = `https://adv.dgp-link.com/factura-publica.html?id=${fsId}`;
+      const marca     = 'RO Cambios';
+      const factUrl   = `${window.location.origin}/factura?id=${fsId}`;
       const caption   = `💳 *Nuevo comprobante de pago*\n\n👤 *Cliente:* ${cliente}\n🧾 *Factura:* #${numero}${total ? `\n💰 *Monto:* ${total}` : ''}\n🏢 *Empresa:* ${marca}\n\n🔗 [Ver factura](${factUrl})`;
       await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {
         method: 'POST',
@@ -751,9 +746,9 @@
     const notaBlock = (isFactura || isParcial) && doc.nota ? `
       <div class="pub-nota"><strong>Instrucciones de pago:</strong><br>${esc(doc.nota)}</div>` : '';
 
-    const brandName  = isVanguard ? 'VANGUARD BUSINESS SOLUTIONS LLC' : 'DGP GROUP USA · dgp-link.com';
+    const brandName  = 'RO CAMBIOS · rocambios.com';
     const waText = encodeURIComponent(
-      `Hola, aquí está tu ${docTitle.toLowerCase()} de ${isVanguard ? 'Vanguard Business Solutions' : 'DGP Group USA'}:\n${window.location.href}`
+      `Hola, aquí está tu ${docTitle.toLowerCase()} de RO Cambios:\n${window.location.href}`
     );
 
     card.innerHTML = `
@@ -784,24 +779,17 @@
         <span class="pub-total-label">${totalLabel}</span>
         <span class="pub-total-amount">$${(doc.total||0).toFixed(2)}</span>
       </div>
-      ${isVanguard ? `
-      <div class="vng-footer">
-        <p>${isRecibo ? '¡Gracias por su preferencia!' : 'Una vez realizado el pago, recibirás tu recibo de confirmación.'}<br><strong>Vanguard Business Solutions LLC — Servicios Digitales Profesionales</strong></p>
-      </div>` : `
       <div class="pub-footer">
-        <p>${isRecibo ? '¡Gracias por su preferencia!' : 'Una vez realizado el pago, recibirás tu recibo de confirmación.'}<br><strong>DGP Group USA — Servicios Digitales Profesionales</strong></p>
-      </div>`}
-      ${!isRecibo ? renderContrato(doc, doc._fsId, isVanguard) : ''}
+        <p>${isRecibo ? '¡Gracias por su preferencia!' : 'Una vez realizado el pago, recibirás tu recibo de confirmación.'}<br><strong>RO Cambios — Servicio de Remesas USA · Venezuela</strong></p>
+      </div>
+      ${!isRecibo ? renderContrato(doc, doc._fsId) : ''}
       ${!isRecibo && (!doc.contrato || doc.contratoFirmado) ? renderPago(doc) : ''}
-      ${!isRecibo && (!doc.contrato || doc.contratoFirmado) ? renderComprobante(doc, doc._fsId, isVanguard) : ''}
-      ${!isRecibo && (!doc.contrato || doc.contratoFirmado) ? renderHelio(doc) : ''}
-      ${renderBrief(doc, doc._fsId, isVanguard)}
+      ${!isRecibo && (!doc.contrato || doc.contratoFirmado) ? renderComprobante(doc, doc._fsId) : ''}
       <div class="pub-actions">
         <button class="pub-btn print" onclick="window.print()" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</button>
         <button class="pub-btn wa" onclick="window.open('https://wa.me/?text=${waText}','_blank')" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Compartir</button>
       </div>
-      ${isVanguard ? renderTerminosVanguard(doc) : renderTerminos(doc)}
-      ${renderUpsell(doc, isVanguard)}`;
+      ${renderTerminos(doc)}`;
 
     if (!isRecibo) {
       _helioAmount = doc.pagadoParcial
