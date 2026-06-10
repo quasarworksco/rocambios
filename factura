@@ -654,18 +654,18 @@
     } else if (tipo === 'usdt') {
       fields = `
         <div class="pub-entrega-field">
-          <label class="pub-entrega-label">Dirección wallet USDT (TRC20) <span style="color:#ef4444">*</span></label>
-          <input class="pub-entrega-input" id="ent-wallet" type="text" placeholder="T...">
+          <label class="pub-entrega-label">Correo o teléfono de Binance <span style="color:#ef4444">*</span></label>
+          <input class="pub-entrega-input" id="ent-binance-cuenta" type="text" placeholder="correo@email.com o +58 414-0000000">
         </div>
         <div class="pub-entrega-field">
-          <label class="pub-entrega-label">Nombre del titular</label>
-          <input class="pub-entrega-input" id="ent-nombre" type="text" placeholder="Nombre y apellido">
+          <label class="pub-entrega-label">Binance Pay ID (opcional)</label>
+          <input class="pub-entrega-input" id="ent-binance-id" type="text" placeholder="Ej: 123456789">
         </div>`;
     }
 
-    const titulo = tipo === 'fisico' ? 'Datos de quien retira el efectivo'
+    const titulo = tipo === 'fisico'    ? 'Datos de quien retira el efectivo'
                  : tipo === 'bolivares' ? 'Datos para Pago Móvil'
-                 : 'Datos de wallet USDT';
+                 : 'Datos de Binance para recibir USDT';
 
     return `<div class="pub-entrega-wrap">
       <div class="pub-entrega-box">
@@ -697,8 +697,8 @@
       if (!nombre || !cedula || !banco || !tel) ok = false;
       info = { 'Nombre': nombre, 'Cédula': cedula, 'Banco': banco, 'Teléfono': tel };
     } else if (tipo === 'usdt') {
-      const wallet = get('ent-wallet'); if (!wallet) ok = false;
-      info = { 'Wallet USDT': wallet, 'Nombre': get('ent-nombre') };
+      const cuenta = get('ent-binance-cuenta'); if (!cuenta) ok = false;
+      info = { 'Binance (correo/tel)': cuenta, 'Binance Pay ID': get('ent-binance-id') };
     }
 
     if (!ok) { err.style.display = 'block'; err.textContent = 'Por favor completa los campos obligatorios.'; return; }
