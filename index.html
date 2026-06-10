@@ -82,7 +82,7 @@
     /*  SPLASH SCREEN  */
     #splash-screen {
       position: fixed; inset: 0;
-      background: #0D2B1E;
+      background: #ffffff;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       z-index: 99999;
       transition: opacity 0.5s ease, visibility 0.5s ease;
@@ -90,18 +90,18 @@
     #splash-screen.hidden { opacity: 0; visibility: hidden; }
     .splash-logo-text {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 42px; letter-spacing: 8px; color: #fff;
+      font-size: 42px; letter-spacing: 8px; color: var(--blue, #2D6A4F);
       animation: splashFadeUp 0.7s ease both;
     }
-    .splash-logo-text span { color: #52B788; }
+    .splash-logo-text span { color: #40916C; }
     .splash-logo-sub {
-      font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 4px;
+      font-size: 10px; color: #52796F; letter-spacing: 4px;
       text-transform: uppercase; margin-top: 4px;
       animation: splashFadeUp 0.7s 0.1s ease both;
     }
     .splash-bar-wrap {
       width: 160px; height: 2px;
-      background: rgba(255,255,255,0.08);
+      background: #e0e8e3;
       border-radius: 2px; margin-top: 32px;
       overflow: hidden;
       animation: splashFadeUp 0.7s 0.2s ease both;
