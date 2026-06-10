@@ -3761,7 +3761,7 @@ function toggleContrato() {
   btn.style.background   = active ? 'var(--off)'    : '#f0fdf4';
 }
 function copiarLinkFactura(fsId) {
-  const url = `https://adv.rocambios.com/factura-publica.html?id=${fsId}`;
+  const url = `https://rocambios.dgp-link.com/factura.html?id=${fsId}`;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(url).then(() => toast('Link copiado al portapapeles '));
   } else {
