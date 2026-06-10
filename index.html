@@ -3912,6 +3912,198 @@ function copiarLinkFactura(fsId) {
   }
 }
 
+/* ══════════════════════════════════════════
+   MÉTRICAS
+══════════════════════════════════════════ */
+function renderMetricas() {
+  const periodo = document.getElementById('metricas-periodo')?.value || 'semana';
+  const hoy = new Date();
+  let desde;
+  if (periodo === 'semana') {
+    desde = new Date(hoy); desde.setDate(hoy.getDate() - 7);
+  } else if (periodo === 'mes') {
+    desde = new Date(hoy); desde.setDate(1);
+  } else {
+    desde = new Date('2000-01-01');
+  }
+  const desdeISO = desde.toISOString().slice(0,10);
+
+  const datos = DATOS.filter(f => {
+    const fd = f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
+    return fd >= desdeISO;
+  });
+
+  const docs = Object.values(docsMap).filter(d => {
+    const fd = d.fecha && d.fecha.toDate ? d.fecha.toDate().toISOString().slice(0,10) : (d.fecha||'').slice(0,10);
+    return fd >= desdeISO;
+  });
+
+  const total = datos.reduce((a,f) => a + (parseFloat(f.monto)||0), 0);
+  const opCount = datos.length;
+  const promedio = opCount > 0 ? total / opCount : 0;
+  const pendientes = docs.filter(d => d.type === 'factura' && !d.pagado).length;
+
+  // KPI cards
+  const kpiEl = document.getElementById('metricas-kpis');
+  if (kpiEl) {
+    const kpi = (label, val, sub, color) => `
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:16px 18px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">${label}</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:30px;color:${color};letter-spacing:0.5px;line-height:1;">${val}</div>
+        <div style="font-size:10px;color:#6b7280;margin-top:4px;">${sub}</div>
+      </div>`;
+    kpiEl.innerHTML =
+      kpi('Total procesado', `$${total.toLocaleString('en-US', {minimumFractionDigits:0, maximumFractionDigits:0})}`, `${opCount} operaciones`, '#0a0a0a') +
+      kpi('Promedio por op.', `$${promedio.toFixed(0)}`, 'por operación', '#2D6A4F') +
+      kpi('Docs pendientes', pendientes, 'sin cobrar', '#b45309') +
+      kpi('Operaciones', opCount, 'en el período', '#1d4ed8');
+  }
+
+  // Desglose por servicio
+  const srvMap = {};
+  datos.forEach(f => {
+    const srv = f.servicio || 'Otro';
+    if (!srvMap[srv]) srvMap[srv] = { count: 0, total: 0 };
+    srvMap[srv].count++;
+    srvMap[srv].total += parseFloat(f.monto) || 0;
+  });
+  const srvEl = document.getElementById('metricas-servicios');
+  if (srvEl) {
+    const entries = Object.entries(srvMap).sort((a,b) => b[1].total - a[1].total);
+    if (!entries.length) {
+      srvEl.innerHTML = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:20px;">Sin datos</div>';
+    } else {
+      const maxTotal = entries[0][1].total;
+      srvEl.innerHTML = entries.map(([srv, d]) => `
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:12px;font-weight:600;color:var(--black);">${srv}</span>
+            <span style="font-size:12px;font-weight:700;color:var(--black);">$${d.total.toFixed(0)} <span style="font-size:10px;color:#6b7280;font-weight:400;">(${d.count} op.)</span></span>
+          </div>
+          <div style="height:6px;background:#f1f5f9;border-radius:3px;overflow:hidden;">
+            <div style="height:100%;width:${maxTotal > 0 ? (d.total/maxTotal*100).toFixed(1) : 0}%;background:var(--blue);border-radius:3px;transition:width 0.5s;"></div>
+          </div>
+        </div>`).join('');
+    }
+  }
+
+  // Por empleado
+  const empMap = {};
+  datos.forEach(f => {
+    const emp = f.empleado || 'Sin asignar';
+    if (!empMap[emp]) empMap[emp] = { count: 0, total: 0 };
+    empMap[emp].count++;
+    empMap[emp].total += parseFloat(f.monto) || 0;
+  });
+  const empEl = document.getElementById('metricas-empleados');
+  if (empEl) {
+    const entries = Object.entries(empMap).sort((a,b) => b[1].total - a[1].total);
+    if (!entries.length) {
+      empEl.innerHTML = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:20px;">Sin datos</div>';
+    } else {
+      empEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">` +
+        entries.map(([emp, d]) => `
+          <div style="background:var(--bg-alt);border:1.5px solid var(--border);border-radius:12px;padding:14px 16px;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--black);">$${d.total.toFixed(0)}</div>
+            <div style="font-size:11px;font-weight:600;color:var(--black);margin-top:2px;">${emp}</div>
+            <div style="font-size:10px;color:#6b7280;">${d.count} operación${d.count!==1?'es':''}</div>
+          </div>`).join('') +
+        `</div>`;
+    }
+  }
+
+  // Tabla de operaciones
+  const tablaEl = document.getElementById('metricas-tabla');
+  if (tablaEl) {
+    if (!datos.length) {
+      tablaEl.innerHTML = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:20px;">Sin operaciones en este período</div>';
+    } else {
+      const rows = datos.slice().reverse().slice(0, 50).map(f => {
+        const fd = f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
+        return `<tr>
+          <td style="padding:8px 10px;font-size:12px;color:#6b7280;white-space:nowrap;">${fd}</td>
+          <td style="padding:8px 10px;font-size:12px;font-weight:600;color:var(--black);">${f.empleado||'—'}</td>
+          <td style="padding:8px 10px;font-size:12px;color:var(--black);">${f.cliente||'—'}</td>
+          <td style="padding:8px 10px;font-size:11px;color:var(--blue-light);">${f.servicio||'—'}</td>
+          <td style="padding:8px 10px;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--black);text-align:right;">$${(parseFloat(f.monto)||0).toFixed(0)}</td>
+        </tr>`;
+      }).join('');
+      tablaEl.innerHTML = `<table style="width:100%;border-collapse:collapse;">
+        <thead><tr style="border-bottom:2px solid var(--border);">
+          <th style="padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;text-align:left;">Fecha</th>
+          <th style="padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;text-align:left;">Empleado</th>
+          <th style="padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;text-align:left;">Cliente</th>
+          <th style="padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;text-align:left;">Servicio</th>
+          <th style="padding:6px 10px;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;text-align:right;">Monto</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+    }
+  }
+
+  // Historial de tasas de hoy (from Firestore)
+  const tasasHistEl = document.getElementById('metricas-tasas-hist');
+  if (tasasHistEl) {
+    tasasHistEl.innerHTML = '<div style="color:#6b7280;font-size:11px;">Cargando...</div>';
+    db.collection('tasas_historial')
+      .where('fecha', '==', todayISO())
+      .orderBy('timestamp', 'desc')
+      .limit(20)
+      .get()
+      .then(snap => {
+        if (snap.empty) {
+          tasasHistEl.innerHTML = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:20px;">Sin registros de tasas hoy.<br><small>Se guardan al presionar ↻ Actualizar</small></div>';
+          return;
+        }
+        const rows = snap.docs.map(d => {
+          const data = d.data();
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);">
+            <span style="font-size:11px;color:#6b7280;">${data.hora||''}</span>
+            <span style="font-size:11px;">BCV <strong>${data.bcv?.toFixed(2)||'—'}</strong></span>
+            <span style="font-size:11px;">Par <strong>${data.paralelo?.toFixed(2)||'—'}</strong></span>
+            <span style="font-size:11px;">USDT <strong>${data.usdt?.toFixed(2)||'—'}</strong></span>
+          </div>`;
+        }).join('');
+        tasasHistEl.innerHTML = rows;
+      })
+      .catch(() => {
+        tasasHistEl.innerHTML = '<div style="color:#6b7280;font-size:12px;">Error al cargar historial de tasas.</div>';
+      });
+  }
+}
+
+function exportCSV() {
+  const periodo = document.getElementById('metricas-periodo')?.value || 'todo';
+  const hoy = new Date();
+  let desde;
+  if (periodo === 'semana') { desde = new Date(hoy); desde.setDate(hoy.getDate() - 7); }
+  else if (periodo === 'mes') { desde = new Date(hoy); desde.setDate(1); }
+  else { desde = new Date('2000-01-01'); }
+  const desdeISO = desde.toISOString().slice(0,10);
+
+  const datos = DATOS.filter(f => {
+    const fd = f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
+    return fd >= desdeISO;
+  });
+
+  if (!datos.length) { toast('No hay datos para exportar.', 'err'); return; }
+
+  const header = ['Fecha','Empleado','Cliente','Servicio','Monto','Nota'];
+  const rows = datos.map(f => {
+    const fd = f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'');
+    return [fd, f.empleado||'', f.cliente||'', f.servicio||'', f.monto||'', f.nota||'']
+      .map(v => `"${String(v).replace(/"/g,'""')}"`).join(',');
+  });
+
+  const csv = [header.join(','), ...rows].join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `rocambios_${periodo}_${todayISO()}.csv`;
+  a.click(); URL.revokeObjectURL(url);
+  toast('CSV exportado correctamente');
+}
+
 </script>
 
 <datalist id="clientes-list"></datalist>
