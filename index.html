@@ -1477,7 +1477,7 @@
     <!-- Weekly close alert -->
     <div id="caja-semana-alert" style="display:none;background:linear-gradient(135deg,#1B4332,#2D6A4F);color:white;border-radius:14px;padding:16px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;gap:12px;">
       <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;">📊 CIERRE DE SEMANA DISPONIBLE</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;">CIERRE DE SEMANA DISPONIBLE</div>
         <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">Esta semana ya terminó. Puedes ver el resumen completo.</div>
       </div>
       <button onclick="verCierreSemana()" style="background:white;color:#1B4332;border:none;border-radius:10px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;">Ver cierre</button>
@@ -1506,7 +1506,7 @@
 
     <!-- Weekly close modal trigger area -->
     <div id="caja-cierre-semana" style="display:none;margin-top:20px;background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">📊 Cierre de Semana</div>
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Cierre de Semana</div>
       <div id="caja-semana-content"></div>
     </div>
   </div>
@@ -2984,7 +2984,7 @@ async function marcarPagado(fsId) {
     // Auto-sync to Panel de Ventas
     try {
       const items = doc.items || [];
-      const srv = items[0]?.desc || doc.servicio || 'Remesa';
+      const srv = items[0]?.s || items[0]?.desc || doc.servicio || 'Remesa';
       await db.collection('ventas').add({
         empleado:     doc.empleado || '—',
         cliente:      doc.cli || doc.cliente || '',
@@ -4365,14 +4365,18 @@ function renderMetricas() {
 ══════════════════════════════════════════ */
 function renderCaja() {
   const hoy = todayISO();
-  const getFecha = f => {
-    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
-    const raw = String(f.fecha || '');
-    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    return m ? `${m[3]}-${m[2]}-${m[1]}` : raw.slice(0,10);
+  const parseFecha = raw => {
+    if (!raw) return '';
+    if (raw.toDate) return raw.toDate().toISOString().slice(0,10);
+    const s = String(raw);
+    const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : s.slice(0,10);
   };
+  // Para pagados usamos fechaPago si existe, sino fecha de creación
+  const getFechaPago = d => parseFecha(d.fechaPago) || parseFecha(d.fecha);
+  const getFecha     = d => parseFecha(d.fecha);
 
-  const docsHoy = Object.values(docsMap).filter(d => getFecha(d) === hoy && (d.pagado || d.type === 'recibo'));
+  const docsHoy  = Object.values(docsMap).filter(d => (d.pagado || d.type === 'recibo') && getFechaPago(d) === hoy);
   const todosHoy = Object.values(docsMap).filter(d => getFecha(d) === hoy);
 
   const totalHoy = docsHoy.reduce((a,d) => a + (parseFloat(d.total)||0), 0);
@@ -4465,12 +4469,14 @@ function verCierreSemana() {
   container.style.display = 'block';
   container.scrollIntoView({ behavior: 'smooth' });
 
-  const getFecha = f => {
-    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
-    const raw = String(f.fecha || '');
-    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    return m ? `${m[3]}-${m[2]}-${m[1]}` : raw.slice(0,10);
+  const parseFecha = raw => {
+    if (!raw) return '';
+    if (raw.toDate) return raw.toDate().toISOString().slice(0,10);
+    const s = String(raw);
+    const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : s.slice(0,10);
   };
+  const getFechaPago = d => parseFecha(d.fechaPago) || parseFecha(d.fecha);
 
   const hoy = new Date();
   const dow = hoy.getDay();
@@ -4480,14 +4486,14 @@ function verCierreSemana() {
   const hastaISO = lastSun.toISOString().slice(0,10);
 
   const docs = Object.values(docsMap).filter(d => {
-    const f = getFecha(d);
+    const f = getFechaPago(d);
     return f >= desdeISO && f <= hastaISO && (d.pagado || d.type === 'recibo');
   });
 
   const total = docs.reduce((a,d)=>a+(parseFloat(d.total)||0),0);
   const byDay = {};
   docs.forEach(d => {
-    const f = getFecha(d);
+    const f = getFechaPago(d);
     if (!byDay[f]) byDay[f] = 0;
     byDay[f] += parseFloat(d.total)||0;
   });
