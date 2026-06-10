@@ -828,48 +828,49 @@
     }
   }
 
+  async function tgSend(payload) {
+    const method = payload.photo ? 'sendPhoto' : 'sendMessage';
+    const res = await fetch(`https://api.telegram.org/bot${TG_TOKEN}/${method}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT_ID, parse_mode: 'Markdown', ...payload })
+    });
+    const json = await res.json();
+    if (!json.ok) console.error('Telegram error:', json);
+    return json;
+  }
+
   async function notificarTelegram(fsId, imageUrl) {
     try {
-      const doc     = _currentDoc || {};
-      const cliente = doc.cli || doc.cliente || 'Cliente';
-      const numero  = doc.docId || fsId;
-      const total   = doc.total ? `$${Number(doc.total).toFixed(2)}` : '';
+      const doc      = _currentDoc || {};
+      const cliente  = doc.cli || doc.cliente || 'Cliente';
+      const numero   = doc.docId || fsId;
+      const total    = doc.total ? `$${Number(doc.total).toFixed(2)}` : '';
       const servicio = (doc.items || [])[0]?.s || '';
-      const factUrl = `https://rocambios.dgp-link.com/factura.html?id=${fsId}`;
-
+      const factUrl  = `https://rocambios.dgp-link.com/factura.html?id=${fsId}`;
       let entregaTexto = '';
       if (doc.entregaInfo) {
-        const lineas = Object.entries(doc.entregaInfo).filter(([,v])=>v).map(([k,v]) => `   • ${k}: ${v}`).join('\n');
+        const lineas = Object.entries(doc.entregaInfo).filter(([,v])=>v).map(([k,v])=>`   • ${k}: ${v}`).join('\n');
         entregaTexto = `\n\n📦 *Datos de entrega:*\n${lineas}`;
       }
-
-      const caption = `💳 *Nuevo comprobante de pago*\n\n👤 *Cliente:* ${cliente}\n🧾 *Doc:* ${numero}${total ? `\n💰 *Monto:* ${total}` : ''}${servicio ? `\n🔄 *Servicio:* ${servicio}` : ''}${entregaTexto}\n\n🔗 [Ver factura](${factUrl})`;
-      await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: TG_CHAT_ID, photo: imageUrl, caption, parse_mode: 'Markdown' })
-      });
-    } catch(_) { /* notificación silenciosa */ }
+      const caption = `💳 *Nuevo comprobante de pago*\n\n👤 *Cliente:* ${cliente}\n🧾 *Doc:* ${numero}${total?`\n💰 *Monto:* ${total}`:''}${servicio?`\n🔄 *Servicio:* ${servicio}`:''}${entregaTexto}\n\n🔗 [Ver factura](${factUrl})`;
+      await tgSend({ photo: imageUrl, caption });
+    } catch(e) { console.error('notificarTelegram error:', e); }
   }
 
   async function notificarEntregaTelegram(fsId, tipo, info) {
     try {
-      const doc     = _currentDoc || {};
-      const cliente = doc.cli || doc.cliente || 'Cliente';
-      const numero  = doc.docId || fsId;
-      const total   = doc.total ? `$${Number(doc.total).toFixed(2)}` : '';
+      const doc      = _currentDoc || {};
+      const cliente  = doc.cli || doc.cliente || 'Cliente';
+      const numero   = doc.docId || fsId;
+      const total    = doc.total ? `$${Number(doc.total).toFixed(2)}` : '';
       const servicio = (doc.items || [])[0]?.s || '';
-      const factUrl = `https://rocambios.dgp-link.com/factura.html?id=${fsId}`;
-
+      const factUrl  = `https://rocambios.dgp-link.com/factura.html?id=${fsId}`;
       const tipoLabel = tipo === 'fisico' ? 'Efectivo (Físico)' : tipo === 'bolivares' ? 'Pago Móvil (Bs)' : 'USDT / Binance';
-      const lineas = Object.entries(info).filter(([,v])=>v).map(([k,v]) => `   • ${k}: ${v}`).join('\n');
-      const text = `📦 *Datos de entrega registrados*\n\n👤 *Cliente:* ${cliente}\n🧾 *Doc:* ${numero}${total ? `\n💰 *Monto:* ${total}` : ''}${servicio ? `\n🔄 *Servicio:* ${servicio}` : ''}\n📬 *Método entrega:* ${tipoLabel}\n\n${lineas}\n\n🔗 [Ver factura](${factUrl})`;
-      await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: TG_CHAT_ID, text, parse_mode: 'Markdown' })
-      });
-    } catch(_) { /* silencioso */ }
+      const lineas = Object.entries(info).filter(([,v])=>v).map(([k,v])=>`   • ${k}: ${v}`).join('\n');
+      const text = `📦 *Datos de entrega registrados*\n\n👤 *Cliente:* ${cliente}\n🧾 *Doc:* ${numero}${total?`\n💰 *Monto:* ${total}`:''}${servicio?`\n🔄 *Servicio:* ${servicio}`:''}\n📬 *Método:* ${tipoLabel}\n\n${lineas}\n\n🔗 [Ver factura](${factUrl})`;
+      await tgSend({ text });
+    } catch(e) { console.error('notificarEntregaTelegram error:', e); }
   }
 
   function copiarTexto(txt, btn) {
