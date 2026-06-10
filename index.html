@@ -2027,15 +2027,41 @@ function renderResumenDiario() {
   if (!el) return;
   const hoy = todayISO();
 
-  const ventasHoy = DATOS.filter(f => {
-    const fd = f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
-    return fd === hoy;
-  });
+  const getFecha = f => f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
 
-  const totalHoy    = ventasHoy.reduce((a,f) => a + (parseFloat(f.monto)||0), 0);
-  const opHoy       = ventasHoy.length;
-  const fisico      = ventasHoy.filter(f => (f.servicio||'').includes('Físico') || (f.servicio||'').includes('fisico')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
-  const bolivares   = ventasHoy.filter(f => (f.servicio||'').includes('Bolívar') || (f.servicio||'').includes('Bolivar')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
+  // Facturas/recibos de hoy (fuente principal)
+  const docsHoy = Object.values(docsMap).filter(d => getFecha(d) === hoy);
+
+  // Monto total: suma de totales de documentos pagados o recibos de hoy
+  const docsFacturadosHoy = docsHoy.filter(d => d.pagado || d.type === 'recibo');
+  const totalHoy  = docsFacturadosHoy.reduce((a,d) => {
+    const t = parseFloat(d.total) || (d.items||[]).reduce((s,i)=>s+(parseFloat(i.price||0)*parseInt(i.qty||1)),0) || 0;
+    return a + t;
+  }, 0);
+  const opHoy = docsFacturadosHoy.length;
+
+  // Desglose por tipo de servicio (primer ítem del documento)
+  const srvOf = d => (d.items?.[0]?.desc || d.servicio || '').toLowerCase();
+  const fisico    = docsFacturadosHoy.filter(d => srvOf(d).includes('físico') || srvOf(d).includes('fisico')).reduce((a,d)=>{
+    const t = parseFloat(d.total)||(d.items||[]).reduce((s,i)=>s+(parseFloat(i.price||0)*parseInt(i.qty||1)),0)||0;
+    return a+t;
+  },0);
+  const bolivares = docsFacturadosHoy.filter(d => srvOf(d).includes('bolívar') || srvOf(d).includes('bolivar')).reduce((a,d)=>{
+    const t = parseFloat(d.total)||(d.items||[]).reduce((s,i)=>s+(parseFloat(i.price||0)*parseInt(i.qty||1)),0)||0;
+    return a+t;
+  },0);
+
+  // También sumar ventas del panel si existen
+  const ventasHoy = DATOS.filter(f => getFecha(f) === hoy);
+  const totalVentas  = ventasHoy.reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
+  const opVentas     = ventasHoy.length;
+  const fisicoV      = ventasHoy.filter(f=>(f.servicio||'').toLowerCase().includes('físico')||(f.servicio||'').toLowerCase().includes('fisico')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
+  const bolivaresV   = ventasHoy.filter(f=>(f.servicio||'').toLowerCase().includes('bolívar')||(f.servicio||'').toLowerCase().includes('bolivar')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
+
+  const totalFinal   = totalHoy + totalVentas;
+  const opFinal      = opHoy + opVentas;
+  const fisicoFinal  = fisico + fisicoV;
+  const bolivaresFinal = bolivares + bolivaresV;
 
   const porEntregar = Object.values(docsMap).filter(d => (d.pagado || d.type==='recibo') && !d.entregado).length;
 
@@ -2055,10 +2081,10 @@ function renderResumenDiario() {
   };
 
   el.innerHTML =
-    card('Procesado hoy', `$${totalHoy.toFixed(0)}`, `${opHoy} operación${opHoy!==1?'es':''}`, 'green') +
+    card('Procesado hoy', `$${totalFinal.toFixed(0)}`, `${opFinal} operación${opFinal!==1?'es':''}`, 'green') +
     card('Por entregar', porEntregar, porEntregar===0?'✓ Al día':'pendientes de entrega', 'amber') +
-    card('Zelle → Físico', `$${fisico.toFixed(0)}`, 'efectivo hoy', 'slate') +
-    card('Zelle → Bs', `$${bolivares.toFixed(0)}`, 'bolívares hoy', 'teal');
+    card('Zelle → Físico', `$${fisicoFinal.toFixed(0)}`, 'efectivo hoy', 'slate') +
+    card('Zelle → Bs', `$${bolivaresFinal.toFixed(0)}`, 'bolívares hoy', 'teal');
 }
 
 function render() {
