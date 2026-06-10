@@ -216,6 +216,22 @@
       .pub-header-factura, .pub-header-recibo, .pub-total { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
     }
     .pub-pago-copy:hover { background:#D8F3DC; }
+    /* ── Entrega form ── */
+    .pub-entrega-wrap { margin:0 32px 20px; }
+    .pub-entrega-box { background:linear-gradient(135deg,#f0faf4,#e8f5ee); border:1.5px solid #b7e4c7; border-radius:14px; padding:18px 20px; }
+    .pub-entrega-title { font-size:9px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#2D6A4F; margin-bottom:14px; display:flex; align-items:center; gap:7px; }
+    .pub-entrega-field { margin-bottom:12px; }
+    .pub-entrega-field:last-child { margin-bottom:0; }
+    .pub-entrega-label { font-size:10px; font-weight:700; color:#475569; letter-spacing:0.5px; margin-bottom:5px; display:block; }
+    .pub-entrega-input { width:100%; padding:10px 12px; border:1.5px solid #d1fae5; border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:500; color:#0a0f1e; background:white; outline:none; box-sizing:border-box; transition:border-color 0.2s; }
+    .pub-entrega-input:focus { border-color:#2D6A4F; }
+    .pub-entrega-select { width:100%; padding:10px 12px; border:1.5px solid #d1fae5; border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:13px; font-weight:500; color:#0a0f1e; background:white; outline:none; box-sizing:border-box; }
+    .pub-entrega-btn { width:100%; padding:12px; background:#2D6A4F; color:white; border:none; border-radius:10px; font-family:'IBM Plex Sans',sans-serif; font-size:12px; font-weight:700; cursor:pointer; letter-spacing:0.5px; transition:background 0.2s; margin-top:14px; display:flex; align-items:center; justify-content:center; gap:7px; }
+    .pub-entrega-btn:hover { background:#40916C; }
+    .pub-entrega-saved { background:#f0fdf4; border:1.5px solid #6ee7b7; border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:12px; }
+    .pub-entrega-saved-icon { color:#059669; flex-shrink:0; }
+    .pub-entrega-saved-text { font-size:12px; font-weight:600; color:#059669; }
+    .pub-entrega-saved-sub { font-size:11px; color:#64748b; font-weight:400; margin-top:2px; }
     .pub-comp-wrap { margin:0 32px 20px; }
     .pub-comp-uploaded { background:#f0fdf4; border:1px solid rgba(5,150,105,0.25); border-radius:12px; padding:14px 18px; text-align:center; }
     .pub-comp-uploaded img { width:100%; border-radius:8px; margin-bottom:10px; display:block; }
@@ -570,6 +586,131 @@
       </div>`;
   }
 
+  /* ── Datos de entrega ── */
+  function detectTipoEntrega(doc) {
+    const srv = ((doc.items || [])[0]?.s || '').toLowerCase();
+    if (srv.includes('físico') || srv.includes('fisico') || srv.includes('efectivo')) return 'fisico';
+    if (srv.includes('bolívar') || srv.includes('bolivar') || srv.includes('pago móvil') || srv.includes('bs')) return 'bolivares';
+    if (srv.includes('usdt')) return 'usdt';
+    return null;
+  }
+
+  const BANCOS_VEN = ['Banco de Venezuela','Banesco','Mercantil','BBVA Provincial','BNC','Bicentenario','Banplus','Activo','Bangente','Plaza','Del Sur','Fondo Común','Venezolano de Crédito','Otro'];
+
+  function renderEntregaForm(doc, fsId) {
+    const tipo = detectTipoEntrega(doc);
+    if (!tipo) return '';
+
+    if (doc.entregaGuardada) {
+      const info = doc.entregaInfo || {};
+      const lines = Object.entries(info).filter(([,v])=>v).map(([k,v]) => `<div style="font-size:11px;color:#475569;margin-top:2px;"><span style="font-weight:700;color:#374151;">${k}:</span> ${esc(v)}</div>`).join('');
+      return `<div class="pub-entrega-wrap">
+        <div class="pub-entrega-saved">
+          <svg class="pub-entrega-saved-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          <div>
+            <div class="pub-entrega-saved-text">Datos de entrega registrados</div>
+            ${lines}
+          </div>
+        </div>
+      </div>`;
+    }
+
+    let fields = '';
+    if (tipo === 'fisico') {
+      fields = `
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Nombre completo de quien retira <span style="color:#ef4444">*</span></label>
+          <input class="pub-entrega-input" id="ent-nombre" type="text" placeholder="Nombre y apellido">
+        </div>
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Cédula de identidad</label>
+          <input class="pub-entrega-input" id="ent-cedula" type="text" placeholder="V-12345678">
+        </div>
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Teléfono de contacto</label>
+          <input class="pub-entrega-input" id="ent-tel" type="tel" placeholder="+58 414-0000000">
+        </div>`;
+    } else if (tipo === 'bolivares') {
+      fields = `
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Nombre del titular de la cuenta <span style="color:#ef4444">*</span></label>
+          <input class="pub-entrega-input" id="ent-nombre" type="text" placeholder="Nombre y apellido">
+        </div>
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Cédula / RIF <span style="color:#ef4444">*</span></label>
+          <input class="pub-entrega-input" id="ent-cedula" type="text" placeholder="V-12345678">
+        </div>
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Banco <span style="color:#ef4444">*</span></label>
+          <select class="pub-entrega-select" id="ent-banco">
+            <option value="">Seleccionar banco...</option>
+            ${BANCOS_VEN.map(b=>`<option>${b}</option>`).join('')}
+          </select>
+        </div>
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Teléfono Pago Móvil <span style="color:#ef4444">*</span></label>
+          <input class="pub-entrega-input" id="ent-tel" type="tel" placeholder="0414-0000000">
+        </div>`;
+    } else if (tipo === 'usdt') {
+      fields = `
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Dirección wallet USDT (TRC20) <span style="color:#ef4444">*</span></label>
+          <input class="pub-entrega-input" id="ent-wallet" type="text" placeholder="T...">
+        </div>
+        <div class="pub-entrega-field">
+          <label class="pub-entrega-label">Nombre del titular</label>
+          <input class="pub-entrega-input" id="ent-nombre" type="text" placeholder="Nombre y apellido">
+        </div>`;
+    }
+
+    const titulo = tipo === 'fisico' ? 'Datos de quien retira el efectivo'
+                 : tipo === 'bolivares' ? 'Datos para Pago Móvil'
+                 : 'Datos de wallet USDT';
+
+    return `<div class="pub-entrega-wrap">
+      <div class="pub-entrega-box">
+        <div class="pub-entrega-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          ${titulo}
+        </div>
+        ${fields}
+        <button class="pub-entrega-btn" onclick="guardarEntrega('${fsId}','${tipo}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirmar datos de entrega
+        </button>
+        <div id="ent-err" style="display:none;color:#ef4444;font-size:11px;text-align:center;margin-top:8px;"></div>
+      </div>
+    </div>`;
+  }
+
+  async function guardarEntrega(fsId, tipo) {
+    const err = document.getElementById('ent-err');
+    err.style.display = 'none';
+    const get = id => document.getElementById(id)?.value?.trim() || '';
+    let info = {}, ok = true;
+
+    if (tipo === 'fisico') {
+      const nombre = get('ent-nombre'); if (!nombre) { ok = false; }
+      info = { 'Nombre': nombre, 'Cédula': get('ent-cedula'), 'Teléfono': get('ent-tel') };
+    } else if (tipo === 'bolivares') {
+      const nombre = get('ent-nombre'), cedula = get('ent-cedula'), banco = get('ent-banco'), tel = get('ent-tel');
+      if (!nombre || !cedula || !banco || !tel) ok = false;
+      info = { 'Nombre': nombre, 'Cédula': cedula, 'Banco': banco, 'Teléfono': tel };
+    } else if (tipo === 'usdt') {
+      const wallet = get('ent-wallet'); if (!wallet) ok = false;
+      info = { 'Wallet USDT': wallet, 'Nombre': get('ent-nombre') };
+    }
+
+    if (!ok) { err.style.display = 'block'; err.textContent = 'Por favor completa los campos obligatorios.'; return; }
+
+    try {
+      await db.collection('documentos').doc(fsId).update({ entregaGuardada: true, entregaInfo: info, entregaTipo: tipo, entregaFecha: firebase.firestore.FieldValue.serverTimestamp() });
+      location.reload();
+    } catch(e) {
+      err.style.display = 'block'; err.textContent = 'Error al guardar. Intenta de nuevo.';
+    }
+  }
+
   function renderComprobante(doc, fsId, isVanguard) {
     const equipoNombre = 'RO Cambios';
     if (doc.comprobante_url) {
@@ -784,6 +925,7 @@
       </div>
       ${!isRecibo ? renderContrato(doc, doc._fsId) : ''}
       ${!isRecibo && (!doc.contrato || doc.contratoFirmado) ? renderPago(doc) : ''}
+      ${!isRecibo && (!doc.contrato || doc.contratoFirmado) ? renderEntregaForm(doc, doc._fsId) : ''}
       ${!isRecibo && (!doc.contrato || doc.contratoFirmado) ? renderComprobante(doc, doc._fsId) : ''}
       <div class="pub-actions">
         <button class="pub-btn print" onclick="window.print()" style="display:inline-flex;align-items:center;justify-content:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</button>

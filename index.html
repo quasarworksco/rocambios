@@ -1751,25 +1751,11 @@ const METODOS_CAMPOS = {
 function servicesOptionsHTML() {
   return `
     <option value="" disabled selected>Seleccionar tipo de operación...</option>
-    <optgroup label="Remesas USA → Venezuela">
-      <option value="Remesa Zelle → Bolívares">Remesa Zelle → Bolívares</option>
-      <option value="Remesa Transferencia → Bolívares">Remesa Transferencia → Bolívares</option>
-      <option value="Remesa Zelle → USDT">Remesa Zelle → USDT</option>
-      <option value="Remesa Transferencia → USDT">Remesa Transferencia → USDT</option>
-    </optgroup>
-    <optgroup label="Cambio de Divisas">
-      <option value="Cambio USD → Bolívares">Cambio USD → Bolívares</option>
-      <option value="Cambio USDT → Bolívares">Cambio USDT → Bolívares</option>
-      <option value="Cambio Bolívares → USD">Cambio Bolívares → USD</option>
-    </optgroup>
-    <optgroup label="Otros envíos">
-      <option value="Envío Western Union → Venezuela">Envío Western Union → Venezuela</option>
-      <option value="Envío PayPal → Venezuela">Envío PayPal → Venezuela</option>
-      <option value="Envío Binance → Venezuela">Envío Binance → Venezuela</option>
-    </optgroup>
-    <optgroup label="">
-      <option value="__otro__" data-p="">Otro (especificar)...</option>
-    </optgroup>`;
+    <option value="Zelle → Físico (USD en efectivo)">Zelle → Físico (USD en efectivo)</option>
+    <option value="Zelle → Bolívares">Zelle → Bolívares</option>
+    <option value="Transferencia → Bolívares">Transferencia → Bolívares</option>
+    <option value="Zelle → USDT">Zelle → USDT</option>
+    <option value="__otro__" data-p="">Otro (especificar)...</option>`;
 }
 
 
@@ -1904,16 +1890,10 @@ function populateServiceSelects() {
   document.getElementById('srv-sel').innerHTML      = html;
   document.getElementById('edit-srv-sel').innerHTML = html;
   document.getElementById('fSer').innerHTML = [
-    'Remesa Zelle → Bolívares',
-    'Remesa Transferencia → Bolívares',
-    'Remesa Zelle → USDT',
-    'Remesa Transferencia → USDT',
-    'Cambio USD → Bolívares',
-    'Cambio USDT → Bolívares',
-    'Cambio Bolívares → USD',
-    'Envío Western Union → Venezuela',
-    'Envío PayPal → Venezuela',
-    'Envío Binance → Venezuela',
+    'Zelle → Físico (USD en efectivo)',
+    'Zelle → Bolívares',
+    'Transferencia → Bolívares',
+    'Zelle → USDT',
     'Otro',
   ].map(s => `<option>${s}</option>`).join('');
 }
@@ -2045,16 +2025,10 @@ function openEditVentaModal(id) {
 
   const evSer = document.getElementById('ev-ser');
   const serviciosVenta = [
-    'Remesa Zelle → Bolívares',
-    'Remesa Transferencia → Bolívares',
-    'Remesa Zelle → USDT',
-    'Remesa Transferencia → USDT',
-    'Cambio USD → Bolívares',
-    'Cambio USDT → Bolívares',
-    'Cambio Bolívares → USD',
-    'Envío Western Union → Venezuela',
-    'Envío PayPal → Venezuela',
-    'Envío Binance → Venezuela',
+    'Zelle → Físico (USD en efectivo)',
+    'Zelle → Bolívares',
+    'Transferencia → Bolívares',
+    'Zelle → USDT',
     'Otro',
   ];
   const servicioActual = f.servicio || '';
@@ -2260,7 +2234,7 @@ function onTypeChange() {
 }
 
 function isRemesaService(val) {
-  return val && (val.startsWith('Remesa ') || val.startsWith('Zelle') || val.startsWith('Transferencia'));
+  return val && (val.startsWith('Zelle') || val.startsWith('Transferencia'));
 }
 
 function onSrvSelChange() {
