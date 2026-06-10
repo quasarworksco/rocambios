@@ -1060,6 +1060,14 @@
     <div class="logo-text">RO <span>CAMBIOS</span></div>
     <div class="logo-sub">Remesas USA → Venezuela</div>
   </div>
+  <div style="flex:1;max-width:340px;margin:0 16px;position:relative;">
+    <input type="text" id="global-search" placeholder="Buscar cliente, doc, monto..."
+      oninput="globalSearch(this.value)"
+      autocomplete="off"
+      style="width:100%;padding:8px 12px 8px 32px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;background:var(--bg-alt);color:var(--black);outline:none;box-sizing:border-box;">
+    <svg style="position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none;" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <div id="global-search-results" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:white;border:1.5px solid var(--border);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.1);z-index:9999;max-height:360px;overflow-y:auto;"></div>
+  </div>
   <div class="header-right">
     <div class="live-dot">EN LÍNEA</div>
     <span id="user-greeting" style="display:none;"></span>
@@ -1075,6 +1083,9 @@
   </button>
   <button class="nav-tab" onclick="switchPage('facturacion', this); _clearNotifBadge();">
     <i class="fa-solid fa-file-invoice-dollar"></i> Facturación<span id="notif-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
+  </button>
+  <button class="nav-tab" onclick="switchPage('caja', this)" style="display:inline-flex;align-items:center;gap:6px;">
+    <i class="fa-solid fa-cash-register"></i> Caja
   </button>
 </nav>
 
@@ -1232,6 +1243,10 @@
           </div>
         </div>
         <div id="metricas-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;"></div>
+        <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:24px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:var(--blue);border-radius:2px;display:block;"></span>Volumen por día (últimos 7 días)</div>
+          <div style="position:relative;height:180px;"><canvas id="metricas-bar-chart"></canvas></div>
+        </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
           <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
             <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:var(--blue);border-radius:2px;display:block;"></span>Desglose por Servicio</div>
@@ -1431,6 +1446,58 @@
 
   </div><!-- /fact-main -->
 </div><!-- /page-facturacion -->
+
+<!-- PAGE: CAJA -->
+<div id="page-caja" class="page">
+  <div style="max-width:900px;margin:0 auto;padding:28px 24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--black);">Cuadre de Caja</div>
+        <div style="font-size:11px;color:#6b7280;">Resumen financiero del día</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="renderCaja()" style="padding:8px 14px;background:var(--bg-alt);border:1.5px solid var(--border);border-radius:10px;font-size:11px;font-weight:600;color:var(--black);cursor:pointer;">↻ Actualizar</button>
+        <button onclick="exportCajaPDF()" style="padding:8px 14px;background:var(--black);color:white;border:none;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Exportar</button>
+      </div>
+    </div>
+
+    <!-- Weekly close alert -->
+    <div id="caja-semana-alert" style="display:none;background:linear-gradient(135deg,#1B4332,#2D6A4F);color:white;border-radius:14px;padding:16px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;gap:12px;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;">📊 CIERRE DE SEMANA DISPONIBLE</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">Esta semana ya terminó. Puedes ver el resumen completo.</div>
+      </div>
+      <button onclick="verCierreSemana()" style="background:white;color:#1B4332;border:none;border-radius:10px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;">Ver cierre</button>
+    </div>
+
+    <!-- Daily summary cards -->
+    <div id="caja-kpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;"></div>
+
+    <!-- Payment method breakdown -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Entradas por método</div>
+        <div id="caja-metodos"></div>
+      </div>
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Por empleado hoy</div>
+        <div id="caja-empleados"></div>
+      </div>
+    </div>
+
+    <!-- Operations list -->
+    <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Operaciones del día</div>
+      <div id="caja-ops"></div>
+    </div>
+
+    <!-- Weekly close modal trigger area -->
+    <div id="caja-cierre-semana" style="display:none;margin-top:20px;background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">📊 Cierre de Semana</div>
+      <div id="caja-semana-content"></div>
+    </div>
+  </div>
+</div>
 
 
 </div><!-- /app-shell -->
@@ -1908,6 +1975,7 @@ function switchPage(page, btn) {
   btn.classList.add('active');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
+  if (page === 'caja') renderCaja();
 }
 
 function switchVentasTab(tab, btn) {
@@ -2427,6 +2495,7 @@ function initDocs() {
       renderResumenDiario();
       if (document.getElementById('subtab-historial').style.display !== 'none') renderHistorial();
       if (document.getElementById('vsubtab-metricas')?.style.display !== 'none') renderMetricas();
+      if (document.getElementById('page-caja')?.classList.contains('active')) renderCaja();
     }, err => {
       console.error('Docs listener error:', err);
     });
@@ -3690,6 +3759,7 @@ function renderClientes() {
       <div class="cliente-actions">
         ${c.telefono ? `<button class="btn-sm" style="background:#dcfce7;color:#15803d;border-color:rgba(5,150,105,0.2);display:inline-flex;align-items:center;justify-content:center;" onclick="window.open('https://wa.me/${encodeURIComponent((c.telefono||'').replace(/\D/g,''))}','_blank')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>` : ''}
         <button class="btn-sm edit" onclick="openClienteModal('${esc(c._id)}')" style="display:inline-flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+        <button class="btn-sm outline" onclick="verHistorialCliente('${esc(c.nombre)}')">Historial</button>
         <button class="btn-sm del"  onclick="deleteCliente('${esc(c._id)}')"  style="display:inline-flex;align-items:center;justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></button>
       </div>
     </div>`;
@@ -4091,6 +4161,53 @@ function renderMetricas() {
       kpi('Operaciones', opCount, 'en el período', '#1d4ed8');
   }
 
+  // Bar chart: last 7 days
+  const barCtx = document.getElementById('metricas-bar-chart')?.getContext('2d');
+  if (barCtx) {
+    if (window._barChart) { try { window._barChart.destroy(); } catch(_){} }
+    const days = [];
+    const amounts = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const iso = d.toISOString().slice(0,10);
+      const label = d.toLocaleDateString('es-VE',{weekday:'short',day:'numeric'});
+      days.push(label);
+      const dayTotal = Object.values(docsMap)
+        .filter(doc => getFecha(doc) === iso && (doc.pagado || doc.type === 'recibo'))
+        .reduce((a,doc) => a + (parseFloat(doc.total)||0), 0);
+      // Also add ventas for that day
+      const ventasTotal = DATOS.filter(v => getFecha(v) === iso)
+        .reduce((a,v) => a + (parseFloat(v.monto)||0), 0);
+      amounts.push(Math.max(dayTotal, ventasTotal));
+    }
+    window._barChart = new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: days,
+        datasets: [{
+          label: 'USD procesados',
+          data: amounts,
+          backgroundColor: amounts.map(v => v > 0 ? 'rgba(45,106,79,0.8)' : 'rgba(45,106,79,0.15)'),
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: c => `$${c.parsed.y.toFixed(2)}` } }
+        },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { family: 'DM Sans', size: 10 } } },
+          y: { grid: { color: '#f1f5f9' }, ticks: { font: { family: 'DM Sans', size: 10 }, callback: v => '$'+v } }
+        }
+      }
+    });
+  }
+
   // Desglose por servicio
   const srvMap = {};
   allOps.forEach(f => {
@@ -4199,6 +4316,312 @@ function renderMetricas() {
       </div>`;
   }
 }
+
+/* ══════════════════════════════════════════
+   CAJA DIARIA
+══════════════════════════════════════════ */
+function renderCaja() {
+  const hoy = todayISO();
+  const getFecha = f => {
+    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
+    const raw = String(f.fecha || '');
+    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : raw.slice(0,10);
+  };
+
+  const docsHoy = Object.values(docsMap).filter(d => getFecha(d) === hoy && (d.pagado || d.type === 'recibo'));
+  const todosHoy = Object.values(docsMap).filter(d => getFecha(d) === hoy);
+
+  const totalHoy = docsHoy.reduce((a,d) => a + (parseFloat(d.total)||0), 0);
+  const pendienteHoy = todosHoy.filter(d => !d.pagado && d.type !== 'recibo').length;
+  const opsHoy = docsHoy.length;
+
+  const kpiEl = document.getElementById('caja-kpis');
+  if (kpiEl) {
+    const kpi = (label, val, sub, color, bg) => `
+      <div style="background:${bg};border:1.5px solid var(--border);border-radius:14px;padding:18px 20px;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">${label}</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:32px;color:${color};letter-spacing:0.5px;line-height:1;">${val}</div>
+        <div style="font-size:10px;color:#6b7280;margin-top:4px;">${sub}</div>
+      </div>`;
+    kpiEl.innerHTML =
+      kpi('Total cobrado hoy', `$${totalHoy.toFixed(2)}`, `${opsHoy} operación${opsHoy!==1?'es':''}`, '#1B4332', 'linear-gradient(135deg,#f0fdf4,#dcfce7)') +
+      kpi('Pendientes hoy', pendienteHoy, 'sin cobrar', '#b45309', '#fffbeb') +
+      kpi('Tasa activa', `${(tasas.usdt||tasas.paralelo||0).toLocaleString('es-VE',{maximumFractionDigits:2})}`, 'Bs por USD (USDT)', '#1d4ed8', '#eff6ff');
+  }
+
+  const metodos = {};
+  docsHoy.forEach(d => {
+    const m = d.metodoPago || 'otro';
+    if (!metodos[m]) metodos[m] = { count:0, total:0 };
+    metodos[m].count++;
+    metodos[m].total += parseFloat(d.total)||0;
+  });
+  const metEl = document.getElementById('caja-metodos');
+  if (metEl) {
+    const labels = { zelle:'Zelle', transferencia:'Transferencia', bolivares:'Pago Móvil', binancepay:'Binance/USDT', otro:'Otro' };
+    const entries = Object.entries(metodos).sort((a,b)=>b[1].total-a[1].total);
+    metEl.innerHTML = entries.length ? entries.map(([m,d]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);">
+        <span style="font-size:12px;font-weight:600;color:var(--black);">${labels[m]||m}</span>
+        <span style="font-size:12px;color:var(--black);">$${d.total.toFixed(2)} <span style="font-size:10px;color:#6b7280;">(${d.count})</span></span>
+      </div>`).join('') : '<div style="color:#6b7280;font-size:12px;text-align:center;padding:16px;">Sin pagos hoy</div>';
+  }
+
+  const emps = {};
+  docsHoy.forEach(d => {
+    const e = d.empleado || 'Sin asignar';
+    if (!emps[e]) emps[e] = { count:0, total:0 };
+    emps[e].count++;
+    emps[e].total += parseFloat(d.total)||0;
+  });
+  const empEl = document.getElementById('caja-empleados');
+  if (empEl) {
+    const entries = Object.entries(emps).sort((a,b)=>b[1].total-a[1].total);
+    empEl.innerHTML = entries.length ? entries.map(([e,d]) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);">
+        <span style="font-size:12px;font-weight:600;color:var(--black);">${esc(e)}</span>
+        <span style="font-size:12px;color:var(--black);">$${d.total.toFixed(2)} <span style="font-size:10px;color:#6b7280;">(${d.count})</span></span>
+      </div>`).join('') : '<div style="color:#6b7280;font-size:12px;text-align:center;padding:16px;">Sin datos</div>';
+  }
+
+  const opsEl = document.getElementById('caja-ops');
+  if (opsEl) {
+    if (!docsHoy.length) {
+      opsEl.innerHTML = '<div style="color:#6b7280;font-size:12px;text-align:center;padding:20px;">Sin operaciones cobradas hoy</div>';
+    } else {
+      opsEl.innerHTML = docsHoy.map(d => `
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:12px;font-weight:600;color:var(--black);">${esc(d.cli||'—')}</div>
+            <div style="font-size:10px;color:#6b7280;">${esc(d.docId||'—')} · ${esc(d.metodoPago||'—')} · ${esc(d.empleado||'—')}</div>
+          </div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--black);">$${(parseFloat(d.total)||0).toFixed(2)}</div>
+        </div>`).join('');
+    }
+  }
+
+  checkCierreSemana();
+}
+
+function checkCierreSemana() {
+  const dow = new Date().getDay();
+  const alertEl = document.getElementById('caja-semana-alert');
+  if (!alertEl) return;
+  if (dow === 0 || dow === 1) {
+    alertEl.style.display = 'flex';
+  } else {
+    alertEl.style.display = 'none';
+  }
+}
+
+function verCierreSemana() {
+  const container = document.getElementById('caja-cierre-semana');
+  const content = document.getElementById('caja-semana-content');
+  if (!container || !content) return;
+  container.style.display = 'block';
+  container.scrollIntoView({ behavior: 'smooth' });
+
+  const getFecha = f => {
+    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
+    const raw = String(f.fecha || '');
+    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : raw.slice(0,10);
+  };
+
+  const hoy = new Date();
+  const dow = hoy.getDay();
+  const lastSun = new Date(hoy); lastSun.setDate(hoy.getDate() - dow);
+  const lastMon = new Date(lastSun); lastMon.setDate(lastSun.getDate() - 6);
+  const desdeISO = lastMon.toISOString().slice(0,10);
+  const hastaISO = lastSun.toISOString().slice(0,10);
+
+  const docs = Object.values(docsMap).filter(d => {
+    const f = getFecha(d);
+    return f >= desdeISO && f <= hastaISO && (d.pagado || d.type === 'recibo');
+  });
+
+  const total = docs.reduce((a,d)=>a+(parseFloat(d.total)||0),0);
+  const byDay = {};
+  docs.forEach(d => {
+    const f = getFecha(d);
+    if (!byDay[f]) byDay[f] = 0;
+    byDay[f] += parseFloat(d.total)||0;
+  });
+
+  content.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+      <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#6b7280;text-transform:uppercase;">Total semana</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--black);">$${total.toFixed(2)}</div>
+      </div>
+      <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#6b7280;text-transform:uppercase;">Operaciones</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--black);">${docs.length}</div>
+      </div>
+      <div style="background:var(--bg-alt);border-radius:12px;padding:14px;text-align:center;">
+        <div style="font-size:9px;font-weight:700;letter-spacing:1px;color:#6b7280;text-transform:uppercase;">Promedio diario</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--black);">$${(total/7).toFixed(0)}</div>
+      </div>
+    </div>
+    <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Desglose por día</div>
+    ${Object.entries(byDay).sort().map(([f,t]) => {
+      const date = new Date(f+'T12:00:00');
+      const label = date.toLocaleDateString('es-VE',{weekday:'long',day:'numeric',month:'short'});
+      return `<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;">
+        <span style="color:var(--black);font-weight:600;text-transform:capitalize;">${label}</span>
+        <span style="font-weight:700;color:var(--black);">$${t.toFixed(2)}</span>
+      </div>`;
+    }).join('')}`;
+}
+
+function exportCajaPDF() {
+  const hoy = new Date().toLocaleDateString('es-VE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const getFecha = f => {
+    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
+    const raw = String(f.fecha||'');
+    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : raw.slice(0,10);
+  };
+  const docsHoy = Object.values(docsMap).filter(d => getFecha(d) === todayISO() && (d.pagado || d.type === 'recibo'));
+  const total = docsHoy.reduce((a,d)=>a+(parseFloat(d.total)||0),0);
+  const win = window.open('','_blank');
+  win.document.write(`<html><head><title>Caja ${hoy}</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#111;}h1{font-size:22px;margin-bottom:4px;}table{width:100%;border-collapse:collapse;margin-top:16px;}th{background:#f1f5f9;padding:8px;text-align:left;font-size:11px;text-transform:uppercase;}td{padding:8px;border-bottom:1px solid #e5e7eb;font-size:13px;}.total{font-size:18px;font-weight:bold;margin-top:16px;}</style></head><body>
+    <h1>Cuadre de Caja — RO CAMBIOS</h1>
+    <div style="color:#6b7280;font-size:13px;">${hoy}</div>
+    <table><thead><tr><th>Doc</th><th>Cliente</th><th>Método</th><th>Empleado</th><th style="text-align:right">Monto</th></tr></thead><tbody>
+    ${docsHoy.map(d=>`<tr><td>${d.docId||'—'}</td><td>${d.cli||'—'}</td><td>${d.metodoPago||'—'}</td><td>${d.empleado||'—'}</td><td style="text-align:right">$${(parseFloat(d.total)||0).toFixed(2)}</td></tr>`).join('')}
+    </tbody></table>
+    <div class="total">Total cobrado: $${total.toFixed(2)} — ${docsHoy.length} operaciones</div>
+    </body></html>`);
+  win.document.close();
+  win.print();
+}
+
+/* ══════════════════════════════════════════
+   HISTORIAL DE CLIENTE
+══════════════════════════════════════════ */
+function verHistorialCliente(nombre) {
+  const ops = Object.values(docsMap).filter(d =>
+    (d.cli||d.cliente||'').toLowerCase() === nombre.toLowerCase()
+  );
+  const total = ops.reduce((a,d)=>a+(parseFloat(d.total)||0),0);
+  const ultima = ops.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''))[0];
+
+  const modal = document.getElementById('modalClienteHistorial') || (() => {
+    const el = document.createElement('div');
+    el.id = 'modalClienteHistorial';
+    el.className = 'modal-overlay';
+    document.body.appendChild(el);
+    return el;
+  })();
+
+  modal.innerHTML = `
+    <div class="edit-sheet" style="max-width:520px;">
+      <div class="edit-sheet-header">
+        <h3>${esc(nombre)}</h3>
+        <p>${ops.length} operaciones · $${total.toFixed(2)} total enviado</p>
+      </div>
+      <div class="edit-sheet-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+          <div style="background:var(--bg-alt);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Total enviado</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--black);">$${total.toFixed(0)}</div>
+          </div>
+          <div style="background:var(--bg-alt);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Operaciones</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--black);">${ops.length}</div>
+          </div>
+          <div style="background:var(--bg-alt);border-radius:10px;padding:12px;text-align:center;">
+            <div style="font-size:9px;color:#6b7280;font-weight:700;text-transform:uppercase;letter-spacing:1px;">Última op.</div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--black);">${ultima?.fecha||'—'}</div>
+          </div>
+        </div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Historial</div>
+        <div style="max-height:300px;overflow-y:auto;">
+          ${ops.length ? ops.sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||'')).map(d=>`
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">
+              <div>
+                <div style="font-size:12px;font-weight:600;color:var(--black);">${esc(d.docId||'—')}</div>
+                <div style="font-size:10px;color:#6b7280;">${esc(d.fecha||'—')} · ${esc(d.metodoPago||'—')}</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--black);">$${(parseFloat(d.total)||0).toFixed(2)}</span>
+                <span style="font-size:9px;padding:2px 7px;border-radius:6px;font-weight:700;background:${d.pagado||d.type==='recibo'?'#dcfce7':'#fef3c7'};color:${d.pagado||d.type==='recibo'?'#16a34a':'#b45309'}">${d.pagado||d.type==='recibo'?'Pagado':'Pendiente'}</span>
+              </div>
+            </div>`).join('') : '<div style="color:#6b7280;font-size:12px;text-align:center;padding:16px;">Sin operaciones registradas</div>'}
+        </div>
+        <button class="btn-edit-cancel" onclick="document.getElementById('modalClienteHistorial').classList.remove('show')" style="margin-top:16px;">Cerrar</button>
+      </div>
+    </div>`;
+  modal.classList.add('show');
+}
+
+/* ══════════════════════════════════════════
+   BÚSQUEDA GLOBAL
+══════════════════════════════════════════ */
+function globalSearch(val) {
+  const resultsEl = document.getElementById('global-search-results');
+  if (!resultsEl) return;
+  const q = (val||'').toLowerCase().trim();
+  if (q.length < 2) { resultsEl.style.display = 'none'; return; }
+
+  const results = [];
+
+  Object.values(docsMap).forEach(d => {
+    const hay = [d.cli, d.docId, String(d.total||''), d.metodoPago, d.empleado, d.ref].join(' ').toLowerCase();
+    if (hay.includes(q)) {
+      results.push({
+        type: 'doc',
+        icon: d.pagado||d.type==='recibo' ? '🧾' : '📄',
+        title: `${d.docId||'Doc'} — ${d.cli||'—'}`,
+        sub: `$${(parseFloat(d.total)||0).toFixed(2)} · ${d.fecha||'—'} · ${d.metodoPago||'—'}`,
+        action: () => { openSheetById(d._fsId); document.getElementById('global-search').value=''; resultsEl.style.display='none'; }
+      });
+    }
+  });
+
+  clientesCache.forEach(c => {
+    if ((c.nombre||'').toLowerCase().includes(q) || (c.telefono||'').includes(q)) {
+      results.push({
+        type: 'cliente',
+        icon: '👤',
+        title: c.nombre,
+        sub: `${c.telefono||'Sin teléfono'} · ${c.metodoPref||''}`,
+        action: () => { verHistorialCliente(c.nombre); document.getElementById('global-search').value=''; resultsEl.style.display='none'; }
+      });
+    }
+  });
+
+  if (!results.length) {
+    resultsEl.style.display = 'block';
+    resultsEl.innerHTML = '<div style="padding:14px;color:#6b7280;font-size:12px;text-align:center;">Sin resultados</div>';
+    return;
+  }
+
+  resultsEl.style.display = 'block';
+  resultsEl.innerHTML = results.slice(0,8).map((r,i) => `
+    <div onclick="_gsr_click(${i})" style="padding:10px 14px;cursor:pointer;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:background 0.1s;" onmouseover="this.style.background='var(--bg-alt)'" onmouseout="this.style.background=''">
+      <span style="font-size:16px;">${r.icon}</span>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--black);">${esc(r.title)}</div>
+        <div style="font-size:10px;color:#6b7280;">${esc(r.sub)}</div>
+      </div>
+    </div>`).join('');
+
+  window._gsrActions = results.slice(0,8).map(r => r.action);
+}
+
+function _gsr_click(i) {
+  if (window._gsrActions && window._gsrActions[i]) window._gsrActions[i]();
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#global-search') && !e.target.closest('#global-search-results')) {
+    const el = document.getElementById('global-search-results');
+    if (el) el.style.display = 'none';
+  }
+});
 
 function exportCSV() {
   const periodo = document.getElementById('metricas-periodo')?.value || 'todo';
