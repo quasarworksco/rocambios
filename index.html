@@ -1076,16 +1076,6 @@
   </div>
 </header>
 
-<!-- NAVIGATION -->
-<nav class="nav-tabs">
-  <button class="nav-tab active" onclick="switchPage('ventas', this)">
-    <i class="fa-solid fa-chart-line"></i> Panel de Ventas
-  </button>
-  <button class="nav-tab" onclick="switchPage('facturacion', this); _clearNotifBadge();">
-    <i class="fa-solid fa-file-invoice-dollar"></i> Facturación<span id="notif-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
-  </button>
-</nav>
-
 <!-- TICKER -->
 <div id="ticker" class="ticker">
   <span class="ticker-inner" id="tickerText"></span>
@@ -1142,6 +1132,16 @@
     <div id="resumen-diario" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;"></div>
   </div>
 </div>
+
+<!-- NAVIGATION -->
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="switchPage('ventas', this)">
+    <i class="fa-solid fa-chart-line"></i> Panel de Ventas
+  </button>
+  <button class="nav-tab" onclick="switchPage('facturacion', this); _clearNotifBadge();">
+    <i class="fa-solid fa-file-invoice-dollar"></i> Facturación<span id="notif-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
+  </button>
+</nav>
 
 <!-- SALUDO GLOBAL — visible en todas las secciones -->
 <!--
