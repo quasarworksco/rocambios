@@ -969,6 +969,12 @@
 
 .btn-sheet.link { background:#f0fdf4; color:#166534; border-color:rgba(22,101,52,0.2); }
 .btn-sheet.link:hover { background:#dcfce7; }
+.btn-sheet.entregar { background:linear-gradient(135deg,#2D6A4F,#40916C); color:white; border-color:transparent; }
+.btn-sheet.entregar:hover { background:linear-gradient(135deg,#1B4332,#2D6A4F); }
+.btn-sheet.entregado { background:#f0fdf4; color:#059669; border-color:rgba(5,150,105,0.3); cursor:default; }
+.sheet-delivery-bar { margin:0 28px 16px; padding:12px 16px; border-radius:10px; display:flex; align-items:center; gap:10px; font-size:12px; font-weight:600; }
+.sheet-delivery-bar.pendiente { background:#fffbeb; color:#92400e; border:1px solid rgba(217,119,6,0.2); }
+.sheet-delivery-bar.entregado { background:#f0fdf4; color:#059669; border:1px solid rgba(5,150,105,0.2); }
 
     /*  MÉTODO DE PAGO  */
     .moneda-toggle { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-top:4px; }
@@ -1082,8 +1088,24 @@
             <input type="text" id="fCli" placeholder="Nombre cliente" list="clientes-list">
           </div>
           <div class="field-group">
-            <label class="field-label">Monto $</label>
-            <input type="number" id="fMon" placeholder="0.00" step="0.01">
+            <label class="field-label">Monto recibido $</label>
+            <input type="number" id="fMon" placeholder="0.00" step="0.01" oninput="calcVentaTotal()">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field-group">
+            <label class="field-label">Comisión %</label>
+            <select id="fPct" onchange="calcVentaTotal()">
+              <option value="6">6%</option>
+              <option value="7">7%</option>
+              <option value="8" selected>8%</option>
+              <option value="9">9%</option>
+              <option value="10">10%</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Total cliente transfiere</label>
+            <div id="fTotal" style="padding:9px 12px;background:var(--bg-alt);border:1.5px solid var(--border);border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--blue);letter-spacing:0.5px;">$0.00</div>
           </div>
         </div>
         <div class="field-group">
@@ -1166,13 +1188,9 @@
           <select id="metodo-pago" onchange="onMetodoPagoChange()">
             <option value="">— Sin especificar —</option>
             <option value="zelle">Zelle</option>
-            <option value="bizum">Bizum</option>
-            <option value="usdt">USDT TRC20</option>
-            <option value="binancepay">Binance Pay</option>
-            <option value="bolivares">Pago Móvil</option>
             <option value="transferencia">Transferencia Bancaria (USD)</option>
-            <option value="paypal">PayPal</option>
-            <option value="westernunion">Western Union</option>
+            <option value="bolivares">Pago Móvil</option>
+            <option value="binancepay">Binance / USDT</option>
           </select>
           <div class="metodo-fields" id="metodo-pago-fields"></div>
         </div>
@@ -1868,6 +1886,7 @@ function initPage() {
   initVentas();
   initDocs();
   initClientes();
+  initClientesCRM();
   onTypeChange();
 }
 
@@ -2100,14 +2119,23 @@ function todayISO() {
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
 
+function calcVentaTotal() {
+  const m   = parseFloat(document.getElementById('fMon').value) || 0;
+  const pct = parseFloat(document.getElementById('fPct').value) || 8;
+  const total = m + m * pct / 100;
+  document.getElementById('fTotal').textContent = m > 0 ? '$' + total.toFixed(2) : '$0.00';
+}
+
 async function registrar() {
-  const e = document.getElementById('fEmp').value;
-  const c = document.getElementById('fCli').value.trim();
-  const s = document.getElementById('fSer').value;
-  const m = parseFloat(document.getElementById('fMon').value);
+  const e   = document.getElementById('fEmp').value;
+  const c   = document.getElementById('fCli').value.trim();
+  const s   = document.getElementById('fSer').value;
+  const m   = parseFloat(document.getElementById('fMon').value);
+  const pct = parseFloat(document.getElementById('fPct').value) || 8;
+  const total = parseFloat((m + m * pct / 100).toFixed(2));
   const fechaVal = document.getElementById('fFec').value || todayISO();
   if (!c || isNaN(m) || m <= 0) {
-    toast(' Ingresa el nombre del cliente y el monto.', 'err');
+    toast('Ingresa el nombre del cliente y el monto.', 'err');
     return;
   }
 
@@ -2119,16 +2147,18 @@ async function registrar() {
 
   try {
     await db.collection('ventas').add({
-      empleado: e,
-      cliente:  c,
-      servicio: s,
-      monto:    m,
-      fecha:    fechaTS,
+      empleado:     e,
+      cliente:      c,
+      servicio:     s,
+      monto:        m,
+      comisionPct:  pct,
+      montoTotal:   total,
+      fecha:        fechaTS,
       registradoPor: currentUser ? currentUser.email : 'desconocido'
     });
 
     document.getElementById('pResumen').textContent =
-      `${e.split(' ')[0]} procesó $${m.toFixed(2)} con ${c} — ${s}`;
+      `${e.split(' ')[0]} procesó $${m.toFixed(2)} (+ ${pct}% = $${total.toFixed(2)}) · ${c} — ${s}`;
 
     const waText = encodeURIComponent(
       `*NUEVA OPERACIÓN RO CAMBIOS*\n ${e}\n🤝 ${c}\n ${s}\n $${m.toFixed(2)}`
@@ -2157,7 +2187,9 @@ function resetBtnReg() {
 function cerrarModalVenta() {
   document.getElementById('modalExito').classList.remove('show');
   document.getElementById('fCli').value = '';
-  document.getElementById('fMon').value = '';
+  document.getElementById('fMon').value  = '';
+  document.getElementById('fPct').value  = '8';
+  document.getElementById('fTotal').textContent = '$0.00';
   document.getElementById('fFec').value = todayISO();
   resetBtnReg();
 }
@@ -2523,15 +2555,34 @@ function openSheet(doc) {
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
   } else {
-    actions.className = 'sheet-actions three';
+    /* Recibo (pagado) */
+    const entregadoBtn = doc.entregado
+      ? `<button class="btn-sheet entregado" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Entregado</button>`
+      : `<button class="btn-sheet entregar" onclick="marcarEntregado('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg> Marcar entregado</button>`;
+    actions.className = 'sheet-actions four';
     actions.innerHTML = `
       <button class="btn-sheet print"  onclick="window.print()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</button>
       <button class="btn-sheet wa"     onclick="enviarWhatsApp('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
-      <button class="btn-sheet email"  onclick="enviarEmail('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Email</button>
+      ${entregadoBtn}
       <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
+
+    /* Show delivery status bar */
+    let delivBar = document.getElementById('s-delivery-bar');
+    if (!delivBar) {
+      delivBar = document.createElement('div');
+      delivBar.id = 's-delivery-bar';
+      document.getElementById('sheet-actions').insertAdjacentElement('beforebegin', delivBar);
+    }
+    if (doc.entregado) {
+      delivBar.className = 'sheet-delivery-bar entregado';
+      delivBar.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Dinero entregado el ${esc(doc.fechaEntrega || '')}`;
+    } else {
+      delivBar.className = 'sheet-delivery-bar pendiente';
+      delivBar.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Pendiente de entrega`;
+    }
   }
 
   /*  Comprobante del cliente (subido desde factura pública)  */
@@ -2574,6 +2625,24 @@ async function marcarPagado(fsId) {
     toast('Marcado como pagado ');
     /* Refresh the open sheet */
     const updated = { ...doc, type:'recibo', pagado:true, pagadoParcial:false, fechaPago, docId:newDocId };
+    openSheet(updated);
+  } catch(err) {
+    toast('Error al actualizar.', 'err');
+  }
+}
+
+async function marcarEntregado(fsId) {
+  if (!fsId) return;
+  const doc = docsMap[fsId];
+  if (!doc) return;
+  try {
+    await db.collection('documentos').doc(fsId).update({
+      entregado: true,
+      fechaEntrega: fmtDate()
+    });
+    toast('Marcado como entregado');
+    logActividad('Dinero entregado', doc.docId || fsId);
+    const updated = { ...doc, entregado: true, fechaEntrega: fmtDate() };
     openSheet(updated);
   } catch(err) {
     toast('Error al actualizar.', 'err');
@@ -3628,8 +3697,10 @@ document.getElementById('modalComprobante').addEventListener('click', function(e
  */
 function selectMoneda(val) {
   monedaSeleccionada = val;
-  document.getElementById('btn-usd').classList.toggle('active', val === 'usd');
-  document.getElementById('btn-eur').classList.toggle('active', val === 'eur');
+  const btnUsd = document.getElementById('btn-usd');
+  const btnEur = document.getElementById('btn-eur');
+  if (btnUsd) btnUsd.classList.toggle('active', val === 'usd');
+  if (btnEur) btnEur.classList.toggle('active', val === 'eur');
   const html = servicesOptionsHTML();
   const s1 = document.getElementById('srv-sel');
   const s2 = document.getElementById('edit-srv-sel');
@@ -3663,8 +3734,10 @@ function getInfoPago() {
 
 function resetMetodoPago() {
   monedaSeleccionada = 'usd';
-  document.getElementById('btn-usd').classList.add('active');
-  document.getElementById('btn-eur').classList.remove('active');
+  const btnUsd2 = document.getElementById('btn-usd');
+  const btnEur2 = document.getElementById('btn-eur');
+  if (btnUsd2) btnUsd2.classList.add('active');
+  if (btnEur2) btnEur2.classList.remove('active');
   document.getElementById('metodo-pago').value = '';
   document.getElementById('metodo-pago-fields').innerHTML = '';
 }
