@@ -2354,6 +2354,7 @@ function initDocs() {
       updateHistorialBadge();
       renderResumenDiario();
       if (document.getElementById('subtab-historial').style.display !== 'none') renderHistorial();
+      if (document.getElementById('page-metricas')?.style.display !== 'none') renderMetricas();
     }, err => {
       console.error('Docs listener error:', err);
     });
