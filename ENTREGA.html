@@ -69,7 +69,6 @@
     display: flex; flex-wrap: wrap; gap: 32px; margin-top: 48px;
     padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.15);
   }
-  .cover-meta-item { }
   .cover-meta-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
   .cover-meta-val { font-size: 14px; font-weight: 600; color: #fff; }
 
@@ -84,15 +83,14 @@
   }
   .section-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
   .section-sub { font-size: 14px; color: var(--text-soft); margin-bottom: 32px; }
-  .divider { height: 1px; background: var(--border); margin: 48px 0 0; }
 
   /* ── INTRO CARD ── */
   .intro-card {
     background: var(--green-xlight); border: 1.5px solid #bbf7d0;
     border-radius: 16px; padding: 28px 32px; margin-bottom: 32px;
-    display: flex; gap: 20px;
+    display: flex; gap: 20px; align-items: flex-start;
   }
-  .intro-icon { font-size: 32px; flex-shrink: 0; }
+  .intro-icon { flex-shrink: 0; width: 40px; height: 40px; color: var(--green); margin-top: 2px; }
   .intro-text { font-size: 15px; line-height: 1.7; color: #1B4332; }
   .intro-text strong { font-weight: 700; }
 
@@ -110,15 +108,16 @@
   .module-icon {
     width: 44px; height: 44px; border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
+    flex-shrink: 0;
   }
+  .module-icon svg { width: 22px; height: 22px; }
   .module-name { font-size: 15px; font-weight: 700; color: var(--text); }
   .module-tag { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-soft); }
   .module-features { list-style: none; display: flex; flex-direction: column; gap: 7px; }
   .module-features li {
     font-size: 12.5px; color: #374151; display: flex; gap: 8px; align-items: flex-start;
   }
-  .module-features li::before { content: '→'; color: var(--green-mid); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .module-features li svg { flex-shrink: 0; margin-top: 2px; color: var(--green-mid); }
 
   /* ── TECH STACK ── */
   .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
@@ -126,7 +125,7 @@
     border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 18px;
     display: flex; align-items: center; gap: 12px;
   }
-  .tech-logo { font-size: 22px; flex-shrink: 0; }
+  .tech-logo { flex-shrink: 0; width: 32px; height: 32px; color: var(--green); }
   .tech-name { font-size: 13px; font-weight: 700; color: var(--text); }
   .tech-desc { font-size: 11px; color: var(--text-soft); }
 
@@ -144,21 +143,29 @@
   .conf-box {
     background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 16px; padding: 28px 32px;
   }
-  .conf-title { font-size: 14px; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; gap: 10px; align-items: center; }
+  .conf-title {
+    font-size: 14px; font-weight: 800; color: #92400e; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 12px; display: flex; gap: 10px; align-items: center;
+  }
+  .conf-title svg { width: 18px; height: 18px; flex-shrink: 0; }
   .conf-body { font-size: 13px; color: #78350f; line-height: 1.8; }
   .conf-body p + p { margin-top: 10px; }
 
   /* ── LICENSE ── */
   .lic-box {
-    background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 16px; padding: 28px 32px;
-    margin-top: 20px;
+    background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 16px;
+    padding: 28px 32px; margin-top: 20px;
   }
-  .lic-title { font-size: 14px; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; gap: 10px; align-items: center; }
+  .lic-title {
+    font-size: 14px; font-weight: 800; color: var(--text); text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 12px; display: flex; gap: 10px; align-items: center;
+  }
+  .lic-title svg { width: 18px; height: 18px; flex-shrink: 0; }
   .lic-body { font-size: 13px; color: var(--text-soft); line-height: 1.8; }
   .lic-body strong { color: var(--text); }
   .lic-items { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
-  .lic-item { display: flex; gap: 10px; font-size: 12.5px; color: #374151; }
-  .lic-item::before { content: '✓'; color: var(--green-mid); font-weight: 800; flex-shrink: 0; }
+  .lic-item { display: flex; gap: 10px; font-size: 12.5px; color: #374151; align-items: flex-start; }
+  .lic-item svg { flex-shrink: 0; color: var(--green-mid); margin-top: 2px; }
 
   /* ── SIGNATURE ── */
   .signature-section {
@@ -179,17 +186,14 @@
     width: 140px; height: 140px; border-radius: 50%;
     border: 3px solid rgba(74,222,128,0.4);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 16px;
-    position: relative;
+    text-align: center; padding: 16px; position: relative;
   }
   .sig-stamp::before {
-    content: '';
-    position: absolute; inset: 6px;
-    border-radius: 50%;
+    content: ''; position: absolute; inset: 6px; border-radius: 50%;
     border: 1.5px dashed rgba(74,222,128,0.3);
   }
   .sig-stamp-top { font-size: 7px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #4ade80; }
-  .sig-stamp-num { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #fff; margin: 4px 0; }
+  .sig-stamp-num { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #fff; margin: 4px 0; line-height: 1.1; }
   .sig-stamp-bot { font-size: 6.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
 
   .sig-bottom {
@@ -200,19 +204,15 @@
   .sig-copy { font-size: 11px; color: rgba(255,255,255,0.35); }
   .sig-version { font-size: 11px; color: rgba(74,222,128,0.6); font-weight: 600; }
 
-  /* ── PRINT ── */
   @media print {
-    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .signature-section { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .cover, .signature-section { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .module-card:hover { box-shadow: none; }
   }
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════
-     COVER
-════════════════════════════════════════ -->
+<!-- COVER -->
 <div class="cover">
   <div class="cover-inner">
     <div class="cover-badge"><span></span>Documento Oficial de Entrega · v1.0</div>
@@ -246,26 +246,25 @@
   </div>
 </div>
 
-<!-- ════════════════════════════════════════
-     DESCRIPCIÓN GENERAL
-════════════════════════════════════════ -->
 <div class="wrap">
+
+  <!-- 01 · DESCRIPCIÓN -->
   <div class="section">
     <div class="section-label">01 · Descripción general</div>
     <div class="section-title">¿Qué es RO Cambios?</div>
     <div class="section-sub">Sistema web completo desarrollado a medida para la operación diaria del negocio.</div>
 
     <div class="intro-card">
-      <div class="intro-icon">💱</div>
+      <svg class="intro-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+      </svg>
       <div class="intro-text">
         <strong>RO Cambios</strong> es una aplicación web de gestión integral diseñada exclusivamente para negocios de remesas y cambio de divisas que operan en el corredor <strong>USD → Venezuela (Bolívares)</strong>. Permite crear facturas, gestionar clientes, registrar operaciones con múltiples métodos de pago, hacer seguimiento de tasas del mercado en tiempo real (BCV, Paralelo y USDT/Cripto), realizar cuadres de caja diarios, cerrar semanas operativas y obtener métricas visuales del negocio. Todo desde una sola pantalla, sin instalar nada, accesible desde cualquier dispositivo.
       </div>
     </div>
   </div>
 
-<!-- ════════════════════════════════════════
-     MÓDULOS
-════════════════════════════════════════ -->
+  <!-- 02 · MÓDULOS -->
   <div class="section">
     <div class="section-label">02 · Módulos del sistema</div>
     <div class="section-title">Todo lo que incluye</div>
@@ -276,172 +275,196 @@
       <!-- TASAS -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#f0fdf4;">📡</div>
+          <div class="module-icon" style="background:#f0fdf4;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#40916C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 6l5 5 4-4 7 8 6-6"/><path d="M22 2v6h-6"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Tasas del mercado en tiempo real</div>
             <div class="module-tag">Widget siempre visible</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>Consulta automática al iniciar la sesión y cada 24 horas</li>
-          <li>Tres tasas simultáneas: BCV oficial, Paralelo y USDT/Criptodólar</li>
-          <li>Chip activo seleccionable — USDT activo por defecto</li>
-          <li>Histórico de tasas guardado en base de datos (colección <em>tasas_historial</em>)</li>
-          <li>Botón de actualización manual disponible en todo momento</li>
-          <li>Diseño adaptado a móvil: sin scroll horizontal, chips en columna</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Consulta automática al iniciar la sesión y cada 24 horas</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Tres tasas simultáneas: BCV oficial, Paralelo y USDT/Criptodólar</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Chip activo seleccionable — USDT activo por defecto</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Histórico de tasas guardado en base de datos automáticamente</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Botón de actualización manual disponible en todo momento</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Diseño adaptado a móvil: sin scroll horizontal, chips en columna</li>
         </ul>
       </div>
 
       <!-- FACTURACIÓN -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#eff6ff;">🧾</div>
+          <div class="module-icon" style="background:#eff6ff;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Facturación</div>
             <div class="module-tag">Creación y gestión de documentos</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>Creación de facturas con número secuencial automático</li>
-          <li>Selección de cliente del directorio o ingreso rápido</li>
-          <li>Múltiples ítems/servicios por factura con cantidad y precio</li>
-          <li>Selección del empleado que procesa la operación</li>
-          <li>Métodos de pago: Zelle, Transferencia, Pago Móvil, Binance/USDT</li>
-          <li>Campo de referencia y número de comprobante</li>
-          <li>Subida de comprobante de pago (foto desde el celular o PC)</li>
-          <li>Marcado de factura como pagada con un clic</li>
-          <li>Al marcar pagada → se sincroniza automáticamente con Panel de Ventas</li>
-          <li>Hoja de detalle editable por factura (modal deslizante)</li>
-          <li>Notificación automática vía Telegram al equipo cuando se sube un comprobante</li>
-          <li>Notificación emergente en pantalla con botón de WhatsApp al cliente</li>
-          <li>Vista filtrable por estado: Todos / Pendientes / Pagados</li>
-          <li>Buscador integrado por cliente, número de doc o referencia</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Creación de facturas con número secuencial automático</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Selección de cliente del directorio o ingreso rápido</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Múltiples ítems/servicios por factura con cantidad y precio</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Selección del empleado que procesa la operación</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Métodos de pago: Zelle, Transferencia, Pago Móvil, Binance/USDT</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Subida de comprobante de pago (foto desde celular o PC)</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Al marcar pagada → sincroniza automáticamente con Panel de Ventas</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Notificación automática vía Telegram al equipo al subir comprobante</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Alerta en pantalla con botón de WhatsApp directo al cliente</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Vista filtrable: Todos / Pendientes / Pagados</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Buscador integrado por cliente, número de doc o referencia</li>
         </ul>
       </div>
 
       <!-- PANEL DE VENTAS -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#f0fdf4;">📊</div>
+          <div class="module-icon" style="background:#f0fdf4;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#40916C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Panel de ventas — Operaciones</div>
             <div class="module-tag">Registro y seguimiento</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>Recibe automáticamente las facturas marcadas como pagadas</li>
-          <li>Listado de todas las operaciones del negocio con fecha, cliente, empleado y monto</li>
-          <li>Resumen diario global: total del día, operaciones y tasa activa</li>
-          <li>Filtro por fecha desde/hasta</li>
-          <li>Exportación a CSV con todos los campos</li>
-          <li>Actualización en tiempo real (Firestore onSnapshot)</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Recibe automáticamente las facturas marcadas como pagadas</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Listado de todas las operaciones con fecha, cliente, empleado y monto</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Resumen diario global: total del día, operaciones y tasa activa</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Filtro por fecha desde/hasta</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Exportación a CSV con todos los campos</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Actualización en tiempo real (sincronización automática)</li>
         </ul>
       </div>
 
       <!-- MÉTRICAS -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#fdf4ff;">📈</div>
+          <div class="module-icon" style="background:#fdf4ff;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Panel de ventas — Métricas</div>
             <div class="module-tag">Análisis visual del negocio</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>KPIs: total del mes, operaciones, monto promedio por op., empleado del mes</li>
-          <li>Gráfico de barras de los últimos 7 días (Chart.js)</li>
-          <li>Tabla de servicios más vendidos con porcentaje del total</li>
-          <li>Ranking de empleados por volumen y número de operaciones</li>
-          <li>Gráfico de evolución histórica de tasas (BCV, Paralelo, USDT)</li>
-          <li>Filtro de período personalizable (últimos 7, 30, 90 días o rango libre)</li>
-          <li>Se actualiza automáticamente al marcar facturas como pagadas</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>KPIs: total del mes, operaciones, promedio por op., empleado del mes</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Gráfico de barras de los últimos 7 días de volumen</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Tabla de servicios más vendidos con porcentaje del total</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Ranking de empleados por volumen y número de operaciones</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Gráfico de evolución histórica de tasas (BCV, Paralelo, USDT)</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Se actualiza automáticamente al marcar facturas como pagadas</li>
         </ul>
       </div>
 
       <!-- CAJA -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#fef9e7;">💰</div>
+          <div class="module-icon" style="background:#fef9e7;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Cuadre de Caja</div>
             <div class="module-tag">Cierre diario y semanal</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>Resumen del día: total cobrado, operaciones pendientes, tasa activa</li>
-          <li>Desglose por método de pago: Zelle, Transferencia, Pago Móvil, Binance</li>
-          <li>Desglose por empleado con monto y cantidad de operaciones</li>
-          <li>Lista completa de todas las operaciones cobradas en el día</li>
-          <li>Exportar cuadre del día en PDF imprimible con un clic</li>
-          <li>Alerta automática de cierre de semana disponible (domingos y lunes)</li>
-          <li>Vista de cierre semanal: total de la semana, operaciones, promedio diario</li>
-          <li>Desglose por día dentro del cierre semanal</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Resumen del día: total cobrado, pendientes y tasa activa</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Desglose por método de pago: Zelle, Transferencia, Pago Móvil, Binance</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Desglose por empleado con monto y cantidad de operaciones</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Lista completa de operaciones cobradas en el día</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Exportar cuadre del día en PDF imprimible con un clic</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Alerta automática de cierre de semana disponible (domingos y lunes)</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Cierre semanal: total, operaciones, promedio diario y desglose por día</li>
         </ul>
       </div>
 
       <!-- CLIENTES -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#fff1f2;">👤</div>
+          <div class="module-icon" style="background:#fff1f2;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#e11d48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Directorio de clientes</div>
-            <div class="module-tag">Gestión y historial</div>
+            <div class="module-tag">Gestión e historial</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>Directorio completo de clientes con nombre, teléfono y método preferido</li>
-          <li>Búsqueda rápida por nombre o teléfono dentro del directorio</li>
-          <li>Historial completo por cliente: todas sus operaciones, total enviado, última fecha</li>
-          <li>KPIs por cliente: monto acumulado, número de operaciones, fecha última transacción</li>
-          <li>Registro de destinatarios Zelle por cliente (nombre de cuenta y correo Zelle)</li>
-          <li>Edición y eliminación de clientes desde el directorio</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Directorio con nombre, teléfono y método de pago preferido</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Búsqueda rápida por nombre o teléfono</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Historial completo por cliente: operaciones, monto total, última fecha</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>KPIs individuales: acumulado, número de ops, última transacción</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Registro de destinatarios Zelle por cliente (nombre y correo)</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Edición y eliminación de clientes desde el directorio</li>
         </ul>
       </div>
 
       <!-- ACCESO -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#f0f9ff;">🔐</div>
+          <div class="module-icon" style="background:#f0f9ff;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Acceso y autenticación</div>
             <div class="module-tag">Seguridad multi-nivel</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>Código de acceso de empresa para primera barrera de seguridad</li>
-          <li>Inicio de sesión con cuenta Google (OAuth 2.0)</li>
-          <li>Soporte para sesión anónima temporal</li>
-          <li>Log de accesos: quién entró, cuándo y desde qué correo</li>
-          <li>Reglas de seguridad en Firestore: documentos públicos de solo lectura, todo lo demás requiere autenticación</li>
-          <li>Pantalla de bienvenida con saludo personalizado por empleado</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Código de acceso de empresa como primera barrera de seguridad</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Inicio de sesión con cuenta Google (OAuth 2.0)</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Log de accesos: quién entró, cuándo y desde qué correo</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Reglas de seguridad en base de datos: acceso restringido por usuario</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Pantalla de bienvenida personalizada por empleado</li>
         </ul>
       </div>
 
       <!-- BÚSQUEDA GLOBAL -->
       <div class="module-card">
         <div class="module-header">
-          <div class="module-icon" style="background:#f0fdf4;">🔍</div>
+          <div class="module-icon" style="background:#f0fdf4;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#40916C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
           <div>
             <div class="module-name">Búsqueda global</div>
             <div class="module-tag">Desde cualquier sección</div>
           </div>
         </div>
         <ul class="module-features">
-          <li>Barra de búsqueda en el encabezado, siempre visible</li>
-          <li>Busca simultáneamente en facturas y en el directorio de clientes</li>
-          <li>Resultados en tiempo real desde el primer carácter (mínimo 2)</li>
-          <li>Clic en un documento: abre directamente su hoja de detalle</li>
-          <li>Clic en un cliente: abre su historial completo de operaciones</li>
-          <li>Hasta 8 resultados simultáneos con icono, título y subtítulo descriptivo</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Barra de búsqueda en el encabezado, siempre visible</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Busca simultáneamente en facturas y directorio de clientes</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Resultados en tiempo real desde el primer carácter (mínimo 2)</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Clic en un documento: abre directamente su hoja de detalle</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Clic en un cliente: abre su historial completo de operaciones</li>
+          <li><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>Hasta 8 resultados con icono, título y subtítulo descriptivo</li>
         </ul>
       </div>
 
-    </div><!-- /modules-grid -->
-  </div><!-- /section módulos -->
+    </div>
+  </div>
 
-<!-- ════════════════════════════════════════
-     FLUJO OPERATIVO
-════════════════════════════════════════ -->
+  <!-- 03 · FLUJO OPERATIVO -->
   <div class="section">
     <div class="section-label">03 · Flujo operativo</div>
     <div class="section-title">Cómo funciona el día a día</div>
@@ -451,44 +474,42 @@
       <div class="flow-step">
         <div class="flow-line"><div class="flow-dot">1</div><div class="flow-connector"></div></div>
         <div class="flow-body">
-          <div class="flow-title">Cliente solicita envío</div>
-          <div class="flow-desc">El operador busca al cliente en el directorio o lo registra. Selecciona el servicio, monto en USD y el destinatario Zelle. El sistema calcula automáticamente la equivalencia en Bolívares según la tasa activa seleccionada.</div>
+          <div class="flow-title">Cliente solicita el envío</div>
+          <div class="flow-desc">El operador busca al cliente en el directorio o lo registra en el momento. Selecciona el servicio, el monto en USD y el destinatario Zelle. El sistema calcula la equivalencia en Bolívares según la tasa activa seleccionada.</div>
         </div>
       </div>
       <div class="flow-step">
         <div class="flow-line"><div class="flow-dot">2</div><div class="flow-connector"></div></div>
         <div class="flow-body">
           <div class="flow-title">Se crea la factura</div>
-          <div class="flow-desc">El operador selecciona el empleado que procesa, el método de pago (Zelle, Pago Móvil, Transferencia o Binance) e ingresa la referencia. La factura queda en estado <em>Pendiente</em> hasta recibir el pago.</div>
+          <div class="flow-desc">El operador selecciona el empleado que procesa, el método de pago (Zelle, Pago Móvil, Transferencia o Binance) e ingresa la referencia. La factura queda en estado Pendiente hasta recibir el pago.</div>
         </div>
       </div>
       <div class="flow-step">
         <div class="flow-line"><div class="flow-dot">3</div><div class="flow-connector"></div></div>
         <div class="flow-body">
-          <div class="flow-title">Cliente sube comprobante</div>
-          <div class="flow-desc">El cliente puede fotografiar y subir su comprobante directamente desde el enlace de la factura. Al subirse, el equipo recibe una notificación automática en Telegram y aparece un aviso en pantalla con botón de WhatsApp directo al cliente para confirmar.</div>
+          <div class="flow-title">Cliente sube el comprobante</div>
+          <div class="flow-desc">El cliente fotografía y sube su comprobante directamente. Al subirse, el equipo recibe una notificación automática en Telegram y aparece un aviso en pantalla con botón de WhatsApp directo al cliente para confirmar.</div>
         </div>
       </div>
       <div class="flow-step">
         <div class="flow-line"><div class="flow-dot">4</div><div class="flow-connector"></div></div>
         <div class="flow-body">
           <div class="flow-title">Se confirma el pago</div>
-          <div class="flow-desc">El operador verifica el comprobante y marca la factura como <em>Pagada</em>. Automáticamente la operación se registra en el Panel de Ventas y se incluye en el cuadre de caja del día.</div>
+          <div class="flow-desc">El operador verifica el comprobante y marca la factura como Pagada. Automáticamente la operación se registra en el Panel de Ventas y se incluye en el cuadre de caja del día.</div>
         </div>
       </div>
       <div class="flow-step">
         <div class="flow-line"><div class="flow-dot">5</div><div class="flow-connector"></div></div>
         <div class="flow-body">
           <div class="flow-title">Cierre de caja</div>
-          <div class="flow-desc">Al final del día, el operador abre la sección <em>Caja</em> y obtiene un resumen completo de todo lo cobrado, desglosado por método de pago y por empleado. Puede exportar el cuadre en PDF imprimible. Los domingos y lunes aparece la alerta de cierre de semana con el resumen de los últimos 7 días.</div>
+          <div class="flow-desc">Al final del día el operador abre la sección Caja y obtiene el resumen completo de todo lo cobrado, desglosado por método de pago y por empleado. Puede exportar el cuadre en PDF imprimible. Los domingos y lunes aparece la alerta de cierre semanal con el resumen de los últimos 7 días.</div>
         </div>
       </div>
     </div>
   </div>
 
-<!-- ════════════════════════════════════════
-     STACK TECNOLÓGICO
-════════════════════════════════════════ -->
+  <!-- 04 · TECNOLOGÍAS -->
   <div class="section">
     <div class="section-label">04 · Stack tecnológico</div>
     <div class="section-title">Tecnologías utilizadas</div>
@@ -496,50 +517,53 @@
 
     <div class="tech-grid">
       <div class="tech-card">
-        <div class="tech-logo">🔥</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
         <div><div class="tech-name">Firebase Firestore</div><div class="tech-desc">Base de datos en tiempo real</div></div>
       </div>
       <div class="tech-card">
-        <div class="tech-logo">🔑</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         <div><div class="tech-name">Firebase Auth</div><div class="tech-desc">Google OAuth + sesión anónima</div></div>
       </div>
       <div class="tech-card">
-        <div class="tech-logo">☁️</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
         <div><div class="tech-name">Cloudinary</div><div class="tech-desc">Almacenamiento de comprobantes</div></div>
       </div>
       <div class="tech-card">
-        <div class="tech-logo">📊</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         <div><div class="tech-name">Chart.js</div><div class="tech-desc">Gráficos de barras e históricos</div></div>
       </div>
       <div class="tech-card">
-        <div class="tech-logo">🤖</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.39 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.96-.96a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.5l.19.42z"/></svg>
         <div><div class="tech-name">Telegram Bot API</div><div class="tech-desc">Notificaciones automáticas al equipo</div></div>
       </div>
       <div class="tech-card">
-        <div class="tech-logo">💱</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
         <div><div class="tech-name">ve.dolarapi.com</div><div class="tech-desc">Tasas BCV, Paralelo y USDT</div></div>
       </div>
       <div class="tech-card">
-        <div class="tech-logo">🌐</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
         <div><div class="tech-name">HTML5 / CSS3 / JS</div><div class="tech-desc">SPA sin frameworks, sin build system</div></div>
       </div>
       <div class="tech-card">
-        <div class="tech-logo">🚀</div>
+        <svg class="tech-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>
         <div><div class="tech-name">GitHub + Hosting</div><div class="tech-desc">Deploy continuo en dgp-link.com</div></div>
       </div>
     </div>
   </div>
 
-<!-- ════════════════════════════════════════
-     CONFIDENCIALIDAD Y LICENCIA
-════════════════════════════════════════ -->
+  <!-- 05 · LEGAL -->
   <div class="section">
     <div class="section-label">05 · Legal</div>
     <div class="section-title">Confidencialidad y licencia de uso</div>
     <div class="section-sub">Términos que regulan el uso y la propiedad del software entregado.</div>
 
     <div class="conf-box">
-      <div class="conf-title">⚠️ Acuerdo de confidencialidad</div>
+      <div class="conf-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#92400e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Acuerdo de confidencialidad
+      </div>
       <div class="conf-body">
         <p>El presente sistema de software, incluyendo su código fuente, diseño visual, arquitectura de base de datos, flujos de datos, lógica de negocio y documentación asociada, constituye información confidencial y propietaria de <strong>DGP GLOBAL GROUP USA</strong>.</p>
         <p>El cliente (<strong>RO Cambios</strong>) se compromete a no divulgar, compartir, transferir, sublicenciar ni reproducir ninguna parte del sistema a terceros sin autorización escrita y previa de <strong>DGP GLOBAL GROUP USA</strong>. Esto incluye, pero no se limita a, capturas de pantalla del código, exportaciones de la base de datos, credenciales de acceso a los servicios y cualquier material técnico relacionado con el desarrollo.</p>
@@ -549,28 +573,52 @@
     </div>
 
     <div class="lic-box">
-      <div class="lic-title">📄 Licencia de uso — Perpetua y no exclusiva</div>
+      <div class="lic-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+        </svg>
+        Licencia de uso — Perpetua y no exclusiva
+      </div>
       <div class="lic-body">
         <p>DGP GLOBAL GROUP USA otorga al cliente <strong>RO Cambios</strong> una <strong>licencia de uso perpetua, intransferible y no exclusiva</strong> sobre el sistema de software entregado, bajo las siguientes condiciones:</p>
         <div class="lic-items">
-          <div class="lic-item">El cliente puede usar el sistema de forma indefinida, sin necesidad de renovaciones ni pagos recurrentes de licencia.</div>
-          <div class="lic-item">El cliente puede solicitar modificaciones, mejoras y soporte técnico a DGP GLOBAL GROUP USA, las cuales se cotizarán por separado.</div>
-          <div class="lic-item">La licencia es exclusivamente para el uso del negocio <strong>RO Cambios</strong>. No incluye el derecho de revender, sublicenciar ni transferir el software a terceros.</div>
-          <div class="lic-item">DGP GLOBAL GROUP USA conserva los derechos de autor y propiedad intelectual sobre el código fuente, el diseño y la arquitectura del sistema.</div>
-          <div class="lic-item">El cliente es responsable de los costos de los servicios de terceros contratados para el funcionamiento del sistema (Firebase, Cloudinary, dominio, hosting), una vez entregado el proyecto.</div>
-          <div class="lic-item">DGP GLOBAL GROUP USA no se hace responsable por pérdida de datos, interrupciones del servicio de terceros (Firebase, Cloudinary, etc.) ni por mal uso del sistema por parte del cliente o sus empleados.</div>
-          <div class="lic-item">Cualquier disputa relacionada con este acuerdo se resolverá mediante arbitraje bajo las leyes del Estado de Florida, EE. UU.</div>
+          <div class="lic-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            El cliente puede usar el sistema de forma indefinida, sin necesidad de renovaciones ni pagos recurrentes de licencia.
+          </div>
+          <div class="lic-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            El cliente puede solicitar modificaciones, mejoras y soporte técnico a DGP GLOBAL GROUP USA, las cuales se cotizarán por separado.
+          </div>
+          <div class="lic-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            La licencia es exclusivamente para el uso del negocio <strong>RO Cambios</strong>. No incluye el derecho de revender, sublicenciar ni transferir el software a terceros.
+          </div>
+          <div class="lic-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            DGP GLOBAL GROUP USA conserva los derechos de autor y propiedad intelectual sobre el código fuente, el diseño y la arquitectura del sistema.
+          </div>
+          <div class="lic-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            El cliente es responsable de los costos de los servicios de terceros (Firebase, Cloudinary, dominio, hosting) una vez entregado el proyecto.
+          </div>
+          <div class="lic-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            DGP GLOBAL GROUP USA no se hace responsable por pérdida de datos, interrupciones de servicios de terceros ni por mal uso del sistema por parte del cliente o sus empleados.
+          </div>
+          <div class="lic-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Cualquier disputa relacionada con este acuerdo se resolverá mediante arbitraje bajo las leyes del Estado de Florida, EE. UU.
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <div style="height: 0;"></div>
-</div><!-- /wrap -->
+</div>
 
-<!-- ════════════════════════════════════════
-     FIRMA DIGITAL
-════════════════════════════════════════ -->
+<!-- FIRMA DIGITAL -->
 <div class="signature-section">
   <div class="signature-inner">
     <div class="sig-grid">
@@ -595,7 +643,7 @@
 
     <div class="sig-bottom">
       <div class="sig-copy">
-        © 2026 DGP GLOBAL GROUP USA. Todos los derechos reservados.<br>
+        &copy; 2026 DGP GLOBAL GROUP USA. Todos los derechos reservados.<br>
         Este documento es parte del paquete de entrega oficial del proyecto RO Cambios.
       </div>
       <div class="sig-version">v1.0 · Junio 2026</div>
