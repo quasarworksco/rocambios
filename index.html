@@ -1292,6 +1292,7 @@
             <button class="hist-filter-btn" data-filter="factura" onclick="setHistFilter('factura',this)">Pendientes</button>
             <button class="hist-filter-btn" data-filter="parcial" onclick="setHistFilter('parcial',this)">Parciales</button>
             <button class="hist-filter-btn" data-filter="recibo" onclick="setHistFilter('recibo',this)">Pagados</button>
+            <button class="hist-filter-btn" data-filter="por-entregar" id="filter-por-entregar" onclick="setHistFilter('por-entregar',this)" style="color:#2D6A4F;border-color:rgba(45,106,79,0.3);">Por entregar <span id="badge-por-entregar" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 6px;margin-left:3px;"></span></button>
           </div>
         <div id="hist-list"><div style="text-align:center;color:var(--text-soft);font-size:12px;padding:24px 0;">Sin documentos registrados aún</div></div>
       </div>
@@ -2581,6 +2582,11 @@ function renderHistorial() {
   const container = document.getElementById('hist-list');
   const search = (document.getElementById('hist-search')?.value || '').toLowerCase().trim();
 
+  /* Update "por entregar" badge */
+  const porEntregarCount = Object.values(docsMap).filter(d => (d.pagado || d.type === 'recibo') && !d.entregado).length;
+  const badgePE = document.getElementById('badge-por-entregar');
+  if (badgePE) { badgePE.textContent = porEntregarCount; badgePE.style.display = porEntregarCount > 0 ? 'inline' : 'none'; }
+
   let allDocs = Object.values(docsMap).sort((a, b) => {
     const ta = a.createdAt && a.createdAt.toDate ? a.createdAt.toDate() : new Date(0);
     const tb = b.createdAt && b.createdAt.toDate ? b.createdAt.toDate() : new Date(0);
@@ -2593,9 +2599,10 @@ function renderHistorial() {
       (d.docId || '').toLowerCase().includes(search)
     );
   }
-  if (histFilter === 'factura') allDocs = allDocs.filter(d => d.type === 'factura' && !d.pagado && !d.pagadoParcial);
-  else if (histFilter === 'parcial') allDocs = allDocs.filter(d => !!d.pagadoParcial);
-  else if (histFilter === 'recibo')  allDocs = allDocs.filter(d => d.pagado || d.type === 'recibo');
+  if (histFilter === 'factura')       allDocs = allDocs.filter(d => d.type === 'factura' && !d.pagado && !d.pagadoParcial);
+  else if (histFilter === 'parcial')  allDocs = allDocs.filter(d => !!d.pagadoParcial);
+  else if (histFilter === 'recibo')   allDocs = allDocs.filter(d => d.pagado || d.type === 'recibo');
+  else if (histFilter === 'por-entregar') allDocs = allDocs.filter(d => (d.pagado || d.type === 'recibo') && !d.entregado);
 
   if (allDocs.length === 0) {
     container.innerHTML = `<div style="text-align:center;color:var(--text-soft);font-size:12px;padding:24px 0;">${search || histFilter !== 'todos' ? 'No se encontraron resultados.' : 'Sin documentos registrados aún'}</div>`;
