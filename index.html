@@ -890,9 +890,9 @@
   #tasas-widget { padding: 8px 12px; }
   #tasas-widget > div { flex-direction: column; align-items: stretch; gap: 8px; }
   #tasas-widget > div > div:first-child { justify-content: space-between; }
-  #tasas-widget > div > div:last-child { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
-  .tasa-chip { flex-shrink: 0; padding: 8px 14px; border-radius: 12px; }
-  .tasa-chip-val { font-size: 20px; }
+  #tasas-widget > div > div:last-child { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tasa-chip { flex: 1; min-width: 80px; padding: 8px 10px; border-radius: 12px; justify-content: center; }
+  .tasa-chip-val { font-size: 18px; }
   .tasa-chip-label { font-size: 10px; letter-spacing: 0.5px; }
   #resumen-diario { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
   #saludo-global { padding: 16px 16px !important; }
@@ -1859,7 +1859,7 @@ function initPage() {
   initVentas();
   initDocs();
   onTypeChange();
-  fetchTasas();
+  scheduleDailyTasas();
   loadZelleDirectorio();
 }
 
@@ -1992,17 +1992,34 @@ async function fetchTasas() {
   if (btn) btn.textContent = '↻ Actualizar';
   actualizarBsResultado();
 
-  // Save snapshot to Firestore
+  // Save daily snapshot to Firestore (once per day, keyed by date)
   try {
-    await db.collection('tasas_historial').add({
-      fecha: todayISO(),
+    const hoy = todayISO();
+    await db.collection('tasas_historial').doc(hoy).set({
+      fecha: hoy,
       hora: new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'}),
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       bcv: tasas.bcv || null,
       paralelo: tasas.paralelo || null,
       usdt: tasas.usdt || null
-    });
+    }, { merge: true });
   } catch(e) { /* silent */ }
+}
+
+// Auto-fetch tasas once a day at startup (refresh if last fetch was yesterday or older)
+function scheduleDailyTasas() {
+  const lastFetch = localStorage.getItem('tasas_last_fetch_date');
+  const hoy = todayISO();
+  if (lastFetch !== hoy) {
+    fetchTasas().then(() => localStorage.setItem('tasas_last_fetch_date', hoy));
+  }
+  // Check again at midnight
+  const now = new Date();
+  const msToMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1) - now;
+  setTimeout(() => {
+    fetchTasas().then(() => localStorage.setItem('tasas_last_fetch_date', todayISO()));
+    scheduleDailyTasas();
+  }, msToMidnight + 60000); // 1 min after midnight
 }
 
 function seleccionarTasa(tipo) {
