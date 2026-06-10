@@ -1066,6 +1066,8 @@
 <div id="page-ventas" class="page active">
   <div class="ventas-main">
 
+    <!-- RESUMEN DIARIO -->
+    <div id="resumen-diario" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;"></div>
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
@@ -1778,9 +1780,41 @@ function initVentas() {
     .onSnapshot(snap => {
       DATOS = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
       render();
+      renderResumenDiario();
     }, err => {
       console.error('Ventas listener error:', err);
     });
+}
+
+function renderResumenDiario() {
+  const el = document.getElementById('resumen-diario');
+  if (!el) return;
+  const hoy = todayISO();
+
+  const ventasHoy = DATOS.filter(f => {
+    const fd = f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
+    return fd === hoy;
+  });
+
+  const totalHoy    = ventasHoy.reduce((a,f) => a + (parseFloat(f.monto)||0), 0);
+  const opHoy       = ventasHoy.length;
+  const fisico      = ventasHoy.filter(f => (f.servicio||'').includes('Físico') || (f.servicio||'').includes('fisico')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
+  const bolivares   = ventasHoy.filter(f => (f.servicio||'').includes('Bolívar') || (f.servicio||'').includes('Bolivar')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
+
+  const porEntregar = Object.values(docsMap).filter(d => (d.pagado || d.type==='recibo') && !d.entregado).length;
+
+  const card = (label, value, sub, accent) => `
+    <div style="background:${accent?'linear-gradient(135deg,#2D6A4F,#40916C)':'white'};border:1.5px solid ${accent?'transparent':'var(--border)'};border-radius:14px;padding:14px 16px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${accent?'rgba(255,255,255,0.65)':'var(--text-soft)'};margin-bottom:6px;">${label}</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${accent?'white':'var(--blue)'};letter-spacing:0.5px;">${value}</div>
+      <div style="font-size:10px;font-weight:600;color:${accent?'rgba(255,255,255,0.7)':'var(--text-soft)'};margin-top:2px;">${sub}</div>
+    </div>`;
+
+  el.innerHTML =
+    card('Procesado hoy', `$${totalHoy.toFixed(0)}`, `${opHoy} operación${opHoy!==1?'es':''}`, true) +
+    card('Por entregar', porEntregar, porEntregar===0?'Al día':'pendientes de entrega', false) +
+    card('Zelle → Físico', `$${fisico.toFixed(0)}`, 'hoy', false) +
+    card('Zelle → Bs', `$${bolivares.toFixed(0)}`, 'hoy', false);
 }
 
 function render() {
@@ -2058,6 +2092,7 @@ function initDocs() {
 
       docsMap = newMap;
       updateHistorialBadge();
+      renderResumenDiario();
       if (document.getElementById('subtab-historial').style.display !== 'none') renderHistorial();
     }, err => {
       console.error('Docs listener error:', err);
