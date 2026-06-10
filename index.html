@@ -1084,9 +1084,6 @@
   <button class="nav-tab" onclick="switchPage('facturacion', this); _clearNotifBadge();">
     <i class="fa-solid fa-file-invoice-dollar"></i> Facturación<span id="notif-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
   </button>
-  <button class="nav-tab" onclick="switchPage('caja', this)" style="display:inline-flex;align-items:center;gap:6px;">
-    <i class="fa-solid fa-cash-register"></i> Caja
-  </button>
 </nav>
 
 <!-- TICKER -->
@@ -1157,6 +1154,7 @@
     <div class="subtabs" style="padding:0 20px;">
       <button class="subtab-btn active" id="vsubtab-btn-ops" onclick="switchVentasTab('ops',this)" style="display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Operaciones</button>
       <button class="subtab-btn" id="vsubtab-btn-met" onclick="switchVentasTab('metricas',this)" style="display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Métricas</button>
+      <button class="subtab-btn" id="vsubtab-btn-caja" onclick="switchVentasTab('caja',this)" style="display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg> Caja</button>
     </div>
 
     <!-- SUB: OPERACIONES -->
@@ -1268,6 +1266,51 @@
         </div>
       </div>
     </div><!-- /vsubtab-metricas -->
+
+    <!-- SUBTAB: CAJA -->
+    <div id="vsubtab-caja" style="display:none;padding:20px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--black);">Cuadre de Caja</div>
+          <div style="font-size:11px;color:#6b7280;">Resumen financiero del día</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="renderCaja()" style="padding:8px 14px;background:var(--bg-alt);border:1.5px solid var(--border);border-radius:10px;font-size:11px;font-weight:600;color:var(--black);cursor:pointer;">↻ Actualizar</button>
+          <button onclick="exportCajaPDF()" style="padding:8px 14px;background:var(--black);color:white;border:none;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Exportar</button>
+        </div>
+      </div>
+
+      <div id="caja-semana-alert" style="display:none;background:linear-gradient(135deg,#1B4332,#2D6A4F);color:white;border-radius:14px;padding:16px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;gap:12px;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;">CIERRE DE SEMANA DISPONIBLE</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">Esta semana ya terminó. Puedes ver el resumen completo.</div>
+        </div>
+        <button onclick="verCierreSemana()" style="background:white;color:#1B4332;border:none;border-radius:10px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;">Ver cierre</button>
+      </div>
+
+      <div id="caja-kpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;"></div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+        <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Entradas por método</div>
+          <div id="caja-metodos"></div>
+        </div>
+        <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Por empleado hoy</div>
+          <div id="caja-empleados"></div>
+        </div>
+      </div>
+
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Operaciones del día</div>
+        <div id="caja-ops"></div>
+      </div>
+
+      <div id="caja-cierre-semana" style="display:none;background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Cierre de Semana</div>
+        <div id="caja-semana-content"></div>
+      </div>
+    </div><!-- /vsubtab-caja -->
 
   </div><!-- /ventas-main -->
 </div><!-- /page-ventas -->
@@ -1461,56 +1504,6 @@
 </div><!-- /page-facturacion -->
 
 <!-- PAGE: CAJA -->
-<div id="page-caja" class="page">
-  <div style="max-width:900px;margin:0 auto;padding:28px 24px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--black);">Cuadre de Caja</div>
-        <div style="font-size:11px;color:#6b7280;">Resumen financiero del día</div>
-      </div>
-      <div style="display:flex;gap:8px;">
-        <button onclick="renderCaja()" style="padding:8px 14px;background:var(--bg-alt);border:1.5px solid var(--border);border-radius:10px;font-size:11px;font-weight:600;color:var(--black);cursor:pointer;">↻ Actualizar</button>
-        <button onclick="exportCajaPDF()" style="padding:8px 14px;background:var(--black);color:white;border:none;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Exportar</button>
-      </div>
-    </div>
-
-    <!-- Weekly close alert -->
-    <div id="caja-semana-alert" style="display:none;background:linear-gradient(135deg,#1B4332,#2D6A4F);color:white;border-radius:14px;padding:16px 20px;margin-bottom:20px;align-items:center;justify-content:space-between;gap:12px;">
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;">CIERRE DE SEMANA DISPONIBLE</div>
-        <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;">Esta semana ya terminó. Puedes ver el resumen completo.</div>
-      </div>
-      <button onclick="verCierreSemana()" style="background:white;color:#1B4332;border:none;border-radius:10px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;">Ver cierre</button>
-    </div>
-
-    <!-- Daily summary cards -->
-    <div id="caja-kpis" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;"></div>
-
-    <!-- Payment method breakdown -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
-      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Entradas por método</div>
-        <div id="caja-metodos"></div>
-      </div>
-      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Por empleado hoy</div>
-        <div id="caja-empleados"></div>
-      </div>
-    </div>
-
-    <!-- Operations list -->
-    <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Operaciones del día</div>
-      <div id="caja-ops"></div>
-    </div>
-
-    <!-- Weekly close modal trigger area -->
-    <div id="caja-cierre-semana" style="display:none;margin-top:20px;background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:14px;">Cierre de Semana</div>
-      <div id="caja-semana-content"></div>
-    </div>
-  </div>
-</div>
 
 
 </div><!-- /app-shell -->
@@ -1988,15 +1981,17 @@ function switchPage(page, btn) {
   btn.classList.add('active');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
-  if (page === 'caja') renderCaja();
 }
 
 function switchVentasTab(tab, btn) {
-  document.getElementById('vsubtab-btn-ops').classList.toggle('active', tab === 'ops');
-  document.getElementById('vsubtab-btn-met').classList.toggle('active', tab === 'metricas');
+  document.getElementById('vsubtab-btn-ops').classList.toggle('active',  tab === 'ops');
+  document.getElementById('vsubtab-btn-met').classList.toggle('active',  tab === 'metricas');
+  document.getElementById('vsubtab-btn-caja').classList.toggle('active', tab === 'caja');
   document.getElementById('vsubtab-ops').style.display      = tab === 'ops'      ? 'block' : 'none';
   document.getElementById('vsubtab-metricas').style.display = tab === 'metricas' ? 'block' : 'none';
+  document.getElementById('vsubtab-caja').style.display     = tab === 'caja'     ? 'block' : 'none';
   if (tab === 'metricas') renderMetricas();
+  if (tab === 'caja')     renderCaja();
 }
 
 function switchSubTab(tab, btn) {
@@ -2508,7 +2503,7 @@ function initDocs() {
       renderResumenDiario();
       if (document.getElementById('subtab-historial').style.display !== 'none') renderHistorial();
       if (document.getElementById('vsubtab-metricas')?.style.display !== 'none') renderMetricas();
-      if (document.getElementById('page-caja')?.classList.contains('active')) renderCaja();
+      if (document.getElementById('vsubtab-caja')?.style.display !== 'none') renderCaja();
     }, err => {
       console.error('Docs listener error:', err);
     });
