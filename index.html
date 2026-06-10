@@ -1053,12 +1053,6 @@
   <button class="nav-tab" onclick="switchPage('facturacion', this); _clearNotifBadge();">
     <i class="fa-solid fa-file-invoice-dollar"></i> Facturación<span id="notif-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
   </button>
-  <button class="nav-tab" onclick="switchPage('dashboard', this)">
-    <i class="fa-solid fa-chart-pie"></i> Dashboard
-  </button>
-  <button class="nav-tab" onclick="switchPage('clientes', this)">
-    <i class="fa-solid fa-address-book"></i> Clientes
-  </button>
 </nav>
 
 <!-- TICKER -->
@@ -1305,170 +1299,6 @@
 
   </div><!-- /fact-main -->
 </div><!-- /page-facturacion -->
-
-<div id="page-dashboard" class="page">
-  <div class="dash-main">
-
-    <!-- Header -->
-    <div class="dash-header">
-      <div class="dash-greeting">Panel · <span>RO Cambios</span></div>
-      <div class="dash-period-row">
-        <button class="dash-period-btn active" onclick="setDashPeriod('semana',this)">Esta semana</button>
-        <button class="dash-period-btn" onclick="setDashPeriod('mes',this)">Este mes</button>
-        <button class="dash-period-btn" onclick="setDashPeriod('todo',this)">Todo</button>
-      </div>
-    </div>
-
-    <!-- KPI hero row -->
-    <div class="dash-kpi-grid" style="margin-bottom:12px;">
-      <div class="dash-kpi-card accent">
-        <div class="dash-kpi-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        </div>
-        <div class="dash-kpi-label">Monto remesado</div>
-        <div class="dash-kpi-value" id="dash-total-ventas">$0.00</div>
-        <div class="dash-kpi-sub" id="dash-num-ventas-sub">0 operaciones</div>
-      </div>
-      <div class="dash-kpi-card accent2">
-        <div class="dash-kpi-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-        </div>
-        <div class="dash-kpi-label">Comisión estimada</div>
-        <div class="dash-kpi-value" id="dash-comision">$0.00</div>
-        <div class="dash-kpi-sub">~8% promedio</div>
-      </div>
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-        </div>
-        <div class="dash-kpi-label">Operaciones</div>
-        <div class="dash-kpi-value" id="dash-num-ventas">0</div>
-        <div class="dash-kpi-sub" id="dash-avg-sub">Prom. $0</div>
-      </div>
-      <div class="dash-kpi-card">
-        <div class="dash-kpi-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2D6A4F" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div class="dash-kpi-label">Clientes únicos</div>
-        <div class="dash-kpi-value" id="dash-clientes-unicos">0</div>
-        <div class="dash-kpi-sub" id="dash-cli-freq-sub">—</div>
-      </div>
-    </div>
-
-    <!-- Meta mensual + Facturas -->
-    <div class="dash-2col">
-      <!-- Meta mensual -->
-      <div class="dash-panel">
-        <div class="dash-panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Meta del mes
-          <input type="number" id="meta-input" min="0" step="100" placeholder="0"
-            style="margin-left:auto;width:80px;padding:4px 8px;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:600;color:var(--black);background:var(--off);outline:none;"
-            onchange="guardarMeta(this.value)" oninput="actualizarMeta(this.value)">
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
-          <div class="dash-meta-pct" id="meta-pct-label">0%</div>
-          <div style="font-size:11px;font-weight:700;color:var(--text-soft);" id="meta-amt-label">$0 / $0</div>
-        </div>
-        <div class="dash-meta-track"><div class="dash-meta-fill" id="meta-bar" style="width:0%"></div></div>
-        <div id="meta-msg" style="font-size:11px;color:var(--text-soft);margin-top:6px;text-align:right;font-weight:600;"></div>
-      </div>
-      <!-- Estado de facturas -->
-      <div class="dash-panel">
-        <div class="dash-panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Facturación
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div style="padding:12px;background:var(--bg-alt);border-radius:10px;">
-            <div class="dash-kpi-label" style="margin-bottom:4px;">Emitidas</div>
-            <div class="dash-kpi-value" id="dash-total-facturas" style="font-size:22px;">0</div>
-          </div>
-          <div style="padding:12px;background:var(--bg-alt);border-radius:10px;">
-            <div class="dash-kpi-label" style="margin-bottom:4px;">Cobrado</div>
-            <div class="dash-kpi-value green" id="dash-cobrado" style="font-size:22px;">$0</div>
-          </div>
-          <div style="padding:12px;background:#fffbeb;border:1px solid rgba(217,119,6,0.15);border-radius:10px;">
-            <div class="dash-kpi-label" style="margin-bottom:4px;color:#92400e;">Por cobrar</div>
-            <div class="dash-kpi-value amber" id="dash-pendiente" style="font-size:22px;">$0</div>
-          </div>
-          <div style="padding:12px;background:var(--bg-alt);border-radius:10px;">
-            <div class="dash-kpi-label" style="margin-bottom:4px;">Parciales</div>
-            <div class="dash-kpi-value" id="dash-parciales" style="font-size:22px;">0</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Empleados + Top servicios -->
-    <div class="dash-2col">
-      <div class="dash-panel">
-        <div class="dash-panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-          Operaciones por agente
-        </div>
-        <div id="dash-emp-bars"><div class="dash-empty">Cargando agentes...</div></div>
-      </div>
-      <div class="dash-panel">
-        <div class="dash-panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          Servicios más operados
-        </div>
-        <div id="dash-top-services"><div class="dash-empty">Sin operaciones aún</div></div>
-      </div>
-    </div>
-
-    <!-- Top clientes + Actividad -->
-    <div class="dash-2col">
-      <div class="dash-panel">
-        <div class="dash-panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Clientes frecuentes
-        </div>
-        <div id="dash-top-clients"><div class="dash-empty">Sin operaciones aún</div></div>
-      </div>
-      <div class="dash-panel">
-        <div class="dash-panel-title">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          Actividad reciente
-        </div>
-        <div id="actividad-list"><div class="dash-empty">Cargando...</div></div>
-      </div>
-    </div>
-
-    <!-- Calendario -->
-    <div class="dash-full dash-panel" style="margin-top:0;">
-      <div class="dash-panel-title">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Calendario de operaciones
-      </div>
-      <div class="cal-nav">
-        <button class="cal-nav-btn" onclick="calPrevMonth()">&#9664;</button>
-        <span id="cal-titulo" style="font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;color:var(--black);"></span>
-        <button class="cal-nav-btn" onclick="calNextMonth()">&#9658;</button>
-      </div>
-      <div class="cal-grid" id="cal-grid"></div>
-      <div class="cal-legend"><span class="cal-dot" style="background:var(--blue);"></span> Día con operaciones</div>
-    </div>
-
-  </div>
-</div>
-
-<div id="page-clientes" class="page">
-  <div class="clientes-main">
-    <div class="clientes-header">
-      <div>
-        <div class="panel-title-v" style="margin-bottom:2px;">Base de Clientes</div>
-        <div style="font-size:11px;color:var(--text-soft);"><span id="clientes-count">0</span> clientes registrados</div>
-      </div>
-      <button class="btn-nuevo-cliente" onclick="openClienteModal()">+ Nuevo cliente</button>
-    </div>
-    <div class="clientes-search-row">
-      <input type="text" id="clientes-search" placeholder="Buscar por nombre, teléfono o correo..." oninput="renderClientes()">
-    </div>
-    <div id="clientes-list-container"><div style="text-align:center;padding:40px 0;color:var(--text-soft);font-size:13px;">Cargando clientes...</div></div>
-  </div>
-</div>
 
 
 </div><!-- /app-shell -->
@@ -1885,11 +1715,6 @@ function initPage() {
   populateServiceSelects();
   initVentas();
   initDocs();
-  initClientes();
-  initClientesCRM();
-  renderDashboard();
-  renderCalendario();
-  renderActividad();
   onTypeChange();
 }
 
@@ -1929,8 +1754,6 @@ function switchPage(page, btn) {
   btn.classList.add('active');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
-  if (page === 'dashboard')  { renderDashboard(); renderCalendario(); renderActividad(); }
-  if (page === 'clientes')   renderClientes();
 }
 
 function switchSubTab(tab, btn) {
@@ -1954,7 +1777,6 @@ function initVentas() {
     .onSnapshot(snap => {
       DATOS = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
       render();
-      renderDashboard();
     }, err => {
       console.error('Ventas listener error:', err);
     });
@@ -2236,7 +2058,6 @@ function initDocs() {
       docsMap = newMap;
       updateHistorialBadge();
       if (document.getElementById('subtab-historial').style.display !== 'none') renderHistorial();
-      renderDashboard();
     }, err => {
       console.error('Docs listener error:', err);
     });
@@ -2586,6 +2407,25 @@ function openSheet(doc) {
       delivBar.className = 'sheet-delivery-bar pendiente';
       delivBar.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Pendiente de entrega`;
     }
+  }
+
+  /*  Datos de entrega del cliente (guardados desde factura pública)  */
+  let existingEntrega = document.getElementById('s-entrega-block');
+  if (existingEntrega) existingEntrega.remove();
+  if (doc.entregaInfo && Object.keys(doc.entregaInfo).length > 0) {
+    const entregaEl = document.createElement('div');
+    entregaEl.id = 's-entrega-block';
+    entregaEl.style.cssText = 'padding:0 28px 16px;';
+    const tipoLabel = doc.entregaTipo === 'fisico' ? 'Retiro en efectivo' : doc.entregaTipo === 'bolivares' ? 'Pago Móvil' : 'Binance / USDT';
+    const filas = Object.entries(doc.entregaInfo).filter(([,v])=>v).map(([k,v])=>`
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;">
+        <span style="color:var(--text-soft);font-weight:600;">${esc(k)}</span>
+        <span style="font-weight:600;color:var(--black);">${esc(v)}</span>
+      </div>`).join('');
+    entregaEl.innerHTML = `
+      <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-soft);margin-bottom:8px;">Datos de Entrega · ${esc(tipoLabel)}</div>
+      <div style="background:var(--bg-alt);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;">${filas}</div>`;
+    document.getElementById('sheet-actions').insertAdjacentElement('beforebegin', entregaEl);
   }
 
   /*  Comprobante del cliente (subido desde factura pública)  */
