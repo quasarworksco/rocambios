@@ -12,6 +12,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <script type="module" crossorigin src="https://embed.hel.io/assets/index-v1.js"></script>
   <style>
@@ -831,7 +832,7 @@
       const numero    = doc.numero   || fsId;
       const total     = doc.total    ? `$${Number(doc.total).toFixed(2)}` : '';
       const marca     = 'RO Cambios';
-      const factUrl   = `${window.location.origin}/factura?id=${fsId}`;
+      const factUrl   = `${window.location.origin}/factura.html?id=${fsId}`;
       const caption   = `💳 *Nuevo comprobante de pago*\n\n👤 *Cliente:* ${cliente}\n🧾 *Factura:* #${numero}${total ? `\n💰 *Monto:* ${total}` : ''}\n🏢 *Empresa:* ${marca}\n\n🔗 [Ver factura](${factUrl})`;
       await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendPhoto`, {
         method: 'POST',
@@ -1440,7 +1441,14 @@
     }
   }
 
-  loadFactura();
+  const auth = firebase.auth();
+  auth.signInAnonymously()
+    .then(() => loadFactura())
+    .catch(e => {
+      // If anonymous auth is disabled, try loading anyway (Firestore rules may allow public reads)
+      console.warn('Anonymous auth failed:', e.code);
+      loadFactura();
+    });
 </script>
 </body>
 </html>
