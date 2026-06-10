@@ -242,10 +242,10 @@
     }
     .logo-text {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 20px; letter-spacing: 3px; color: var(--black);
+      font-size: 22px; letter-spacing: 4px; color: var(--black);
     }
     .logo-text span { color: var(--blue); }
-    .logo-sub { font-size: 9px; color: var(--text-soft); letter-spacing: 3px; text-transform: uppercase; font-weight: 300; margin-top: 1px; }
+    .logo-sub { font-size: 9px; color: #6b7280; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; margin-top: 1px; }
 
     .header-right { display: flex; gap: 12px; align-items: center; }
     .badge-bono {
@@ -279,13 +279,13 @@
       padding: 14px 24px;
       font-family: 'DM Sans', sans-serif;
       font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
-      color: var(--text-soft); background: none; border: none; cursor: pointer;
+      color: #6b7280; background: none; border: none; cursor: pointer;
       border-bottom: 2px solid transparent;
       transition: color 0.2s, border-color 0.2s;
       display: flex; align-items: center; gap: 8px;
     }
-    .nav-tab:hover { color: var(--blue); }
-    .nav-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+    .nav-tab:hover { color: var(--black); }
+    .nav-tab.active { color: var(--black); font-weight: 700; border-bottom-color: var(--blue); }
 
     /*  TICKER  */
     .ticker {
@@ -395,14 +395,14 @@
     }
     .panel-title-v {
       font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
-      color: var(--blue); font-weight: 500; margin-bottom: 20px;
+      color: var(--black); font-weight: 700; margin-bottom: 20px;
       display: flex; align-items: center; gap: 8px;
     }
-    .panel-title-v::before { content:''; display:block; width:16px; height:1px; background:var(--blue); }
+    .panel-title-v::before { content:''; display:block; width:4px; height:14px; background:var(--blue); border-radius:2px; }
 
     /* Form fields */
     .field-group { margin-bottom: 10px; }
-    .field-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 6px; display: block; font-weight: 400; }
+    .field-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: #374151; margin-bottom: 6px; display: block; font-weight: 600; }
     .field-group select, .field-group input {
       width: 100%; padding: 11px 14px;
       background: var(--off); border: 1px solid var(--border); border-radius: 0;
@@ -452,9 +452,9 @@
     .venta-info { flex: 1; min-width: 0; }
     .venta-name { font-size: 12px; font-weight: 500; color: var(--black); }
     .venta-client { font-size: 11px; color: var(--text-soft); font-weight: 300; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .venta-service { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--blue); border: 1px solid var(--border); padding: 2px 8px; white-space: nowrap; }
+    .venta-service { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--blue-light); border: 1px solid var(--border); padding: 2px 8px; white-space: nowrap; background: var(--bg-alt); border-radius: 4px; }
     .venta-date { font-size: 10px; color: var(--text-soft); white-space: nowrap; font-weight: 300; }
-    .venta-amount { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--green); white-space: nowrap; }
+    .venta-amount { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--black); white-space: nowrap; }
     .empty-state { text-align: center; padding: 40px 0; color: var(--text-soft); font-size: 13px; font-weight: 300; }
     .empty-state div { font-size: 28px; margin-bottom: 8px; }
 
@@ -483,12 +483,12 @@
     .fact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     .panel-f { background: white; border: 1px solid var(--border); border-radius: 18px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
     .panel-f-full { grid-column: 1 / -1; }
-    .panel-title-f { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
+    .panel-title-f { font-family: 'IBM Plex Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--black); margin-bottom: 18px; display: flex; align-items: center; gap: 8px; }
     .panel-title-f::before { content:''; width:3px; height:14px; background:var(--blue); border-radius:2px; display:block; }
 
     /* Fields facturacion */
     .ff { margin-bottom: 13px; }
-    .ff label { display: block; font-size: 9px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-soft); margin-bottom: 5px; }
+    .ff label { display: block; font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #374151; margin-bottom: 5px; }
     .ff input, .ff select, .ff textarea {
       width: 100%; padding: 11px 14px;
       background: #f8fafc; border: 1.5px solid var(--border); border-radius: 10px;
@@ -525,10 +525,10 @@
     .doc-badge.factura { background:var(--amber-light); color:var(--amber); border:1px solid rgba(217,119,6,0.2); }
     .doc-badge.recibo  { background:var(--green-light); color:var(--green-dark); border:1px solid rgba(5,150,105,0.2); }
     .doc-info { flex:1; min-width:0; }
-    .doc-id   { font-size:9px; font-weight:600; letter-spacing:2px; color:var(--blue); }
+    .doc-id   { font-size:9px; font-weight:700; letter-spacing:2px; color:var(--blue-light); }
     .doc-name { font-size:13px; font-weight:600; color:var(--black); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .doc-date { font-size:10px; color:var(--text-soft); }
-    .doc-amount { font-family:'Bebas Neue',sans-serif; font-size:16px; font-weight:800; color:var(--black); white-space:nowrap; flex-shrink:0; }
+    .doc-date { font-size:10px; color:#6b7280; }
+    .doc-amount { font-family:'Bebas Neue',sans-serif; font-size:18px; font-weight:800; color:var(--black); white-space:nowrap; flex-shrink:0; }
     .doc-actions { display:flex; gap:6px; flex-shrink:0; flex-wrap:wrap; }
     .btn-sm { padding:6px 12px; border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:10px; font-weight:600; letter-spacing:1px; cursor:pointer; transition:all 0.2s; border:1.5px solid; white-space:nowrap; }
     .btn-sm.outline { background:white; border-color:var(--border); color:var(--text-mid); }
@@ -875,9 +875,9 @@
     .tasa-chip { display:inline-flex; align-items:center; gap:5px; padding:7px 12px; background:var(--off); border:1.5px solid var(--border); border-radius:10px; cursor:pointer; transition:all 0.15s; user-select:none; }
     .tasa-chip:hover { border-color:var(--blue); background:var(--bg-alt); }
     .tasa-chip.active { border-color:var(--blue); background:var(--bg-alt); box-shadow:0 0 0 3px rgba(45,106,79,0.12); }
-    .tasa-chip-label { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-soft); }
-    .tasa-chip-val { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--blue); letter-spacing:0.5px; min-width:20px; text-align:center; }
-    .tasa-chip-unit { font-size:9px; font-weight:600; color:var(--text-soft); }
+    .tasa-chip-label { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#374151; }
+    .tasa-chip-val { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--black); letter-spacing:0.5px; min-width:20px; text-align:center; }
+    .tasa-chip-unit { font-size:9px; font-weight:600; color:#6b7280; }
 .dash-empty svg { margin:0 auto 8px; display:block; opacity:0.35; }
 
 /*  HISTORIAL SEARCH  */
@@ -1046,6 +1046,9 @@
   </div>
   <div class="header-right">
     <div class="live-dot">EN LÍNEA</div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;margin-right:6px;">
+      <span id="user-greeting" style="font-size:10px;font-weight:600;color:var(--text-soft);letter-spacing:0.3px;"></span>
+    </div>
     <div class="user-avatar" id="user-avatar-init">?</div>
     <button class="btn-logout" onclick="logoutUser()"><i class="fa-solid fa-right-from-bracket"></i> Salir</button>
   </div>
@@ -1066,60 +1069,58 @@
   <span class="ticker-inner" id="tickerText"></span>
 </div>
 
-<!-- 
+<!-- TASAS DEL DÍA — visible en todas las secciones -->
+<div id="tasas-widget" style="background:white;border-bottom:1.5px solid var(--border);padding:10px 20px;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <div style="display:flex;align-items:center;gap:6px;">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      <span style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#374151;">Tasas del día</span>
+      <button onclick="fetchTasas()" id="btn-refresh-tasas" style="background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:6px;font-size:10px;font-weight:600;color:var(--blue);">↻</button>
+      <span id="tasas-hora" style="font-size:9px;color:var(--text-soft);"></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      <div class="tasa-chip" id="chip-bcv" onclick="seleccionarTasa('bcv')" title="Tasa BCV oficial">
+        <span class="tasa-chip-label">BCV</span>
+        <span class="tasa-chip-val" id="tasa-bcv-val">—</span>
+        <span class="tasa-chip-unit">Bs/$</span>
+      </div>
+      <div class="tasa-chip" id="chip-paralelo" onclick="seleccionarTasa('paralelo')" title="Dólar paralelo">
+        <span class="tasa-chip-label">Paralelo</span>
+        <span class="tasa-chip-val" id="tasa-paralelo-val">—</span>
+        <span class="tasa-chip-unit">Bs/$</span>
+      </div>
+      <div class="tasa-chip" id="chip-usdt" onclick="seleccionarTasa('usdt')" title="USDT promedio Binance P2P">
+        <span class="tasa-chip-label">USDT</span>
+        <span class="tasa-chip-val" id="tasa-usdt-val">—</span>
+        <span class="tasa-chip-unit">Bs/USDT</span>
+      </div>
+      <div class="tasa-chip" id="chip-manual" onclick="seleccionarTasa('manual')" title="Tasa manual">
+        <span class="tasa-chip-label">Manual</span>
+        <input id="tasa-manual-input" type="number" min="0" step="0.01" placeholder="0.00"
+          style="width:68px;border:none;outline:none;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--blue);background:transparent;text-align:center;"
+          oninput="onTasaManualInput()" onclick="event.stopPropagation();seleccionarTasa('manual')">
+        <span class="tasa-chip-unit">Bs/$</span>
+      </div>
+      <div id="tasa-resultado" style="display:none;align-items:center;gap:6px;padding:6px 12px;background:var(--bg-alt);border-radius:10px;">
+        <span style="font-size:10px;font-weight:600;color:var(--text-soft);">Recibiría aprox.</span>
+        <span id="tasa-bs-resultado" style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--blue);letter-spacing:0.5px;"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RESUMEN DIARIO — visible en todas las secciones -->
+<div id="resumen-diario-global" style="background:var(--bg-alt);border-bottom:1.5px solid var(--border);padding:10px 20px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div id="resumen-diario" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;"></div>
+  </div>
+</div>
+
+<!--
      PAGE: PANEL DE VENTAS
  -->
 <div id="page-ventas" class="page active">
   <div class="ventas-main">
-
-    <!-- RESUMEN DIARIO -->
-    <div id="resumen-diario" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;"></div>
-
-    <!-- TASAS DEL DÍA -->
-    <div id="tasas-widget" style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:16px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-        <div style="display:flex;align-items:center;gap:6px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          <span style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-soft);">Tasas del día</span>
-          <button onclick="fetchTasas()" id="btn-refresh-tasas" style="background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:6px;font-size:10px;font-weight:600;color:var(--blue);">↻ Actualizar</button>
-          <span id="tasas-hora" style="font-size:9px;color:var(--text-soft);"></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <!-- BCV -->
-          <div class="tasa-chip" id="chip-bcv" onclick="seleccionarTasa('bcv')" title="Tasa BCV oficial">
-            <span class="tasa-chip-label">BCV</span>
-            <span class="tasa-chip-val" id="tasa-bcv-val">—</span>
-            <span class="tasa-chip-unit">Bs/$</span>
-          </div>
-          <!-- Paralelo -->
-          <div class="tasa-chip" id="chip-paralelo" onclick="seleccionarTasa('paralelo')" title="Dólar paralelo">
-            <span class="tasa-chip-label">Paralelo</span>
-            <span class="tasa-chip-val" id="tasa-paralelo-val">—</span>
-            <span class="tasa-chip-unit">Bs/$</span>
-          </div>
-          <!-- USDT Binance -->
-          <div class="tasa-chip" id="chip-usdt" onclick="seleccionarTasa('usdt')" title="USDT promedio Binance P2P">
-            <span class="tasa-chip-label">USDT Binance</span>
-            <span class="tasa-chip-val" id="tasa-usdt-val">—</span>
-            <span class="tasa-chip-unit">Bs/USDT</span>
-          </div>
-          <!-- Manual -->
-          <div class="tasa-chip" id="chip-manual" onclick="seleccionarTasa('manual')" title="Tasa manual">
-            <span class="tasa-chip-label">Manual</span>
-            <input id="tasa-manual-input" type="number" min="0" step="0.01"
-              placeholder="0.00"
-              style="width:72px;border:none;outline:none;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--blue);background:transparent;text-align:center;"
-              oninput="onTasaManualInput()" onclick="event.stopPropagation();seleccionarTasa('manual')">
-            <span class="tasa-chip-unit">Bs/$</span>
-          </div>
-        </div>
-      </div>
-      <!-- Resultado Bs -->
-      <div id="tasa-resultado" style="display:none;margin-top:10px;padding:10px 14px;background:var(--bg-alt);border-radius:10px;display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:11px;font-weight:600;color:var(--text-soft);">El cliente recibiría aprox.</span>
-        <span id="tasa-bs-resultado" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--blue);letter-spacing:0.5px;">—</span>
-      </div>
-    </div>
 
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
@@ -1715,8 +1716,15 @@ function showApp(user) {
   hideSplash();
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app-shell').style.display    = 'block';
-  const ini = (user.displayName || user.email || '?')[0].toUpperCase();
+  const nombre = user.displayName || user.email?.split('@')[0] || '';
+  const ini = nombre[0]?.toUpperCase() || '?';
   document.getElementById('user-avatar-init').textContent = ini;
+  const greetEl = document.getElementById('user-greeting');
+  if (greetEl && nombre) {
+    const hora = new Date().getHours();
+    const saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
+    greetEl.textContent = `${saludo}, ${nombre.split(' ')[0]}`;
+  }
   initPage();
 }
 
@@ -1865,19 +1873,24 @@ async function fetchTasas() {
   } catch(e) { console.warn('Error tasas BCV/paralelo:', e); }
 
   try {
-    // USDT promedio Binance P2P VES
-    const res = await fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ asset:'USDT', fiat:'VES', merchantCheck:false, page:1, payTypes:[], publisherType:null, rows:10, tradeType:'SELL' })
-    });
-    const data = await res.json();
-    const prices = (data?.data || []).map(d => parseFloat(d.adv?.price)).filter(p => p > 0);
-    if (prices.length > 0) {
-      tasas.usdt = prices.reduce((a,b)=>a+b,0) / prices.length;
+    // USDT desde ve.dolarapi.com
+    const resUsdt = await fetch('https://ve.dolarapi.com/v1/dolares/criptodolar');
+    const dataUsdt = await resUsdt.json();
+    if (dataUsdt?.promedio) {
+      tasas.usdt = parseFloat(dataUsdt.promedio);
+      document.getElementById('tasa-usdt-val').textContent = tasas.usdt.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
+    } else if (tasas.paralelo) {
+      // fallback: USDT ≈ paralelo
+      tasas.usdt = tasas.paralelo;
       document.getElementById('tasa-usdt-val').textContent = tasas.usdt.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
     }
-  } catch(e) { console.warn('Error tasa USDT Binance:', e); }
+  } catch(e) {
+    // fallback: si falla, usar tasa paralelo
+    if (tasas.paralelo) {
+      tasas.usdt = tasas.paralelo;
+      document.getElementById('tasa-usdt-val').textContent = tasas.usdt.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+  }
 
   const hora = document.getElementById('tasas-hora');
   if (hora) hora.textContent = 'Actualizado ' + new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'});
@@ -1938,18 +1951,26 @@ function renderResumenDiario() {
 
   const porEntregar = Object.values(docsMap).filter(d => (d.pagado || d.type==='recibo') && !d.entregado).length;
 
-  const card = (label, value, sub, accent) => `
-    <div style="background:${accent?'linear-gradient(135deg,#2D6A4F,#40916C)':'white'};border:1.5px solid ${accent?'transparent':'var(--border)'};border-radius:14px;padding:14px 16px;">
-      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${accent?'rgba(255,255,255,0.65)':'var(--text-soft)'};margin-bottom:6px;">${label}</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;color:${accent?'white':'var(--blue)'};letter-spacing:0.5px;">${value}</div>
-      <div style="font-size:10px;font-weight:600;color:${accent?'rgba(255,255,255,0.7)':'var(--text-soft)'};margin-top:2px;">${sub}</div>
+  const card = (label, value, sub, style) => {
+    const styles = {
+      green: { bg:'linear-gradient(135deg,#1B4332,#2D6A4F)', border:'transparent', labelColor:'rgba(255,255,255,0.55)', valueColor:'#ffffff', subColor:'rgba(255,255,255,0.65)', icon:'💵' },
+      amber: { bg:'#fffbeb', border:'#fde68a', labelColor:'#92400e', valueColor:'#b45309', subColor:'#d97706', icon:'📦' },
+      slate: { bg:'#f8fafc', border:'var(--border)', labelColor:'#64748b', valueColor:'#0f172a', subColor:'#64748b', icon:'💸' },
+      teal:  { bg:'#f0fdfa', border:'#99f6e4', labelColor:'#134e4a', valueColor:'#0f766e', subColor:'#0d9488', icon:'🇻🇪' },
+    };
+    const s = styles[style] || styles.slate;
+    return `<div style="background:${s.bg};border:1.5px solid ${s.border};border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${s.labelColor};">${label}</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:${s.valueColor};letter-spacing:0.5px;line-height:1;">${value}</div>
+      <div style="font-size:10px;font-weight:500;color:${s.subColor};">${sub}</div>
     </div>`;
+  };
 
   el.innerHTML =
-    card('Procesado hoy', `$${totalHoy.toFixed(0)}`, `${opHoy} operación${opHoy!==1?'es':''}`, true) +
-    card('Por entregar', porEntregar, porEntregar===0?'Al día':'pendientes de entrega', false) +
-    card('Zelle → Físico', `$${fisico.toFixed(0)}`, 'hoy', false) +
-    card('Zelle → Bs', `$${bolivares.toFixed(0)}`, 'hoy', false);
+    card('Procesado hoy', `$${totalHoy.toFixed(0)}`, `${opHoy} operación${opHoy!==1?'es':''}`, 'green') +
+    card('Por entregar', porEntregar, porEntregar===0?'✓ Al día':'pendientes de entrega', 'amber') +
+    card('Zelle → Físico', `$${fisico.toFixed(0)}`, 'efectivo hoy', 'slate') +
+    card('Zelle → Bs', `$${bolivares.toFixed(0)}`, 'bolívares hoy', 'teal');
 }
 
 function render() {
