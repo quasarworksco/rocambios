@@ -2141,38 +2141,27 @@ function renderResumenDiario() {
   };
 
   // Facturas/recibos de hoy (fuente principal)
-  const docsHoy = Object.values(docsMap).filter(d => getFecha(d) === hoy);
+  const docsHoy = Object.values(docsMap).filter(d => {
+    // usar fechaPago si existe, sino fecha de creación
+    const raw = d.fechaPago || d.fecha || '';
+    const s = typeof raw === 'string' ? raw : (raw.toDate ? raw.toDate().toISOString() : '');
+    const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    const iso = m ? `${m[3]}-${m[2]}-${m[1]}` : s.slice(0,10);
+    return iso === hoy;
+  });
 
-  // Monto total: suma de totales de documentos pagados o recibos de hoy
   const docsFacturadosHoy = docsHoy.filter(d => d.pagado || d.type === 'recibo');
-  const totalHoy  = docsFacturadosHoy.reduce((a,d) => {
-    const t = parseFloat(d.total) || (d.items||[]).reduce((s,i)=>s+(parseFloat(i.price||0)*parseInt(i.qty||1)),0) || 0;
-    return a + t;
-  }, 0);
+  const totalHoy  = docsFacturadosHoy.reduce((a,d) => a + (parseFloat(d.total) || 0), 0);
   const opHoy = docsFacturadosHoy.length;
 
-  // Desglose por tipo de servicio (primer ítem del documento)
-  const srvOf = d => (d.items?.[0]?.desc || d.servicio || '').toLowerCase();
-  const fisico    = docsFacturadosHoy.filter(d => srvOf(d).includes('físico') || srvOf(d).includes('fisico')).reduce((a,d)=>{
-    const t = parseFloat(d.total)||(d.items||[]).reduce((s,i)=>s+(parseFloat(i.price||0)*parseInt(i.qty||1)),0)||0;
-    return a+t;
-  },0);
-  const bolivares = docsFacturadosHoy.filter(d => srvOf(d).includes('bolívar') || srvOf(d).includes('bolivar')).reduce((a,d)=>{
-    const t = parseFloat(d.total)||(d.items||[]).reduce((s,i)=>s+(parseFloat(i.price||0)*parseInt(i.qty||1)),0)||0;
-    return a+t;
-  },0);
+  const srvOf = d => ((d.items?.[0]?.s || d.items?.[0]?.desc || d.servicio || '')).toLowerCase();
+  const fisico    = docsFacturadosHoy.filter(d => srvOf(d).includes('físico') || srvOf(d).includes('fisico')).reduce((a,d)=>a+(parseFloat(d.total)||0),0);
+  const bolivares = docsFacturadosHoy.filter(d => srvOf(d).includes('bolívar') || srvOf(d).includes('bolivar')).reduce((a,d)=>a+(parseFloat(d.total)||0),0);
 
-  // También sumar ventas del panel si existen
-  const ventasHoy = DATOS.filter(f => getFecha(f) === hoy);
-  const totalVentas  = ventasHoy.reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
-  const opVentas     = ventasHoy.length;
-  const fisicoV      = ventasHoy.filter(f=>(f.servicio||'').toLowerCase().includes('físico')||(f.servicio||'').toLowerCase().includes('fisico')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
-  const bolivaresV   = ventasHoy.filter(f=>(f.servicio||'').toLowerCase().includes('bolívar')||(f.servicio||'').toLowerCase().includes('bolivar')).reduce((a,f)=>a+(parseFloat(f.monto)||0),0);
-
-  const totalFinal   = totalHoy + totalVentas;
-  const opFinal      = opHoy + opVentas;
-  const fisicoFinal  = fisico + fisicoV;
-  const bolivaresFinal = bolivares + bolivaresV;
+  const totalFinal     = totalHoy;
+  const opFinal        = opHoy;
+  const fisicoFinal    = fisico;
+  const bolivaresFinal = bolivares;
 
   const porEntregar = Object.values(docsMap).filter(d => (d.pagado || d.type==='recibo') && !d.entregado).length;
 
