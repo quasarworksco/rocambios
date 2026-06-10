@@ -1406,11 +1406,11 @@
             <!-- Modo toggle -->
             <div style="display:flex;gap:0;margin-bottom:12px;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;">
               <button id="remesa-modo-fisico" onclick="setRemesaModo('fisico')"
-                style="flex:1;padding:7px 10px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--blue);color:#fff;transition:background 0.15s;">
+                style="flex:1;padding:9px 8px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--green);color:#fff;transition:background 0.15s;line-height:1.3;text-align:center;">
                 Físico solicitado
               </button>
               <button id="remesa-modo-transfiere" onclick="setRemesaModo('transfiere')"
-                style="flex:1;padding:7px 10px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--off);color:var(--text-soft);transition:background 0.15s;">
+                style="flex:1;padding:9px 8px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--bg-alt);color:var(--text-soft);transition:background 0.15s;line-height:1.3;text-align:center;">
                 Cliente transfiere
               </button>
             </div>
@@ -2558,12 +2558,12 @@ function setRemesaModo(modo) {
   const btnT = document.getElementById('remesa-modo-transfiere');
   const lbl  = document.getElementById('remesa-fisico-label');
   if (modo === 'fisico') {
-    btnF.style.background = 'var(--blue)'; btnF.style.color = '#fff';
-    btnT.style.background = 'var(--off)';  btnT.style.color = 'var(--text-soft)';
+    btnF.style.background = 'var(--green)';    btnF.style.color = '#fff';
+    btnT.style.background = 'var(--bg-alt)';   btnT.style.color = 'var(--text-soft)';
     lbl.textContent = 'Monto físico solicitado (USD)';
   } else {
-    btnT.style.background = 'var(--blue)'; btnT.style.color = '#fff';
-    btnF.style.background = 'var(--off)';  btnF.style.color = 'var(--text-soft)';
+    btnT.style.background = 'var(--green)';    btnT.style.color = '#fff';
+    btnF.style.background = 'var(--bg-alt)';   btnF.style.color = 'var(--text-soft)';
     lbl.textContent = 'Monto que transfiere el cliente (USD)';
   }
   document.getElementById('remesa-fisico').value = '';
