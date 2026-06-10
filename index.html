@@ -30,6 +30,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
   <!-- Firebase Storage removido — imágenes via Cloudinary -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -885,6 +886,18 @@
     .tasa-chip-label { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#374151; }
     .tasa-chip-val { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--black); letter-spacing:0.5px; min-width:20px; text-align:center; }
     .tasa-chip-unit { font-size:9px; font-weight:600; color:#6b7280; }
+@media (max-width: 640px) {
+  #tasas-widget { padding: 8px 12px; }
+  #tasas-widget > div { flex-direction: column; align-items: stretch; gap: 8px; }
+  #tasas-widget > div > div:first-child { justify-content: space-between; }
+  #tasas-widget > div > div:last-child { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px; -webkit-overflow-scrolling: touch; }
+  .tasa-chip { flex-shrink: 0; padding: 8px 14px; border-radius: 12px; }
+  .tasa-chip-val { font-size: 20px; }
+  .tasa-chip-label { font-size: 10px; letter-spacing: 0.5px; }
+  #resumen-diario { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  #saludo-global { padding: 16px 16px !important; }
+  #saludo-texto { font-size: 28px !important; }
+}
 .dash-empty svg { margin:0 auto 8px; display:block; opacity:0.35; }
 
 /*  HISTORIAL SEARCH  */
@@ -1222,6 +1235,12 @@
             <option value="recibo">Recibo — pago ya recibido</option>
           </select>
         </div>
+        <div class="ff">
+          <label>Empleado que procesa</label>
+          <select id="doc-empleado">
+            <option value="">— Sin asignar —</option>
+          </select>
+        </div>
 
         <div class="ff">
           <label>Nombre del cliente</label>
@@ -1395,8 +1414,11 @@
         <div id="metricas-servicios"></div>
       </div>
       <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#0f766e;border-radius:2px;display:block;"></span>Historial de Tasas Hoy</div>
-        <div id="metricas-tasas-hist"></div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#0f766e;border-radius:2px;display:block;"></span>Tasas — Últimos 7 días</div>
+        <div id="metricas-tasas-hist" style="min-height:80px;"></div>
+        <div style="position:relative;height:180px;margin-top:8px;">
+          <canvas id="tasas-chart"></canvas>
+        </div>
       </div>
     </div>
 
@@ -1854,6 +1876,12 @@ function buildEmployeeUI() {
   fEmp.innerHTML = EMPLEADOS.map(e =>
     `<option value="${esc(e.nombre)}">${esc(e.nombre)}</option>`
   ).join('');
+
+  const docEmp = document.getElementById('doc-empleado');
+  if (docEmp) {
+    docEmp.innerHTML = '<option value="">— Sin asignar —</option>' +
+      EMPLEADOS.map(e => `<option value="${esc(e.nombre)}">${esc(e.nombre)}</option>`).join('');
+  }
 
   const filtros = document.getElementById('filtrosContainer');
   filtros.innerHTML =
@@ -2338,7 +2366,33 @@ function initDocs() {
           const prev = _prevDocsSnapshot[id];
           if (!prev) return;
           if (doc.comprobante_url && !prev.comprobante_url) {
-            toast(`Comprobante recibido — ${doc.cliente || doc.docId || ''}`, 'ok');
+            const nombre = doc.cli || doc.cliente || doc.docId || '';
+            const monto  = doc.total ? `$${Number(doc.total).toFixed(2)}` : '';
+            const cliente_obj = clientesCache.find(c => c.nombre.toLowerCase() === nombre.toLowerCase());
+            const tel = cliente_obj?.telefono || '';
+            const waMsg = encodeURIComponent(`Hola ${nombre}, recibimos tu comprobante${monto ? ` por ${monto}` : ''}. Lo estamos verificando, en breve te confirmamos. ¡Gracias!`);
+            const waUrl = tel ? `https://wa.me/${tel.replace(/\D/g,'')}?text=${waMsg}` : `https://wa.me/?text=${waMsg}`;
+            // Show a persistent notification banner
+            const notifId = 'comp-notif-' + Date.now();
+            const notifDiv = document.createElement('div');
+            notifDiv.id = notifId;
+            notifDiv.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;background:#1B4332;color:white;border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.25);min-width:280px;max-width:90vw;animation:slideUp 0.3s ease;';
+            notifDiv.innerHTML = `
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#52B788" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:11px;font-weight:700;letter-spacing:0.5px;color:#52B788;">COMPROBANTE RECIBIDO</div>
+                <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${nombre}${monto ? ' · ' + monto : ''}</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-shrink:0;">
+                <button onclick="openSheetById('${id}');document.getElementById('${notifId}')?.remove();" style="background:#52B788;border:none;color:white;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;">Ver</button>
+                <a href="${waUrl}" target="_blank" onclick="document.getElementById('${notifId}')?.remove();" style="background:#25D366;border:none;color:white;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  WA
+                </a>
+                <button onclick="document.getElementById('${notifId}')?.remove();" style="background:rgba(255,255,255,0.1);border:none;color:white;padding:6px 10px;border-radius:8px;font-size:11px;cursor:pointer;">✕</button>
+              </div>`;
+            document.body.appendChild(notifDiv);
+            setTimeout(() => document.getElementById(notifId)?.remove(), 30000);
             _addNotifBadge();
           }
           if (doc.contratoFirmado && !prev.contratoFirmado) {
@@ -2516,6 +2570,7 @@ async function saveDoc() {
     metodoPago: document.getElementById('metodo-pago').value || null,
     infoPago:   getInfoPago(),
     contrato:   document.getElementById('contrato-toggle').value === '1',
+    empleado:   document.getElementById('doc-empleado').value || '',
     items:      [...cart],
     pagado:     type === 'recibo',
     fechaPago:  type === 'recibo' ? fecha : null,
@@ -2523,6 +2578,25 @@ async function saveDoc() {
     createdAt:  firebase.firestore.FieldValue.serverTimestamp()
   };
     const added = await db.collection('documentos').add(docData);
+
+    // If it's a recibo (already paid), auto-sync to ventas
+    if (docData.type === 'recibo') {
+      try {
+        const srv = (docData.items || [])[0]?.desc || docData.servicio || 'Remesa';
+        await db.collection('ventas').add({
+          empleado:     docData.empleado || '—',
+          cliente:      docData.cli || '',
+          servicio:     srv,
+          monto:        docData.total || 0,
+          comisionPct:  0,
+          montoTotal:   docData.total || 0,
+          fecha:        firebase.firestore.Timestamp.fromDate(new Date()),
+          registradoPor: currentUser ? (currentUser.email || 'anonimo') : 'desconocido',
+          fromDocId:    docData.docId,
+          fromFsId:     added.id
+        });
+      } catch(_) {}
+    }
 
     // Save Zelle entry to directory
     if (docData.metodoPago === 'zelle' && docData.infoPago?.correo) {
@@ -2777,6 +2851,23 @@ async function marcarPagado(fsId) {
       ref:           doc.ref && doc.ref !== '—' ? doc.ref : 'Pago confirmado'
     });
     logActividad('Factura pagada', newDocId || fsId);
+    // Auto-sync to Panel de Ventas
+    try {
+      const items = doc.items || [];
+      const srv = items[0]?.desc || doc.servicio || 'Remesa';
+      await db.collection('ventas').add({
+        empleado:     doc.empleado || '—',
+        cliente:      doc.cli || doc.cliente || '',
+        servicio:     srv,
+        monto:        doc.total || 0,
+        comisionPct:  0,
+        montoTotal:   doc.total || 0,
+        fecha:        firebase.firestore.Timestamp.fromDate(new Date()),
+        registradoPor: currentUser ? (currentUser.email || 'anonimo') : 'desconocido',
+        fromDocId:    newDocId,
+        fromFsId:     fsId
+      });
+    } catch(_) {}
     toast('Marcado como pagado');
     const updated = { ...doc, type:'recibo', pagado:true, pagadoParcial:false, fechaPago, docId:newDocId };
     docsMap[fsId] = updated;
