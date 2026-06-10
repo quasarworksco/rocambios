@@ -872,6 +872,12 @@
 .dash-act-text { font-size:12px; font-weight:600; color:var(--text-mid); line-height:1.4; }
 .dash-act-time { font-size:10px; color:var(--text-soft); margin-top:2px; }
 .dash-empty { text-align:center; padding:28px 0; color:var(--text-soft); font-size:12px; font-weight:600; }
+    .tasa-chip { display:inline-flex; align-items:center; gap:5px; padding:7px 12px; background:var(--off); border:1.5px solid var(--border); border-radius:10px; cursor:pointer; transition:all 0.15s; user-select:none; }
+    .tasa-chip:hover { border-color:var(--blue); background:var(--bg-alt); }
+    .tasa-chip.active { border-color:var(--blue); background:var(--bg-alt); box-shadow:0 0 0 3px rgba(45,106,79,0.12); }
+    .tasa-chip-label { font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--text-soft); }
+    .tasa-chip-val { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--blue); letter-spacing:0.5px; min-width:20px; text-align:center; }
+    .tasa-chip-unit { font-size:9px; font-weight:600; color:var(--text-soft); }
 .dash-empty svg { margin:0 auto 8px; display:block; opacity:0.35; }
 
 /*  HISTORIAL SEARCH  */
@@ -1069,6 +1075,52 @@
     <!-- RESUMEN DIARIO -->
     <div id="resumen-diario" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;"></div>
 
+    <!-- TASAS DEL DÍA -->
+    <div id="tasas-widget" style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:14px 20px;margin-bottom:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-soft);">Tasas del día</span>
+          <button onclick="fetchTasas()" id="btn-refresh-tasas" style="background:none;border:none;cursor:pointer;padding:2px 6px;border-radius:6px;font-size:10px;font-weight:600;color:var(--blue);">↻ Actualizar</button>
+          <span id="tasas-hora" style="font-size:9px;color:var(--text-soft);"></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <!-- BCV -->
+          <div class="tasa-chip" id="chip-bcv" onclick="seleccionarTasa('bcv')" title="Tasa BCV oficial">
+            <span class="tasa-chip-label">BCV</span>
+            <span class="tasa-chip-val" id="tasa-bcv-val">—</span>
+            <span class="tasa-chip-unit">Bs/$</span>
+          </div>
+          <!-- Paralelo -->
+          <div class="tasa-chip" id="chip-paralelo" onclick="seleccionarTasa('paralelo')" title="Dólar paralelo">
+            <span class="tasa-chip-label">Paralelo</span>
+            <span class="tasa-chip-val" id="tasa-paralelo-val">—</span>
+            <span class="tasa-chip-unit">Bs/$</span>
+          </div>
+          <!-- USDT Binance -->
+          <div class="tasa-chip" id="chip-usdt" onclick="seleccionarTasa('usdt')" title="USDT promedio Binance P2P">
+            <span class="tasa-chip-label">USDT Binance</span>
+            <span class="tasa-chip-val" id="tasa-usdt-val">—</span>
+            <span class="tasa-chip-unit">Bs/USDT</span>
+          </div>
+          <!-- Manual -->
+          <div class="tasa-chip" id="chip-manual" onclick="seleccionarTasa('manual')" title="Tasa manual">
+            <span class="tasa-chip-label">Manual</span>
+            <input id="tasa-manual-input" type="number" min="0" step="0.01"
+              placeholder="0.00"
+              style="width:72px;border:none;outline:none;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--blue);background:transparent;text-align:center;"
+              oninput="onTasaManualInput()" onclick="event.stopPropagation();seleccionarTasa('manual')">
+            <span class="tasa-chip-unit">Bs/$</span>
+          </div>
+        </div>
+      </div>
+      <!-- Resultado Bs -->
+      <div id="tasa-resultado" style="display:none;margin-top:10px;padding:10px 14px;background:var(--bg-alt);border-radius:10px;display:flex;align-items:center;justify-content:space-between;">
+        <span style="font-size:11px;font-weight:600;color:var(--text-soft);">El cliente recibiría aprox.</span>
+        <span id="tasa-bs-resultado" style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--blue);letter-spacing:0.5px;">—</span>
+      </div>
+    </div>
+
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
       <!-- FORM -->
@@ -1085,7 +1137,7 @@
           </div>
           <div class="field-group">
             <label class="field-label">Monto recibido $</label>
-            <input type="number" id="fMon" placeholder="0.00" step="0.01" oninput="calcVentaTotal()">
+            <input type="number" id="fMon" placeholder="0.00" step="0.01" oninput="calcVentaTotal();actualizarBsResultado()">
           </div>
         </div>
         <div class="form-row">
@@ -1719,6 +1771,7 @@ function initPage() {
   initVentas();
   initDocs();
   onTypeChange();
+  fetchTasas();
 }
 
 /*  Build employee selects, ranking cards, filter buttons  */
@@ -1784,6 +1837,88 @@ function initVentas() {
     }, err => {
       console.error('Ventas listener error:', err);
     });
+}
+
+/* ══════════════════════════════════════════
+   TASAS DEL DÍA
+══════════════════════════════════════════ */
+let tasas = { bcv: null, paralelo: null, usdt: null };
+let tasaActiva = null;
+
+async function fetchTasas() {
+  const btn = document.getElementById('btn-refresh-tasas');
+  if (btn) btn.textContent = '↻ Cargando...';
+  try {
+    // BCV y Paralelo desde ve.dolarapi.com
+    const [resBcv, resPar] = await Promise.allSettled([
+      fetch('https://ve.dolarapi.com/v1/dolares/oficial').then(r => r.json()),
+      fetch('https://ve.dolarapi.com/v1/dolares/paralelo').then(r => r.json())
+    ]);
+    if (resBcv.status === 'fulfilled' && resBcv.value?.promedio) {
+      tasas.bcv = parseFloat(resBcv.value.promedio);
+      document.getElementById('tasa-bcv-val').textContent = tasas.bcv.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+    if (resPar.status === 'fulfilled' && resPar.value?.promedio) {
+      tasas.paralelo = parseFloat(resPar.value.promedio);
+      document.getElementById('tasa-paralelo-val').textContent = tasas.paralelo.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+  } catch(e) { console.warn('Error tasas BCV/paralelo:', e); }
+
+  try {
+    // USDT promedio Binance P2P VES
+    const res = await fetch('https://p2p.binance.com/bapi/c2c/v2/friendly/c2c/adv/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ asset:'USDT', fiat:'VES', merchantCheck:false, page:1, payTypes:[], publisherType:null, rows:10, tradeType:'SELL' })
+    });
+    const data = await res.json();
+    const prices = (data?.data || []).map(d => parseFloat(d.adv?.price)).filter(p => p > 0);
+    if (prices.length > 0) {
+      tasas.usdt = prices.reduce((a,b)=>a+b,0) / prices.length;
+      document.getElementById('tasa-usdt-val').textContent = tasas.usdt.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
+    }
+  } catch(e) { console.warn('Error tasa USDT Binance:', e); }
+
+  const hora = document.getElementById('tasas-hora');
+  if (hora) hora.textContent = 'Actualizado ' + new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'});
+  if (btn) btn.textContent = '↻ Actualizar';
+  actualizarBsResultado();
+}
+
+function seleccionarTasa(tipo) {
+  tasaActiva = tipo;
+  ['bcv','paralelo','usdt','manual'].forEach(t => {
+    const chip = document.getElementById('chip-' + t);
+    if (chip) chip.classList.toggle('active', t === tipo);
+  });
+  actualizarBsResultado();
+}
+
+function onTasaManualInput() {
+  tasaActiva = 'manual';
+  seleccionarTasa('manual');
+}
+
+function getTasaActiva() {
+  if (tasaActiva === 'manual') {
+    return parseFloat(document.getElementById('tasa-manual-input')?.value) || 0;
+  }
+  return tasas[tasaActiva] || 0;
+}
+
+function actualizarBsResultado() {
+  const monto = parseFloat(document.getElementById('fMon')?.value) || 0;
+  const tasa  = getTasaActiva();
+  const resEl = document.getElementById('tasa-resultado');
+  const bsEl  = document.getElementById('tasa-bs-resultado');
+  if (!resEl || !bsEl) return;
+  if (monto > 0 && tasa > 0) {
+    const bs = monto * tasa;
+    bsEl.textContent = 'Bs ' + bs.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
+    resEl.style.display = 'flex';
+  } else {
+    resEl.style.display = 'none';
+  }
 }
 
 function renderResumenDiario() {
