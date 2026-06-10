@@ -2601,7 +2601,9 @@ function addItem() {
     p = parseFloat(document.getElementById('srv-pre-std').value);
     c = parseInt(document.getElementById('srv-can-std').value) || 1;
   } else if (isRem) {
-    const fisico = parseFloat(document.getElementById('remesa-fisico').value) || 0;
+    // Use the displayed fisico value (already calculated for both modes)
+    const fisicoDisplay = document.getElementById('remesa-fisico-val')?.textContent?.replace('$','') || '0';
+    const fisico = parseFloat(fisicoDisplay) || 0;
     const pct    = parseFloat(document.getElementById('remesa-pct').value) || 8;
     p = parseFloat(document.getElementById('srv-pre').value);
     c = 1;

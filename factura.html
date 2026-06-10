@@ -702,22 +702,32 @@
           <tbody>${items}</tbody>
         </table>
         ${(() => {
-          // Show fisico/comision breakdown for remesa items
-          const remesaItems = (doc.items||[]).filter(it => {
-            const m = (it.s||'').match(/—\s*\$([0-9.]+)\s*físico\s*\((\d+)%/i);
-            return !!m;
-          });
+          const remesaItems = (doc.items||[]).filter(it => /—\s*\$[0-9.]+\s*físico\s*\(\d+%/i.test(it.s||''));
           if (!remesaItems.length) return '';
           return remesaItems.map(it => {
-            const m = (it.s||'').match(/—\s*\$([0-9.]+)\s*físico\s*\((\d+)%/i);
+            const m      = (it.s||'').match(/—\s*\$([0-9.]+)\s*físico\s*\((\d+)%/i);
             const fisico = parseFloat(m[1]);
             const pct    = parseFloat(m[2]);
-            const com    = parseFloat((it.t - fisico).toFixed(2));
+            const total  = parseFloat(it.t) || parseFloat(it.p) || 0;
+            const com    = parseFloat((total - fisico).toFixed(2));
+            // Detect mode: if com ≈ fisico * pct/100 → normal; otherwise → reverse (cliente transfirió total)
+            const isReverse = com < 0.01 || Math.abs(com - fisico * pct / 100) > 0.5;
+            if (isReverse) {
+              // Cliente transfirió `total`, comisión ya descontada
+              const comDesc = parseFloat((total / (1 + pct/100) * (pct/100)).toFixed(2));
+              const fisicoReal = parseFloat((total - comDesc).toFixed(2));
+              return `<div style="margin-top:10px;background:#f8fafc;border-radius:10px;padding:12px 14px;border:1px solid #e5e7eb;">
+                <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Desglose del pago</div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;"><span style="color:#374151;">Monto transferido por el cliente</span><span style="font-weight:600;color:#111827;">$${total.toFixed(2)}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #e5e7eb;"><span style="color:#374151;">Comisión descontada (${pct}%)</span><span style="font-weight:600;color:#d97706;">−$${comDesc.toFixed(2)}</span></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0 0;font-weight:700;"><span style="color:#111827;">Monto físico a recibir</span><span style="color:#1B4332;">$${fisicoReal.toFixed(2)}</span></div>
+              </div>`;
+            }
             return `<div style="margin-top:10px;background:#f8fafc;border-radius:10px;padding:12px 14px;border:1px solid #e5e7eb;">
               <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Desglose del pago</div>
               <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;"><span style="color:#374151;">Monto físico a recibir</span><span style="font-weight:600;color:#111827;">$${fisico.toFixed(2)}</span></div>
               <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #e5e7eb;"><span style="color:#374151;">Comisión (${pct}%)</span><span style="font-weight:600;color:#d97706;">+$${com.toFixed(2)}</span></div>
-              <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0 0;font-weight:700;"><span style="color:#111827;">Total a transferir</span><span style="color:#1B4332;">$${(it.t||0).toFixed(2)}</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0 0;font-weight:700;"><span style="color:#111827;">Total a transferir</span><span style="color:#1B4332;">$${total.toFixed(2)}</span></div>
             </div>`;
           }).join('');
         })()}
