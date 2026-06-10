@@ -2465,10 +2465,10 @@ async function marcarPagado(fsId) {
       ref:           doc.ref && doc.ref !== '—' ? doc.ref : 'Pago confirmado'
     });
     logActividad('Factura pagada', newDocId || fsId);
-    toast('Marcado como pagado ');
-    /* Refresh the open sheet */
+    toast('Marcado como pagado');
     const updated = { ...doc, type:'recibo', pagado:true, pagadoParcial:false, fechaPago, docId:newDocId };
-    openSheet(updated);
+    docsMap[fsId] = updated;
+    renderHistorial();
   } catch(err) {
     toast('Error al actualizar.', 'err');
   }
