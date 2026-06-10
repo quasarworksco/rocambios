@@ -873,6 +873,12 @@
 .dash-act-text { font-size:12px; font-weight:600; color:var(--text-mid); line-height:1.4; }
 .dash-act-time { font-size:10px; color:var(--text-soft); margin-top:2px; }
 .dash-empty { text-align:center; padding:28px 0; color:var(--text-soft); font-size:12px; font-weight:600; }
+    /* Cliente dropdown */
+    #cliente-dropdown { position:fixed; z-index:9000; background:white; border:1.5px solid var(--border); border-radius:12px; box-shadow:0 8px 24px rgba(0,0,0,0.12); display:none; max-height:260px; overflow-y:auto; }
+    .cli-drop-item { padding:10px 14px; border-bottom:1px solid var(--border); transition:background 0.15s; }
+    .cli-drop-item:last-child { border-bottom:none; }
+    .cli-drop-item:hover { background:var(--bg-alt); }
+
     .tasa-chip { display:inline-flex; align-items:center; gap:5px; padding:7px 12px; background:var(--off); border:1.5px solid var(--border); border-radius:10px; cursor:pointer; transition:all 0.15s; user-select:none; }
     .tasa-chip:hover { border-color:var(--blue); background:var(--bg-alt); }
     .tasa-chip.active { border-color:var(--blue); background:var(--bg-alt); box-shadow:0 0 0 3px rgba(45,106,79,0.12); }
@@ -1219,7 +1225,7 @@
 
         <div class="ff">
           <label>Nombre del cliente</label>
-          <input type="text" id="cli-nom" placeholder="Ej. Juan Pérez" list="clientes-list">
+          <input type="text" id="cli-nom" placeholder="Ej. Juan Pérez" list="clientes-list" oninput="onClienteInput('cli-nom')" autocomplete="off">
         </div>
         <div class="ff">
           <label>Referencia de pago</label>
@@ -1585,6 +1591,8 @@
       <div class="ff"><label>Teléfono / WhatsApp</label><input type="tel" id="cl-telefono" placeholder="+1 555 000 0000"></div>
       <div class="ff"><label>Correo electrónico</label><input type="email" id="cl-correo" placeholder="cliente@ejemplo.com"></div>
       <div class="ff"><label>Empresa (opcional)</label><input type="text" id="cl-empresa" placeholder="Nombre de empresa"></div>
+      <div class="ff"><label>Método de pago preferido</label><input type="text" id="cl-metodo" placeholder="Ej. Zelle: pagos@email.com"></div>
+      <div class="ff"><label>Dirección / Datos de entrega</label><input type="text" id="cl-entrega" placeholder="Ej. Miami, FL — pickup en oficina"></div>
       <div class="ff"><label>Notas</label><textarea id="cl-notas" placeholder="Notas internas sobre este cliente..." style="height:70px;resize:none;"></textarea></div>
       <button class="btn-edit-save" onclick="saveCliente2()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar Cliente</button>
       <button class="btn-edit-cancel" onclick="closeClienteModal()">Cancelar</button>
@@ -2522,7 +2530,12 @@ async function saveDoc() {
     btn.disabled = false;
     btn.innerHTML = type === 'factura' ? '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Generar Factura' : '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Generar Recibo';
     logActividad('Nuevo documento', `${docId} · ${cli} · $${total.toFixed(2)}`);
-    saveCliente(cli);
+    // Save client with extra info: reference/method and delivery info if present
+    saveCliente(cli, {
+      metodoPref: docData.infoPago?.correo
+        ? `Zelle: ${docData.infoPago.correo}`
+        : (document.getElementById('pago-ref')?.value?.trim() || undefined)
+    });
     toast('Documento guardado ');
     /* Show the sheet immediately (use local data since listener may lag) */
     openSheet({ _fsId: added.id, ...docData });
@@ -2647,7 +2660,6 @@ function openSheet(doc) {
       <button class="btn-sheet wa"     onclick="enviarWhatsApp('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
       <button class="btn-sheet marcar" onclick="marcarPagado('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Marcar pagado</button>
-      ${doc.enProceso && !doc.pagado ? `<button class="btn-sheet" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);cursor:default;" disabled>⏳ En proceso</button>` : `<button class="btn-sheet proceso" onclick="marcarEnProceso('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);">⏳ En proceso</button>`}
       <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
@@ -2658,7 +2670,6 @@ function openSheet(doc) {
       <button class="btn-sheet wa"     onclick="enviarWhatsApp('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
       <button class="btn-sheet marcar" onclick="marcarPagado('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Marcar pagado</button>
-      ${doc.enProceso && !doc.pagado ? `<button class="btn-sheet" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);cursor:default;" disabled>⏳ En proceso</button>` : `<button class="btn-sheet proceso" onclick="marcarEnProceso('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);">⏳ En proceso</button>`}
       <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
@@ -3445,34 +3456,83 @@ function enviarEmail(fsId) {
   window.location.href = `mailto:?subject=${encodeURIComponent(tipo + ' ' + (doc.docId || ''))}&body=${encodeURIComponent(body)}`;
 }
 
-/* 
-   CLIENTES — autocompletar
+/*
+   CLIENTES — directorio con autocompletar
  */
-let clientesCache = [];
+let clientesCache = []; /* [{nombre, telefono, metodoPref, dirEntrega, lastUsed}] */
 
 function initClientes() {
-  db.collection('clientes').orderBy('nombre').get().then(snap => {
-    clientesCache = snap.docs.map(d => d.data().nombre);
+  db.collection('clientes').orderBy('lastUsed', 'desc').limit(200).get().then(snap => {
+    clientesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     refreshClientesDatalist();
   }).catch(() => {});
 }
 
-function saveCliente(nombre) {
+function saveCliente(nombre, extra = {}) {
   if (!nombre) return;
   const id = nombre.toLowerCase().trim().replace(/\s+/g, '_').replace(/[^a-z0-9_áéíóúüñ]/g, '');
   if (!id) return;
-  db.collection('clientes').doc(id).set(
-    { nombre, lastUsed: firebase.firestore.FieldValue.serverTimestamp() },
-    { merge: true }
-  ).then(() => {
-    if (!clientesCache.includes(nombre)) { clientesCache.push(nombre); refreshClientesDatalist(); }
+  const data = { nombre, lastUsed: firebase.firestore.FieldValue.serverTimestamp(), ...extra };
+  db.collection('clientes').doc(id).set(data, { merge: true }).then(() => {
+    const idx = clientesCache.findIndex(c => c.id === id);
+    if (idx >= 0) clientesCache[idx] = { ...clientesCache[idx], ...data, id };
+    else clientesCache.unshift({ id, ...data });
+    refreshClientesDatalist();
   }).catch(() => {});
 }
 
 function refreshClientesDatalist() {
   const dl = document.getElementById('clientes-list');
-  if (dl) dl.innerHTML = clientesCache.map(c => `<option value="${esc(c)}">`).join('');
+  if (dl) dl.innerHTML = clientesCache.map(c => `<option value="${esc(c.nombre)}">`).join('');
 }
+
+function onClienteInput(inputId) {
+  const val = (document.getElementById(inputId)?.value || '').toLowerCase().trim();
+  const drop = document.getElementById('cliente-dropdown');
+  if (!drop) return;
+  if (!val || val.length < 2) { drop.style.display = 'none'; return; }
+  const matches = clientesCache.filter(c => c.nombre.toLowerCase().includes(val)).slice(0, 6);
+  if (!matches.length) { drop.style.display = 'none'; return; }
+  drop.innerHTML = matches.map((c, i) => `
+    <div class="cli-drop-item" onclick="aplicarCliente('${inputId}',${i + clientesCache.indexOf(c) - clientesCache.indexOf(matches[0])})" style="cursor:pointer; actually use index">
+      <div style="font-weight:600;font-size:13px;color:var(--black);">${esc(c.nombre)}</div>
+      <div style="font-size:10px;color:#6b7280;margin-top:1px;">${[c.telefono, c.metodoPref, c.dirEntrega].filter(Boolean).join(' · ')}</div>
+    </div>`).join('');
+  // Fix: use actual indices
+  drop.innerHTML = matches.map(c => {
+    const idx = clientesCache.indexOf(c);
+    return `<div class="cli-drop-item" onclick="aplicarCliente('${inputId}',${idx})">
+      <div style="font-weight:600;font-size:13px;color:var(--black);">${esc(c.nombre)}</div>
+      <div style="font-size:10px;color:#6b7280;margin-top:1px;">${[c.telefono, c.metodoPref, c.dirEntrega].filter(Boolean).join(' · ')}</div>
+    </div>`;
+  }).join('');
+  const anchor = document.getElementById(inputId);
+  if (anchor) {
+    const rect = anchor.getBoundingClientRect();
+    drop.style.display = 'block';
+    drop.style.top = (rect.bottom + window.scrollY) + 'px';
+    drop.style.left = rect.left + 'px';
+    drop.style.width = rect.width + 'px';
+  }
+}
+
+function aplicarCliente(inputId, idx) {
+  const c = clientesCache[idx];
+  if (!c) return;
+  const inp = document.getElementById(inputId);
+  if (inp) inp.value = c.nombre;
+  // Fill delivery info if in factura form
+  if (inputId === 'cli-nom') {
+    const refEl = document.getElementById('pago-ref');
+    if (refEl && !refEl.value && c.metodoPref) refEl.value = c.metodoPref;
+  }
+  document.getElementById('cliente-dropdown')?.style && (document.getElementById('cliente-dropdown').style.display = 'none');
+}
+
+document.addEventListener('click', e => {
+  const drop = document.getElementById('cliente-dropdown');
+  if (drop && !drop.contains(e.target)) drop.style.display = 'none';
+});
 
 /* 
    ACTIVIDAD LOG
@@ -3583,7 +3643,14 @@ function initClientesCRM() {
   db.collection('clientes').orderBy('nombre').onSnapshot(snap => {
     clientesList = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
     document.getElementById('clientes-count').textContent = clientesList.length;
-    clientesCache = clientesList.map(c => [c.nombre, c.apellido].filter(Boolean).join(' '));
+    clientesCache = clientesList.map(c => ({
+      id: c._id,
+      nombre: [c.nombre, c.apellido].filter(Boolean).join(' '),
+      telefono: c.telefono || '',
+      metodoPref: c.metodoPref || '',
+      dirEntrega: c.dirEntrega || '',
+      notas: c.notas || ''
+    }));
     refreshClientesDatalist();
     renderClientes();
   }, () => {});
@@ -3647,8 +3714,10 @@ function openClienteModal(id) {
   document.getElementById('cl-apellido').value = c?.apellido || '';
   document.getElementById('cl-telefono').value = c?.telefono || '';
   document.getElementById('cl-correo').value   = c?.correo   || '';
-  document.getElementById('cl-empresa').value  = c?.empresa  || '';
-  document.getElementById('cl-notas').value    = c?.notas    || '';
+  document.getElementById('cl-empresa').value  = c?.empresa   || '';
+  document.getElementById('cl-notas').value    = c?.notas     || '';
+  if (document.getElementById('cl-metodo'))  document.getElementById('cl-metodo').value  = c?.metodoPref || '';
+  if (document.getElementById('cl-entrega')) document.getElementById('cl-entrega').value = c?.dirEntrega  || '';
   document.getElementById('modalCliente').classList.add('show');
 }
 
@@ -3663,9 +3732,11 @@ async function saveCliente2() {
   const telefono = document.getElementById('cl-telefono').value.trim();
   const correo   = document.getElementById('cl-correo').value.trim();
   const empresa  = document.getElementById('cl-empresa').value.trim();
-  const notas    = document.getElementById('cl-notas').value.trim();
+  const notas     = document.getElementById('cl-notas').value.trim();
+  const metodoPref = document.getElementById('cl-metodo')?.value.trim() || '';
+  const dirEntrega = document.getElementById('cl-entrega')?.value.trim() || '';
   if (!nombre) { toast('El nombre es obligatorio.', 'err'); return; }
-  const data = { nombre, apellido, telefono, correo, empresa, notas, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+  const data = { nombre, apellido, telefono, correo, empresa, notas, metodoPref, dirEntrega, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
   try {
     if (editClienteId) {
       await db.collection('clientes').doc(editClienteId).update(data);
@@ -4173,6 +4244,7 @@ function exportCSV() {
 </script>
 
 <datalist id="clientes-list"></datalist>
+<div id="cliente-dropdown"></div>
 
 <!-- COMPROBANTE DE PAGO MODAL -->
 <div class="modal-overlay" id="modalComprobante">
