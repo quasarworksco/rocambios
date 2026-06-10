@@ -1466,7 +1466,7 @@
     <div class="clientes-search-row">
       <input type="text" id="clientes-search" placeholder="Buscar por nombre, teléfono o correo..." oninput="renderClientes()">
     </div>
-    <div id="clientes-list-container"></div>
+    <div id="clientes-list-container"><div style="text-align:center;padding:40px 0;color:var(--text-soft);font-size:13px;">Cargando clientes...</div></div>
   </div>
 </div>
 
@@ -1954,7 +1954,7 @@ function initVentas() {
     .onSnapshot(snap => {
       DATOS = snap.docs.map(d => ({ _id: d.id, ...d.data() }));
       render();
-      if (document.getElementById('page-dashboard').classList.contains('active')) renderDashboard();
+      renderDashboard();
     }, err => {
       console.error('Ventas listener error:', err);
     });
@@ -2236,7 +2236,7 @@ function initDocs() {
       docsMap = newMap;
       updateHistorialBadge();
       if (document.getElementById('subtab-historial').style.display !== 'none') renderHistorial();
-      if (document.getElementById('page-dashboard').classList.contains('active')) renderDashboard();
+      renderDashboard();
     }, err => {
       console.error('Docs listener error:', err);
     });
@@ -2645,8 +2645,8 @@ async function marcarEntregado(fsId) {
     });
     toast('Marcado como entregado');
     logActividad('Dinero entregado', doc.docId || fsId);
-    const updated = { ...doc, entregado: true, fechaEntrega: fmtDate() };
-    openSheet(updated);
+    docsMap[fsId] = { ...doc, entregado: true, fechaEntrega: fmtDate() };
+    renderHistorial();
   } catch(err) {
     toast('Error al actualizar.', 'err');
   }
@@ -2796,6 +2796,14 @@ function renderHistorial() {
       actionsHTML += `
       <button class="btn-sm" style="background:#fff7ed;border-color:rgba(251,146,60,0.3);color:#ea580c;display:inline-flex;align-items:center;gap:5px;" onclick='abrirPagoParcial("${esc(fsId)}")'><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pago</button>
       <button class="btn-sm paid" onclick='marcarPagado("${esc(fsId)}")'     style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Pagado total</button>`;
+    } else if (group === 'pagado') {
+      if (!doc.entregado) {
+        actionsHTML += `
+      <button class="btn-sm" onclick='marcarEntregado("${esc(fsId)}")' style="background:linear-gradient(135deg,#2D6A4F,#40916C);color:white;border-color:transparent;display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg> Entregar</button>`;
+      } else {
+        actionsHTML += `
+      <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:#059669;padding:5px 10px;background:#f0fdf4;border:1px solid rgba(5,150,105,0.2);border-radius:8px;"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Entregado</span>`;
+      }
     }
 
     const vngBadge = '';
@@ -3416,7 +3424,7 @@ function initClientesCRM() {
     document.getElementById('clientes-count').textContent = clientesList.length;
     clientesCache = clientesList.map(c => [c.nombre, c.apellido].filter(Boolean).join(' '));
     refreshClientesDatalist();
-    if (document.getElementById('page-clientes').classList.contains('active')) renderClientes();
+    renderClientes();
   }, () => {});
 }
 
