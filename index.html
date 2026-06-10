@@ -1889,6 +1889,18 @@ async function fetchTasas() {
   if (hora) hora.textContent = 'Actualizado ' + new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'});
   if (btn) btn.textContent = '↻ Actualizar';
   actualizarBsResultado();
+
+  // Save snapshot to Firestore
+  try {
+    await db.collection('tasas_historial').add({
+      fecha: todayISO(),
+      hora: new Date().toLocaleTimeString('es-VE', {hour:'2-digit', minute:'2-digit'}),
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      bcv: tasas.bcv || null,
+      paralelo: tasas.paralelo || null,
+      usdt: tasas.usdt || null
+    });
+  } catch(e) { /* silent */ }
 }
 
 function seleccionarTasa(tipo) {
@@ -2541,6 +2553,8 @@ function openSheet(doc) {
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
       <button class="btn-sheet parcial" onclick="abrirPagoParcial('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Registrar Pago</button>
       <button class="btn-sheet marcar" onclick="marcarPagado('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Marcar pagado</button>
+      ${doc.enProceso && !doc.pagado ? `<button class="btn-sheet" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);cursor:default;" disabled>⏳ En proceso</button>` : `<button class="btn-sheet proceso" onclick="marcarEnProceso('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);">⏳ En proceso</button>`}
+      <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
       <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
@@ -2552,6 +2566,8 @@ function openSheet(doc) {
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
       <button class="btn-sheet parcial" onclick="abrirPagoParcial('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pago parcial</button>
       <button class="btn-sheet marcar" onclick="marcarPagado('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Marcar pagado</button>
+      ${doc.enProceso && !doc.pagado ? `<button class="btn-sheet" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);cursor:default;" disabled>⏳ En proceso</button>` : `<button class="btn-sheet proceso" onclick="marcarEnProceso('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);">⏳ En proceso</button>`}
+      <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
       <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
@@ -2565,6 +2581,7 @@ function openSheet(doc) {
       <button class="btn-sheet print"  onclick="window.print()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</button>
       <button class="btn-sheet wa"     onclick="enviarWhatsApp('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
+      <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
       ${entregadoBtn}
       <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
@@ -2620,6 +2637,30 @@ function openSheet(doc) {
   }
 
   document.getElementById('modalDoc').classList.add('show');
+}
+
+function reenviarLinkWA(fsId) {
+  const doc = docsMap[fsId];
+  const nombre = doc?.cliente || doc?.cli || 'cliente';
+  const link = `https://rocambios.dgp-link.com/factura.html?id=${fsId}`;
+  const msg = `Hola ${nombre}, aquí está el enlace a tu documento:\n${link}`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+async function marcarEnProceso(fsId) {
+  if (!fsId) return;
+  const doc = docsMap[fsId];
+  if (!doc) return;
+  try {
+    await db.collection('documentos').doc(fsId).update({ enProceso: true, fechaProceso: fmtDate() });
+    toast('Marcado como en proceso');
+    logActividad('En proceso', doc.docId || fsId);
+    docsMap[fsId] = { ...doc, enProceso: true, fechaProceso: fmtDate() };
+    renderHistorial();
+    closeModal();
+  } catch(err) {
+    toast('Error al actualizar.', 'err');
+  }
 }
 
 async function marcarPagado(fsId) {
@@ -2772,7 +2813,9 @@ function renderHistorial() {
   if (search) {
     allDocs = allDocs.filter(d =>
       (d.cli || '').toLowerCase().includes(search) ||
-      (d.docId || '').toLowerCase().includes(search)
+      (d.docId || '').toLowerCase().includes(search) ||
+      String(d.total || '').includes(search) ||
+      String(d.cliente || '').toLowerCase().includes(search)
     );
   }
   if (histFilter === 'factura')       allDocs = allDocs.filter(d => d.type === 'factura' && !d.pagado && !d.pagadoParcial);
