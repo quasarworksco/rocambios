@@ -1352,7 +1352,6 @@
           <div class="hist-filters">
             <button class="hist-filter-btn active" data-filter="todos" onclick="setHistFilter('todos',this)">Todos</button>
             <button class="hist-filter-btn" data-filter="factura" onclick="setHistFilter('factura',this)">Pendientes</button>
-            <button class="hist-filter-btn" data-filter="parcial" onclick="setHistFilter('parcial',this)">Parciales</button>
             <button class="hist-filter-btn" data-filter="recibo" onclick="setHistFilter('recibo',this)">Pagados</button>
             <button class="hist-filter-btn" data-filter="por-entregar" id="filter-por-entregar" onclick="setHistFilter('por-entregar',this)" style="color:#2D6A4F;border-color:rgba(45,106,79,0.3);">Por entregar <span id="badge-por-entregar" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 6px;margin-left:3px;"></span></button>
             <button class="hist-filter-btn" data-filter="en-proceso" onclick="setHistFilter('en-proceso',this)" style="color:#1d4ed8;border-color:rgba(29,78,216,0.3);">En proceso</button>
@@ -1556,22 +1555,6 @@
       </div>
       <button class="btn-edit-save" onclick="saveEditVenta()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Guardar Cambios</button>
       <button class="btn-edit-cancel" onclick="closeEditVentaModal()">Cancelar</button>
-    </div>
-  </div>
-</div>
-
-<!--  MODAL: PAGO PARCIAL  -->
-<div class="modal-overlay" id="modalPagoParcial">
-  <div class="edit-sheet" style="max-width:380px;">
-    <div class="edit-sheet-header">
-      <h3 style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> REGISTRAR PAGO</h3>
-      <p id="pago-parcial-info">Total: $0.00 · Pagado: $0.00 · Pendiente: $0.00</p>
-    </div>
-    <div class="edit-sheet-body">
-      <div class="ff"><label>Monto a registrar ($)</label><input type="number" id="pp-monto" placeholder="0.00" step="0.01"></div>
-      <div class="ff"><label>Referencia del pago</label><input type="text" id="pp-ref" placeholder="Ej. Zelle, transferencia..."></div>
-      <button class="btn-edit-save" onclick="confirmarPagoParcial()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Registrar Pago</button>
-      <button class="btn-edit-cancel" onclick="document.getElementById('modalPagoParcial').classList.remove('show')">Cancelar</button>
     </div>
   </div>
 </div>
@@ -2027,7 +2010,13 @@ function renderResumenDiario() {
   if (!el) return;
   const hoy = todayISO();
 
-  const getFecha = f => f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
+  const getFecha = f => {
+    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
+    const raw = f.fecha || '';
+    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+    return raw.slice(0,10);
+  };
 
   // Facturas/recibos de hoy (fuente principal)
   const docsHoy = Object.values(docsMap).filter(d => getFecha(d) === hoy);
@@ -2578,8 +2567,8 @@ function openSheet(doc) {
   sheetDocCurrent = doc;
   const L = (es, en) => sheetLang === 'en' ? en : es;
 
-  const isFactura = doc.type === 'factura' && !doc.pagado && !doc.pagadoParcial;
-  const isParcial = doc.type === 'factura' && !!doc.pagadoParcial;
+  const isFactura = doc.type === 'factura' && !doc.pagado;
+  const isParcial = false;
   const isRecibo  = doc.pagado || doc.type === 'recibo';
 
   /* Determine header style, status class and text */
@@ -2588,10 +2577,6 @@ function openSheet(doc) {
     headerClass = 'sheet-top-recibo';
     statusClass = 'pagado';
     statusText  = L('PAGO CONFIRMADO', 'PAYMENT CONFIRMED');
-  } else if (isParcial) {
-    headerClass = 'sheet-top-factura';
-    statusClass = 'parcial';
-    statusText  = L('PAGO PARCIAL', 'PARTIAL PAYMENT');
   } else {
     headerClass = 'sheet-top-factura';
     statusClass = 'pendiente';
@@ -2635,27 +2620,8 @@ function openSheet(doc) {
     notaBlock.style.display = 'none';
   }
 
-  /* Payment breakdown for parcial */
-  const sheetBody = document.querySelector('.sheet-body');
   let existingBreakdown = document.getElementById('s-payment-breakdown');
   if (existingBreakdown) existingBreakdown.remove();
-  if (isParcial) {
-    const montoPagado = doc.montoPagado || 0;
-    const pendiente   = (doc.total || 0) - montoPagado;
-    const breakdownEl = document.createElement('div');
-    breakdownEl.id = 's-payment-breakdown';
-    breakdownEl.className = 'sheet-payment-breakdown';
-    breakdownEl.innerHTML = `
-      <div class="sheet-payment-col">
-        <div class="sheet-payment-label">${L('Pagado','Paid')}</div>
-        <div class="sheet-payment-value paid">$${montoPagado.toFixed(2)}</div>
-      </div>
-      <div class="sheet-payment-col" style="text-align:right">
-        <div class="sheet-payment-label">${L('Pendiente','Pending')}</div>
-        <div class="sheet-payment-value">$${pendiente.toFixed(2)}</div>
-      </div>`;
-    clientBlock.insertAdjacentElement('afterend', breakdownEl);
-  }
 
   const items = doc.items || [];
   let itemsHtml = '';
@@ -2837,82 +2803,6 @@ async function marcarEntregado(fsId) {
   }
 }
 
-/*  Partial payment  */
-let pagoParcialFsId = null;
-
-function abrirPagoParcial(fsId) {
-  const doc = docsMap[fsId];
-  if (!doc) return;
-  pagoParcialFsId = fsId;
-  const total      = doc.total || 0;
-  const pagado     = doc.montoPagado || 0;
-  const pendiente  = total - pagado;
-  document.getElementById('pago-parcial-info').textContent =
-    `Total: $${total.toFixed(2)} · Pagado: $${pagado.toFixed(2)} · Pendiente: $${pendiente.toFixed(2)}`;
-  document.getElementById('pp-monto').value = '';
-  document.getElementById('pp-ref').value   = '';
-  document.getElementById('modalPagoParcial').classList.add('show');
-}
-
-async function confirmarPagoParcial() {
-  if (!pagoParcialFsId) return;
-  const doc = docsMap[pagoParcialFsId];
-  if (!doc) return;
-
-  const monto = parseFloat(document.getElementById('pp-monto').value);
-  const ref   = document.getElementById('pp-ref').value.trim();
-  const total = doc.total || 0;
-  const yaPageado = doc.montoPagado || 0;
-  const pendiente = total - yaPageado;
-
-  if (isNaN(monto) || monto <= 0) {
-    toast(' Ingresa un monto válido.', 'err'); return;
-  }
-  if (monto > pendiente + 0.001) {
-    toast(` El monto no puede exceder el pendiente ($${pendiente.toFixed(2)}).`, 'err'); return;
-  }
-
-  const newMontoPagado = parseFloat((yaPageado + monto).toFixed(2));
-  const fsId = pagoParcialFsId;
-
-  try {
-    if (newMontoPagado >= total - 0.001) {
-      /* Fully paid — convert to recibo */
-      const oldDocId = doc.docId || '';
-      const numPart  = oldDocId.replace(/^FAC-/, '');
-      const newDocId = 'REC-' + numPart;
-      const fechaPago = fmtDate();
-      await db.collection('documentos').doc(fsId).update({
-        type:          'recibo',
-        pagado:        true,
-        pagadoParcial: false,
-        montoPagado:   newMontoPagado,
-        fechaPago,
-        docId:         newDocId,
-        ref:           ref || (doc.ref && doc.ref !== '—' ? doc.ref : 'Pago confirmado'),
-        pagos:         firebase.firestore.FieldValue.arrayUnion({ monto, ref, fecha: fmtDate() })
-      });
-      toast('Pago completo registrado ');
-    } else {
-      /* Partial */
-      await db.collection('documentos').doc(fsId).update({
-        pagadoParcial: true,
-        montoPagado:   newMontoPagado,
-        pagos:         firebase.firestore.FieldValue.arrayUnion({ monto, ref, fecha: fmtDate() })
-      });
-      toast('Pago parcial registrado ');
-    }
-    document.getElementById('modalPagoParcial').classList.remove('show');
-    pagoParcialFsId = null;
-    /* Refresh sheet after listener updates docsMap */
-    setTimeout(() => {
-      const updated = docsMap[fsId];
-      if (updated) openSheet(updated);
-    }, 600);
-  } catch(err) {
-    toast('Error al registrar pago.', 'err');
-  }
-}
 
 let histFilter      = 'todos';
 function setHistFilter(f, btn) {
@@ -2945,8 +2835,7 @@ function renderHistorial() {
       String(d.cliente || '').toLowerCase().includes(search)
     );
   }
-  if (histFilter === 'factura')       allDocs = allDocs.filter(d => d.type === 'factura' && !d.pagado && !d.pagadoParcial);
-  else if (histFilter === 'parcial')  allDocs = allDocs.filter(d => !!d.pagadoParcial);
+  if (histFilter === 'factura')       allDocs = allDocs.filter(d => d.type === 'factura' && !d.pagado);
   else if (histFilter === 'recibo')   allDocs = allDocs.filter(d => d.pagado || d.type === 'recibo');
   else if (histFilter === 'por-entregar') allDocs = allDocs.filter(d => (d.pagado || d.type === 'recibo') && !d.entregado);
   else if (histFilter === 'en-proceso') allDocs = allDocs.filter(d => !!d.enProceso && !d.pagado);
@@ -2956,32 +2845,15 @@ function renderHistorial() {
     return;
   }
 
-  /* Classify into 3 groups */
-  const pendientes = allDocs.filter(d => d.type === 'factura' && !d.pagado && !d.pagadoParcial);
-  const parciales  = allDocs.filter(d => d.type === 'factura' && !!d.pagadoParcial);
+  /* Classify into 2 groups */
+  const pendientes = allDocs.filter(d => d.type === 'factura' && !d.pagado);
   const pagados    = allDocs.filter(d => d.pagado || d.type === 'recibo');
 
   function docItemHTML(doc, group) {
     const fsId = doc._fsId || '';
-    let badgeClass, badgeText;
-    if (group === 'parcial') {
-      badgeClass = 'parcial'; badgeText = 'Parcial';
-    } else if (group === 'pagado') {
-      badgeClass = 'recibo'; badgeText = 'Recibo';
-    } else {
-      badgeClass = 'factura'; badgeText = 'Factura';
-    }
-    // Override badge if enProceso
-    if (doc.enProceso && !doc.pagado) {
-      badgeClass = 'en-proceso'; badgeText = 'En proceso';
-    }
-
-    let extraInfo = '';
-    if (group === 'parcial') {
-      const pagado    = doc.montoPagado || 0;
-      const pendiente = (doc.total || 0) - pagado;
-      extraInfo = `<div class="doc-date" style="color:#ea580c;">Pagado: $${pagado.toFixed(2)} / Pendiente: $${pendiente.toFixed(2)}</div>`;
-    }
+    let badgeClass = group === 'pagado' ? 'recibo' : 'factura';
+    let badgeText  = group === 'pagado' ? 'Recibo'  : 'Factura';
+    if (doc.enProceso && !doc.pagado) { badgeClass = 'en-proceso'; badgeText = 'En proceso'; }
 
     let actionsHTML = `
       <button class="btn-sm outline" onclick='openSheetById("${esc(fsId)}")'>Ver</button>
@@ -2990,10 +2862,6 @@ function renderHistorial() {
     if (group === 'pendiente') {
       actionsHTML += `
       <button class="btn-sm paid" onclick='marcarPagado("${esc(fsId)}")'     style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Pagado</button>`;
-    } else if (group === 'parcial') {
-      actionsHTML += `
-      <button class="btn-sm" style="background:#fff7ed;border-color:rgba(251,146,60,0.3);color:#ea580c;display:inline-flex;align-items:center;gap:5px;" onclick='abrirPagoParcial("${esc(fsId)}")'><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pago</button>
-      <button class="btn-sm paid" onclick='marcarPagado("${esc(fsId)}")'     style="display:inline-flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Pagado total</button>`;
     } else if (group === 'pagado') {
       if (!doc.entregado) {
         actionsHTML += `
@@ -3013,7 +2881,6 @@ function renderHistorial() {
         <div class="doc-id">${esc(doc.docId || fsId)}${vngBadge}</div>
         <div class="doc-name">${esc(doc.cli || '—')}</div>
         <div class="doc-date">${esc(doc.fecha || '—')}</div>
-        ${extraInfo}
       </div>
       <div class="doc-amount">$${(doc.total || 0).toFixed(2)}</div>
       <div class="doc-actions">${actionsHTML}</div>
@@ -3029,12 +2896,6 @@ function renderHistorial() {
     </div>`;
   }
 
-  if (parciales.length) {
-    html += `<div class="hist-section">
-      <div class="hist-section-title" style="display:flex;align-items:center;gap:6px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;"></span> PAGO PARCIAL <span class="hist-count">${parciales.length}</span></div>
-      ${parciales.map(d => docItemHTML(d, 'parcial')).join('')}
-    </div>`;
-  }
 
   if (pagados.length) {
     html += `<div class="hist-section">
@@ -3297,11 +3158,9 @@ function renderDashboard() {
     if (d.pagado) return a;
     return a + ((d.total || 0) - (d.montoPagado || 0));
   }, 0);
-  const parciales = allDocs.filter(d => d.pagadoParcial && !d.pagado).length;
   document.getElementById('dash-total-facturas').textContent = allDocs.length;
   document.getElementById('dash-cobrado').textContent        = '$' + cobrado.toFixed(2);
   document.getElementById('dash-pendiente').textContent      = '$' + pendiente.toFixed(2);
-  document.getElementById('dash-parciales').textContent      = parciales;
 
   /* Ventas por empleado */
   const empSums  = {};
@@ -4083,14 +3942,19 @@ function renderMetricas() {
   }
   const desdeISO = desde.toISOString().slice(0,10);
 
-  const getFecha = f => f.fecha && f.fecha.toDate ? f.fecha.toDate().toISOString().slice(0,10) : (f.fecha||'').slice(0,10);
+  const getFecha = f => {
+    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
+    const raw = f.fecha || '';
+    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+    return raw.slice(0,10);
+  };
 
   const datos = DATOS.filter(f => getFecha(f) >= desdeISO);
 
   // Build unified operation list from docsMap (facturas/recibos)
   const docsList = Object.values(docsMap).filter(d => getFecha(d) >= desdeISO);
   const docsOps = docsList
-    .filter(d => d.pagado || d.type === 'recibo')
     .map(d => {
       const items = d.items || [];
       const total = items.reduce((a,i) => a + (parseFloat(i.price||0) * parseInt(i.qty||1)), 0) || parseFloat(d.total||0) || 0;
