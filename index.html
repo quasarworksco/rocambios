@@ -1968,19 +1968,24 @@ async function fetchTasas() {
   } catch(e) { console.warn('Error tasas BCV/paralelo:', e); }
 
   try {
-    // USDT desde ve.dolarapi.com
+    // USDT desde ve.dolarapi.com/criptodolar
+    // El endpoint puede devolver un objeto {promedio,precio,venta,...}
+    // o un array [{nombre:"USDT/Tether",...}, ...]
     const resUsdt = await fetch('https://ve.dolarapi.com/v1/dolares/criptodolar');
     const dataUsdt = await resUsdt.json();
-    if (dataUsdt?.promedio) {
-      tasas.usdt = parseFloat(dataUsdt.promedio);
+    // Normalizar: si es array buscar USDT/Tether, si es objeto usarlo directo
+    const item = Array.isArray(dataUsdt)
+      ? (dataUsdt.find(d => /usdt|tether/i.test(d.nombre || '')) || dataUsdt[0])
+      : dataUsdt;
+    const val = parseFloat(item?.promedio || item?.precio || item?.venta || 0);
+    if (val > 0) {
+      tasas.usdt = val;
       document.getElementById('tasa-usdt-val').textContent = tasas.usdt.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
     } else if (tasas.paralelo) {
-      // fallback: USDT ≈ paralelo
       tasas.usdt = tasas.paralelo;
       document.getElementById('tasa-usdt-val').textContent = tasas.usdt.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
     }
   } catch(e) {
-    // fallback: si falla, usar tasa paralelo
     if (tasas.paralelo) {
       tasas.usdt = tasas.paralelo;
       document.getElementById('tasa-usdt-val').textContent = tasas.usdt.toLocaleString('es-VE', {minimumFractionDigits:2, maximumFractionDigits:2});
