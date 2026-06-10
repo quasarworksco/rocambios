@@ -1105,20 +1105,20 @@
       <span id="tasas-hora" style="font-size:9px;color:var(--text-soft);"></span>
     </div>
     <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-      <div class="tasa-chip" id="chip-bcv" onclick="seleccionarTasa('bcv')" title="Tasa BCV oficial">
-        <span class="tasa-chip-label">BCV</span>
-        <span class="tasa-chip-val" id="tasa-bcv-val">—</span>
-        <span class="tasa-chip-unit">Bs/$</span>
+      <div class="tasa-chip active" id="chip-usdt" onclick="seleccionarTasa('usdt')" title="USDT promedio Binance P2P">
+        <span class="tasa-chip-label">USDT</span>
+        <span class="tasa-chip-val" id="tasa-usdt-val">—</span>
+        <span class="tasa-chip-unit">Bs/USDT</span>
       </div>
       <div class="tasa-chip" id="chip-paralelo" onclick="seleccionarTasa('paralelo')" title="Dólar paralelo">
         <span class="tasa-chip-label">Paralelo</span>
         <span class="tasa-chip-val" id="tasa-paralelo-val">—</span>
         <span class="tasa-chip-unit">Bs/$</span>
       </div>
-      <div class="tasa-chip" id="chip-usdt" onclick="seleccionarTasa('usdt')" title="USDT promedio Binance P2P">
-        <span class="tasa-chip-label">USDT</span>
-        <span class="tasa-chip-val" id="tasa-usdt-val">—</span>
-        <span class="tasa-chip-unit">Bs/USDT</span>
+      <div class="tasa-chip" id="chip-bcv" onclick="seleccionarTasa('bcv')" title="Tasa BCV oficial">
+        <span class="tasa-chip-label">BCV</span>
+        <span class="tasa-chip-val" id="tasa-bcv-val">—</span>
+        <span class="tasa-chip-unit">Bs/$</span>
       </div>
       <div id="tasa-resultado" style="display:none;align-items:center;gap:6px;padding:6px 12px;background:var(--bg-alt);border-radius:10px;">
         <span style="font-size:10px;font-weight:600;color:var(--text-soft);">Recibiría aprox.</span>
@@ -1949,7 +1949,7 @@ function initVentas() {
    TASAS DEL DÍA
 ══════════════════════════════════════════ */
 let tasas = { bcv: null, paralelo: null, usdt: null };
-let tasaActiva = null;
+let tasaActiva = 'usdt';
 
 async function fetchTasas() {
   const btn = document.getElementById('btn-refresh-tasas');
