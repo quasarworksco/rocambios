@@ -1407,14 +1407,14 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
           Operaciones por agente
         </div>
-        <div id="dash-emp-bars"></div>
+        <div id="dash-emp-bars"><div class="dash-empty">Cargando agentes...</div></div>
       </div>
       <div class="dash-panel">
         <div class="dash-panel-title">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
           Servicios más operados
         </div>
-        <div id="dash-top-services"></div>
+        <div id="dash-top-services"><div class="dash-empty">Sin operaciones aún</div></div>
       </div>
     </div>
 
@@ -1425,7 +1425,7 @@
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Clientes frecuentes
         </div>
-        <div id="dash-top-clients"></div>
+        <div id="dash-top-clients"><div class="dash-empty">Sin operaciones aún</div></div>
       </div>
       <div class="dash-panel">
         <div class="dash-panel-title">
@@ -1887,6 +1887,9 @@ function initPage() {
   initDocs();
   initClientes();
   initClientesCRM();
+  renderDashboard();
+  renderCalendario();
+  renderActividad();
   onTypeChange();
 }
 
