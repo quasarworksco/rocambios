@@ -640,6 +640,7 @@
 
     /*  DOC BADGE PARCIAL  */
     .doc-badge.parcial { background:#fff7ed; color:#ea580c; border:1px solid rgba(251,146,60,0.3); }
+    .doc-badge.en-proceso { background:#eff6ff; color:#1d4ed8; border:1px solid rgba(29,78,216,0.2); }
 
     /*  HISTORIAL SECTIONS  */
     .hist-section { margin-bottom: 20px; }
@@ -1010,16 +1011,12 @@
       <div class="login-logo-text">RO <span>CAMBIOS</span></div>
       <div class="login-logo-sub">Sistema de Gestión · Remesas USA→VEN</div>
     </div>
-    <div class="login-title">Iniciar Sesión</div>
+    <div class="login-title">Acceso al Sistema</div>
     <div class="login-field">
-      <label>Correo electrónico</label>
-      <input type="email" id="login-email" placeholder="usuario@rocambios.com" autocomplete="username">
+      <label>Código de acceso</label>
+      <input type="password" id="login-code" placeholder="••••••••••••" autocomplete="off" onkeydown="if(event.key==='Enter')loginCodigo()">
     </div>
-    <div class="login-field">
-      <label>Contraseña</label>
-      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
-    </div>
-    <button class="btn-login-email" onclick="loginEmail()">Entrar</button>
+    <button class="btn-login-email" onclick="loginCodigo()">Entrar con Código</button>
     <div class="login-divider"><span>O CONTINÚA CON</span></div>
     <button class="btn-login-google" onclick="loginGoogle()">
       <svg class="google-icon" viewBox="0 0 48 48">
@@ -1061,6 +1058,9 @@
   </button>
   <button class="nav-tab" onclick="switchPage('facturacion', this); _clearNotifBadge();">
     <i class="fa-solid fa-file-invoice-dollar"></i> Facturación<span id="notif-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
+  </button>
+  <button class="nav-tab" onclick="switchPage('metricas', this)">
+    <i class="fa-solid fa-chart-bar"></i> Métricas
   </button>
 </nav>
 
@@ -1341,6 +1341,7 @@
             <button class="hist-filter-btn" data-filter="parcial" onclick="setHistFilter('parcial',this)">Parciales</button>
             <button class="hist-filter-btn" data-filter="recibo" onclick="setHistFilter('recibo',this)">Pagados</button>
             <button class="hist-filter-btn" data-filter="por-entregar" id="filter-por-entregar" onclick="setHistFilter('por-entregar',this)" style="color:#2D6A4F;border-color:rgba(45,106,79,0.3);">Por entregar <span id="badge-por-entregar" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 6px;margin-left:3px;"></span></button>
+            <button class="hist-filter-btn" data-filter="en-proceso" onclick="setHistFilter('en-proceso',this)" style="color:#1d4ed8;border-color:rgba(29,78,216,0.3);">En proceso</button>
           </div>
         <div id="hist-list"><div style="text-align:center;color:var(--text-soft);font-size:12px;padding:24px 0;">Sin documentos registrados aún</div></div>
       </div>
@@ -1349,6 +1350,57 @@
   </div><!-- /fact-main -->
 </div><!-- /page-facturacion -->
 
+<!-- PAGE: MÉTRICAS -->
+<div id="page-metricas" class="page">
+  <div style="max-width:1100px;margin:0 auto;padding:32px 24px;">
+
+    <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--black);">Métricas y Reportes</div>
+        <div style="font-size:11px;color:#6b7280;margin-top:2px;">Resumen de operaciones</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select id="metricas-periodo" onchange="renderMetricas()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;background:white;color:var(--black);outline:none;">
+          <option value="semana">Esta semana</option>
+          <option value="mes">Este mes</option>
+          <option value="todo">Todo el tiempo</option>
+        </select>
+        <button onclick="exportCSV()" style="padding:8px 16px;background:var(--black);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Exportar CSV
+        </button>
+      </div>
+    </div>
+
+    <!-- KPI Cards row -->
+    <div id="metricas-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;"></div>
+
+    <!-- Two-column: Desglose por servicio + Tasas del día historial -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:var(--blue);border-radius:2px;display:block;"></span>Desglose por Servicio</div>
+        <div id="metricas-servicios"></div>
+      </div>
+      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#0f766e;border-radius:2px;display:block;"></span>Historial de Tasas Hoy</div>
+        <div id="metricas-tasas-hist"></div>
+      </div>
+    </div>
+
+    <!-- Operaciones por empleado -->
+    <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:24px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#b45309;border-radius:2px;display:block;"></span>Por Empleado</div>
+      <div id="metricas-empleados"></div>
+    </div>
+
+    <!-- Últimas operaciones table -->
+    <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#374151;border-radius:2px;display:block;"></span>Operaciones del período</div>
+      <div id="metricas-tabla" style="overflow-x:auto;"></div>
+    </div>
+
+  </div>
+</div>
 
 </div><!-- /app-shell -->
 
@@ -1680,13 +1732,16 @@ auth.onAuthStateChanged(async user => {
 });
 
 async function verificarAcceso(user) {
+  // Anonymous (code login) users are always allowed
+  if (user.isAnonymous) return true;
+  // Google users: check allowlist
   try {
     const doc = await db.collection('accesos').doc(user.email).get();
     return doc.exists;
   } catch(e) {
     console.error('verificarAcceso error:', e.code, e.message);
     if (e.code === 'permission-denied') {
-      showLoginError(' Error de permisos en Firestore. Revisa las reglas de seguridad de tu base de datos.');
+      showLoginError(' Error de permisos en Firestore. Revisa las reglas de seguridad.');
     }
     return false;
   }
@@ -1709,25 +1764,27 @@ function showApp(user) {
   hideSplash();
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app-shell').style.display    = 'block';
-  const nombre = user.displayName || user.email?.split('@')[0] || '';
+  const nombre = user.displayName || (user.isAnonymous ? 'Usuario' : user.email?.split('@')[0]) || 'Usuario';
   const ini = nombre[0]?.toUpperCase() || '?';
   document.getElementById('user-avatar-init').textContent = ini;
   const greetEl = document.getElementById('user-greeting');
-  if (greetEl && nombre) {
+  if (greetEl) {
     const hora = new Date().getHours();
     const saludo = hora < 12 ? 'Buenos días' : hora < 19 ? 'Buenas tardes' : 'Buenas noches';
-    greetEl.textContent = `${saludo}, ${nombre.split(' ')[0]}`;
+    greetEl.textContent = user.isAnonymous ? saludo : `${saludo}, ${nombre.split(' ')[0]}`;
   }
   initPage();
 }
 
-function loginEmail() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-pass').value;
+const ACCESS_CODE = 'VickyQuintero29*';
+
+function loginCodigo() {
+  const code  = document.getElementById('login-code').value;
   const errEl = document.getElementById('login-error');
   errEl.style.display = 'none';
-  if (!email || !pass) { showLoginError('Ingresa correo y contraseña.'); return; }
-  auth.signInWithEmailAndPassword(email, pass).catch(err => showLoginError(friendlyAuthError(err)));
+  if (!code) { showLoginError('Ingresa el código de acceso.'); return; }
+  if (code !== ACCESS_CODE) { showLoginError('Código incorrecto.'); return; }
+  auth.signInAnonymously().catch(err => showLoginError(friendlyAuthError(err)));
 }
 
 function loginGoogle() {
@@ -1758,8 +1815,8 @@ function friendlyAuthError(err) {
   return map[err.code] || err.message;
 }
 
-document.getElementById('login-pass').addEventListener('keydown', e => {
-  if (e.key === 'Enter') loginEmail();
+document.getElementById('login-code').addEventListener('keydown', e => {
+  if (e.key === 'Enter') loginCodigo();
 });
 
 /* 
@@ -1811,6 +1868,7 @@ function switchPage(page, btn) {
   btn.classList.add('active');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
+  if (page === 'metricas') renderMetricas();
 }
 
 function switchSubTab(tab, btn) {
@@ -2822,6 +2880,7 @@ function renderHistorial() {
   else if (histFilter === 'parcial')  allDocs = allDocs.filter(d => !!d.pagadoParcial);
   else if (histFilter === 'recibo')   allDocs = allDocs.filter(d => d.pagado || d.type === 'recibo');
   else if (histFilter === 'por-entregar') allDocs = allDocs.filter(d => (d.pagado || d.type === 'recibo') && !d.entregado);
+  else if (histFilter === 'en-proceso') allDocs = allDocs.filter(d => !!d.enProceso && !d.pagado);
 
   if (allDocs.length === 0) {
     container.innerHTML = `<div style="text-align:center;color:var(--text-soft);font-size:12px;padding:24px 0;">${search || histFilter !== 'todos' ? 'No se encontraron resultados.' : 'Sin documentos registrados aún'}</div>`;
@@ -2842,6 +2901,10 @@ function renderHistorial() {
       badgeClass = 'recibo'; badgeText = 'Recibo';
     } else {
       badgeClass = 'factura'; badgeText = 'Factura';
+    }
+    // Override badge if enProceso
+    if (doc.enProceso && !doc.pagado) {
+      badgeClass = 'en-proceso'; badgeText = 'En proceso';
     }
 
     let extraInfo = '';
