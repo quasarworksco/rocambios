@@ -1359,9 +1359,22 @@
         <div id="remesa-calc-wrap" style="display:none;">
           <div class="remesa-calc-box">
             <div class="remesa-calc-label">Calculadora de remesa</div>
+
+            <!-- Modo toggle -->
+            <div style="display:flex;gap:0;margin-bottom:12px;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;">
+              <button id="remesa-modo-fisico" onclick="setRemesaModo('fisico')"
+                style="flex:1;padding:7px 10px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--blue);color:#fff;transition:background 0.15s;">
+                Físico solicitado
+              </button>
+              <button id="remesa-modo-transfiere" onclick="setRemesaModo('transfiere')"
+                style="flex:1;padding:7px 10px;font-size:11px;font-weight:700;border:none;cursor:pointer;background:var(--off);color:var(--text-soft);transition:background 0.15s;">
+                Cliente transfiere
+              </button>
+            </div>
+
             <div class="ff-row" style="margin-bottom:10px;">
               <div class="ff" style="margin:0;">
-                <label>Monto físico solicitado (USD)</label>
+                <label id="remesa-fisico-label">Monto físico solicitado (USD)</label>
                 <input type="number" id="remesa-fisico" placeholder="0.00" step="0.01" oninput="calcRemesa()">
               </div>
               <div class="ff" style="margin:0;max-width:110px;">
@@ -2542,16 +2555,45 @@ function onSrvSelChange() {
   if (isRem) calcRemesa();
 }
 
+let _remesaModo = 'fisico'; // 'fisico' | 'transfiere'
+
+function setRemesaModo(modo) {
+  _remesaModo = modo;
+  const btnF = document.getElementById('remesa-modo-fisico');
+  const btnT = document.getElementById('remesa-modo-transfiere');
+  const lbl  = document.getElementById('remesa-fisico-label');
+  if (modo === 'fisico') {
+    btnF.style.background = 'var(--blue)'; btnF.style.color = '#fff';
+    btnT.style.background = 'var(--off)';  btnT.style.color = 'var(--text-soft)';
+    lbl.textContent = 'Monto físico solicitado (USD)';
+  } else {
+    btnT.style.background = 'var(--blue)'; btnT.style.color = '#fff';
+    btnF.style.background = 'var(--off)';  btnF.style.color = 'var(--text-soft)';
+    lbl.textContent = 'Monto que transfiere el cliente (USD)';
+  }
+  document.getElementById('remesa-fisico').value = '';
+  document.getElementById('remesa-result').style.display = 'none';
+}
+
 function calcRemesa() {
-  const fisico = parseFloat(document.getElementById('remesa-fisico').value) || 0;
+  const input  = parseFloat(document.getElementById('remesa-fisico').value) || 0;
   const pct    = parseFloat(document.getElementById('remesa-pct').value)    || 8;
-  const com    = parseFloat((fisico * pct / 100).toFixed(2));
-  const total  = parseFloat((fisico + com).toFixed(2));
-  const show   = fisico > 0;
-  document.getElementById('remesa-result').style.display  = show ? 'block' : 'none';
-  document.getElementById('remesa-fisico-val').textContent = '$' + fisico.toFixed(2);
-  document.getElementById('remesa-com-val').textContent    = '$' + com.toFixed(2);
-  document.getElementById('remesa-total-val').textContent  = '$' + total.toFixed(2);
+  let fisico, com, total;
+  if (_remesaModo === 'transfiere') {
+    // cliente ya transfirió: físico = total / (1 + pct/100)
+    total  = input;
+    fisico = parseFloat((total / (1 + pct / 100)).toFixed(2));
+    com    = parseFloat((total - fisico).toFixed(2));
+  } else {
+    fisico = input;
+    com    = parseFloat((fisico * pct / 100).toFixed(2));
+    total  = parseFloat((fisico + com).toFixed(2));
+  }
+  const show = input > 0;
+  document.getElementById('remesa-result').style.display   = show ? 'block' : 'none';
+  document.getElementById('remesa-fisico-val').textContent  = '$' + fisico.toFixed(2);
+  document.getElementById('remesa-com-val').textContent     = '$' + com.toFixed(2);
+  document.getElementById('remesa-total-val').textContent   = '$' + total.toFixed(2);
   // store in hidden inputs for addItem
   document.getElementById('srv-pre').value = total;
   document.getElementById('srv-can').value = '1';
@@ -2603,6 +2645,7 @@ function addItem() {
   document.getElementById('srv-can-std').value   = '1';
   document.getElementById('remesa-fisico').value = '';
   document.getElementById('remesa-result').style.display = 'none';
+  setRemesaModo('fisico');
 }
 
 function removeItem(idx) { cart.splice(idx, 1); renderCart(); }
