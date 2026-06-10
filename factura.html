@@ -521,7 +521,13 @@
             <div class="pub-comp-bar" id="pub-comp-bar"></div>
           </div>
         </div>
-        <div class="pub-comp-ok" id="pub-comp-ok" style="display:flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ¡Comprobante enviado! El equipo de ${equipoNombre} lo revisará pronto.</div>
+        <div class="pub-comp-ok" id="pub-comp-ok" style="display:none;align-items:center;gap:6px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;padding:14px 18px;font-size:13px;font-weight:600;color:#16a34a;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> ¡Comprobante enviado! El equipo de ${equipoNombre} lo revisará pronto.</div>
+        <div id="titular-wrap" style="display:none;margin-top:12px;">
+          <div style="font-size:13px;font-weight:600;color:#111827;margin-bottom:8px;">¿A nombre de quién está la transferencia?</div>
+          <div style="font-size:11px;color:#6b7280;margin-bottom:12px;">Ingresa el nombre del titular que realizó el pago.</div>
+          <input id="titular-input" type="text" placeholder="Ej. María González" style="width:100%;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none;box-sizing:border-box;margin-bottom:10px;">
+          <button onclick="guardarTitular()" style="width:100%;padding:12px;background:#1B4332;color:white;border:none;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;">Confirmar y enviar</button>
+        </div>
       </div>`;
   }
 
@@ -553,12 +559,27 @@
       await db.collection('documentos').doc(fsId).update({ comprobante_url: url });
       notificarTelegram(fsId, url);
       progress.style.display = 'none';
-      document.getElementById('pub-comp-ok').style.display = 'flex';
+      // Ask for titular name
       document.querySelector('.pub-comp-area').style.display = 'none';
+      document.getElementById('titular-wrap').style.display = 'block';
+      document.getElementById('titular-wrap').dataset.fsid = fsId;
+      document.getElementById('titular-wrap').dataset.url  = url;
     } catch(e) {
       progress.style.display = 'none';
       alert('Error al subir el comprobante. Intenta de nuevo.');
     }
+  }
+
+  async function guardarTitular() {
+    const wrap  = document.getElementById('titular-wrap');
+    const fsId  = wrap.dataset.fsid;
+    const url   = wrap.dataset.url;
+    const nombre = (document.getElementById('titular-input').value || '').trim();
+    if (nombre) {
+      await db.collection('documentos').doc(fsId).update({ titularPago: nombre });
+    }
+    wrap.style.display = 'none';
+    document.getElementById('pub-comp-ok').style.display = 'flex';
   }
 
   async function tgSend(payload) {
