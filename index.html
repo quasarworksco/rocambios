@@ -4141,36 +4141,39 @@ function renderMetricas() {
   const hoy = new Date();
   let desde;
   if (periodo === 'semana') { desde = new Date(hoy); desde.setDate(hoy.getDate() - 7); }
-  else if (periodo === 'mes') { desde = new Date(hoy); desde.setMonth(hoy.getMonth()), desde.setDate(1); }
+  else if (periodo === 'mes') { desde = new Date(hoy.getFullYear(), hoy.getMonth(), 1); }
   else { desde = new Date('2000-01-01'); }
   const desdeISO = desde.toISOString().slice(0,10);
 
-  // Normalize DD/MM/YYYY → YYYY-MM-DD for comparison
-  const getFecha = f => {
-    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
-    const raw = String(f.fecha || '');
-    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    return m ? `${m[3]}-${m[2]}-${m[1]}` : raw.slice(0,10);
+  // Convert any date field (DD/MM/YYYY, YYYY-MM-DD, Timestamp) to YYYY-MM-DD
+  const toISO = raw => {
+    if (!raw) return '';
+    if (raw.toDate) return raw.toDate().toISOString().slice(0,10);
+    const s = String(raw);
+    const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : s.slice(0,10);
   };
+  // For paid docs use fechaPago, otherwise use fecha
+  const getDocFecha = d => toISO(d.fechaPago) || toISO(d.fecha);
 
-  // All docs in period (items saved as {s,p,c,t}; fall back to d.total)
-  const docsList = Object.values(docsMap).filter(d => getFecha(d) >= desdeISO);
-  const docsOps = docsList.map(d => {
-    const items = d.items || [];
-    const monto = items.reduce((a,i) => a + (parseFloat(i.p||i.price||0) * parseFloat(i.c||i.qty||1)), 0)
-                  || parseFloat(d.total || 0);
-    const srv   = items[0]?.s || items[0]?.desc || d.servicio || 'Remesa';
-    return { fecha: d.fecha, empleado: d.empleado || '—', cliente: d.cli || d.cliente || '—', servicio: srv, monto };
-  });
+  // Only paid docs in period (source of truth: docsMap only, no DATOS duplication)
+  const allDocs = Object.values(docsMap);
+  const paidInPeriod = allDocs.filter(d =>
+    (d.pagado || d.type === 'recibo') && getDocFecha(d) >= desdeISO
+  );
+  const pendientes = allDocs.filter(d => d.type === 'factura' && !d.pagado).length;
 
-  // Panel de Ventas entries if any, otherwise use docs
-  const datosOps = DATOS.filter(f => getFecha(f) >= desdeISO);
-  const allOps   = datosOps.length > 0 ? datosOps : docsOps;
+  const allOps = paidInPeriod.map(d => ({
+    fecha:    getDocFecha(d),
+    empleado: d.empleado || '—',
+    cliente:  d.cli || d.cliente || '—',
+    servicio: d.items?.[0]?.s || d.items?.[0]?.desc || d.servicio || 'Remesa',
+    monto:    parseFloat(d.total) || 0
+  }));
 
-  const total = allOps.reduce((a,f) => a + (parseFloat(f.monto)||0), 0);
-  const opCount = allOps.length;
+  const total    = allOps.reduce((a,f) => a + f.monto, 0);
+  const opCount  = allOps.length;
   const promedio = opCount > 0 ? total / opCount : 0;
-  const pendientes = docsList.filter(d => d.type === 'factura' && !d.pagado).length;
 
   // KPI cards
   const kpiEl = document.getElementById('metricas-kpis');
@@ -4201,12 +4204,9 @@ function renderMetricas() {
       const label = d.toLocaleDateString('es-VE',{weekday:'short',day:'numeric'});
       days.push(label);
       const dayTotal = Object.values(docsMap)
-        .filter(doc => getFecha(doc) === iso && (doc.pagado || doc.type === 'recibo'))
+        .filter(doc => (doc.pagado || doc.type === 'recibo') && getDocFecha(doc) === iso)
         .reduce((a,doc) => a + (parseFloat(doc.total)||0), 0);
-      // Also add ventas for that day
-      const ventasTotal = DATOS.filter(v => getFecha(v) === iso)
-        .reduce((a,v) => a + (parseFloat(v.monto)||0), 0);
-      amounts.push(Math.max(dayTotal, ventasTotal));
+      amounts.push(dayTotal);
     }
     window._barChart = new Chart(barCtx, {
       type: 'bar',
@@ -4510,13 +4510,16 @@ function verCierreSemana() {
 
 function exportCajaPDF() {
   const hoy = new Date().toLocaleDateString('es-VE',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  const getFecha = f => {
-    if (f.fecha && f.fecha.toDate) return f.fecha.toDate().toISOString().slice(0,10);
-    const raw = String(f.fecha||'');
-    const m = raw.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-    return m ? `${m[3]}-${m[2]}-${m[1]}` : raw.slice(0,10);
+  const toISO = raw => {
+    if (!raw) return '';
+    if (raw.toDate) return raw.toDate().toISOString().slice(0,10);
+    const s = String(raw);
+    const m = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+    return m ? `${m[3]}-${m[2]}-${m[1]}` : s.slice(0,10);
   };
-  const docsHoy = Object.values(docsMap).filter(d => getFecha(d) === todayISO() && (d.pagado || d.type === 'recibo'));
+  const docsHoy = Object.values(docsMap).filter(d =>
+    (d.pagado || d.type === 'recibo') && (toISO(d.fechaPago) || toISO(d.fecha)) === todayISO()
+  );
   const total = docsHoy.reduce((a,d)=>a+(parseFloat(d.total)||0),0);
   const win = window.open('','_blank');
   win.document.write(`<html><head><title>Caja ${hoy}</title><style>body{font-family:Arial,sans-serif;padding:32px;color:#111;}h1{font-size:22px;margin-bottom:4px;}table{width:100%;border-collapse:collapse;margin-top:16px;}th{background:#f1f5f9;padding:8px;text-align:left;font-size:11px;text-transform:uppercase;}td{padding:8px;border-bottom:1px solid #e5e7eb;font-size:13px;}.total{font-size:18px;font-weight:bold;margin-top:16px;}</style></head><body>
