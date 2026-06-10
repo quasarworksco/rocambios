@@ -701,6 +701,26 @@
           <thead><tr><th>Descripción</th><th style="text-align:right">Importe</th></tr></thead>
           <tbody>${items}</tbody>
         </table>
+        ${(() => {
+          // Show fisico/comision breakdown for remesa items
+          const remesaItems = (doc.items||[]).filter(it => {
+            const m = (it.s||'').match(/—\s*\$([0-9.]+)\s*físico\s*\((\d+)%/i);
+            return !!m;
+          });
+          if (!remesaItems.length) return '';
+          return remesaItems.map(it => {
+            const m = (it.s||'').match(/—\s*\$([0-9.]+)\s*físico\s*\((\d+)%/i);
+            const fisico = parseFloat(m[1]);
+            const pct    = parseFloat(m[2]);
+            const com    = parseFloat((it.t - fisico).toFixed(2));
+            return `<div style="margin-top:10px;background:#f8fafc;border-radius:10px;padding:12px 14px;border:1px solid #e5e7eb;">
+              <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:8px;">Desglose del pago</div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;"><span style="color:#374151;">Monto físico a recibir</span><span style="font-weight:600;color:#111827;">$${fisico.toFixed(2)}</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #e5e7eb;"><span style="color:#374151;">Comisión (${pct}%)</span><span style="font-weight:600;color:#d97706;">+$${com.toFixed(2)}</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0 0;font-weight:700;"><span style="color:#111827;">Total a transferir</span><span style="color:#1B4332;">$${(it.t||0).toFixed(2)}</span></div>
+            </div>`;
+          }).join('');
+        })()}
       </div>
       <div class="pub-total ${totalClass}">
         <span class="pub-total-label">${totalLabel}</span>
