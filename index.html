@@ -3931,9 +3931,18 @@ function copiarLinkFactura(fsId) {
    MÉTRICAS
 ══════════════════════════════════════════ */
 function renderMetricas() {
+  try { _renderMetricasInner(); } catch(e) {
+    const el = document.getElementById('metricas-kpis');
+    if (el) el.innerHTML = `<div style="grid-column:1/-1;padding:20px;color:#dc2626;background:#fef2f2;border:1px solid #fecaca;border-radius:12px;font-size:12px;">Error al renderizar métricas: ${e.message}</div>`;
+  }
+}
+function _renderMetricasInner() {
   const periodo = document.getElementById('metricas-periodo')?.value || 'semana';
   const hoy = new Date();
   let desde;
+  // sentinel — shows "Cargando..." so user sees the function ran
+  const kpiSentinel = document.getElementById('metricas-kpis');
+  if (kpiSentinel) kpiSentinel.innerHTML = '<div style="grid-column:1/-1;color:#6b7280;font-size:12px;padding:8px;">Cargando métricas…</div>';
   if (periodo === 'semana') {
     desde = new Date(hoy); desde.setDate(hoy.getDate() - 7);
   } else if (periodo === 'mes') {
@@ -4098,7 +4107,7 @@ function renderMetricas() {
         tasasHistEl.innerHTML = '<div style="color:#6b7280;font-size:12px;">Error al cargar historial de tasas.</div>';
       });
   }
-}
+}  // end _renderMetricasInner
 
 function exportCSV() {
   const periodo = document.getElementById('metricas-periodo')?.value || 'todo';
