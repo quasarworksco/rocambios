@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RO Cambios — Documento de Entrega · DGP GLOBAL GROUP USA</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:      #2D6A4F;
+    --green-mid:  #40916C;
+    --green-light:#D8F3DC;
+    --green-xlight:#f0fdf4;
+    --text:       #111827;
+    --text-soft:  #6b7280;
+    --border:     #e5e7eb;
+    --bg:         #ffffff;
+    --bg-alt:     #f9fafb;
+    --gold:       #b8860b;
+    --gold-light: #fef9e7;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: linear-gradient(135deg, #0a2218 0%, #1B4332 50%, #2D6A4F 100%);
+    color: #fff;
+    padding: 80px 48px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .cover-inner { position: relative; max-width: 900px; margin: 0 auto; }
+  .cover-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 100px; padding: 6px 16px; font-size: 11px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase; color: #86efac; margin-bottom: 32px;
+  }
+  .cover-badge span { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; display: inline-block; }
+  .cover-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 96px);
+    letter-spacing: 2px;
+    line-height: 0.95;
+    color: #fff;
+  }
+  .cover-title em { color: #4ade80; font-style: normal; }
+  .cover-sub {
+    font-size: 16px; font-weight: 400; color: rgba(255,255,255,0.7);
+    margin-top: 16px; max-width: 540px;
+  }
+  .cover-meta {
+    display: flex; flex-wrap: wrap; gap: 32px; margin-top: 48px;
+    padding-top: 32px; border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .cover-meta-item { }
+  .cover-meta-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+  .cover-meta-val { font-size: 14px; font-weight: 600; color: #fff; }
+
+  /* ── LAYOUT ── */
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+
+  /* ── SECTION ── */
+  .section { padding: 56px 0 0; }
+  .section-label {
+    font-size: 9px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--green-mid); margin-bottom: 8px;
+  }
+  .section-title { font-size: 28px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+  .section-sub { font-size: 14px; color: var(--text-soft); margin-bottom: 32px; }
+  .divider { height: 1px; background: var(--border); margin: 48px 0 0; }
+
+  /* ── INTRO CARD ── */
+  .intro-card {
+    background: var(--green-xlight); border: 1.5px solid #bbf7d0;
+    border-radius: 16px; padding: 28px 32px; margin-bottom: 32px;
+    display: flex; gap: 20px;
+  }
+  .intro-icon { font-size: 32px; flex-shrink: 0; }
+  .intro-text { font-size: 15px; line-height: 1.7; color: #1B4332; }
+  .intro-text strong { font-weight: 700; }
+
+  /* ── FEATURE MODULES ── */
+  .modules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 640px) { .modules-grid { grid-template-columns: 1fr; } }
+
+  .module-card {
+    border: 1.5px solid var(--border); border-radius: 16px;
+    padding: 24px; background: var(--bg);
+    transition: box-shadow 0.2s;
+  }
+  .module-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+  .module-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .module-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .module-name { font-size: 15px; font-weight: 700; color: var(--text); }
+  .module-tag { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-soft); }
+  .module-features { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .module-features li {
+    font-size: 12.5px; color: #374151; display: flex; gap: 8px; align-items: flex-start;
+  }
+  .module-features li::before { content: '→'; color: var(--green-mid); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* ── TECH STACK ── */
+  .tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+  .tech-card {
+    border: 1.5px solid var(--border); border-radius: 12px; padding: 16px 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .tech-logo { font-size: 22px; flex-shrink: 0; }
+  .tech-name { font-size: 13px; font-weight: 700; color: var(--text); }
+  .tech-desc { font-size: 11px; color: var(--text-soft); }
+
+  /* ── FLOW ── */
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step { display: flex; gap: 20px; align-items: flex-start; }
+  .flow-line { display: flex; flex-direction: column; align-items: center; }
+  .flow-dot { width: 36px; height: 36px; border-radius: 50%; background: var(--green); color: #fff; font-weight: 800; font-size: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .flow-connector { width: 2px; background: var(--border); flex: 1; min-height: 32px; margin: 4px 0; }
+  .flow-body { padding-bottom: 28px; }
+  .flow-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .flow-desc { font-size: 12.5px; color: var(--text-soft); line-height: 1.6; }
+
+  /* ── CONFIDENTIALITY ── */
+  .conf-box {
+    background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 16px; padding: 28px 32px;
+  }
+  .conf-title { font-size: 14px; font-weight: 800; color: #92400e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; gap: 10px; align-items: center; }
+  .conf-body { font-size: 13px; color: #78350f; line-height: 1.8; }
+  .conf-body p + p { margin-top: 10px; }
+
+  /* ── LICENSE ── */
+  .lic-box {
+    background: var(--bg-alt); border: 1.5px solid var(--border); border-radius: 16px; padding: 28px 32px;
+    margin-top: 20px;
+  }
+  .lic-title { font-size: 14px; font-weight: 800; color: var(--text); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; gap: 10px; align-items: center; }
+  .lic-body { font-size: 13px; color: var(--text-soft); line-height: 1.8; }
+  .lic-body strong { color: var(--text); }
+  .lic-items { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+  .lic-item { display: flex; gap: 10px; font-size: 12.5px; color: #374151; }
+  .lic-item::before { content: '✓'; color: var(--green-mid); font-weight: 800; flex-shrink: 0; }
+
+  /* ── SIGNATURE ── */
+  .signature-section {
+    background: linear-gradient(135deg, #0a2218 0%, #1B4332 100%);
+    padding: 64px 48px; margin-top: 64px;
+  }
+  .signature-inner { max-width: 900px; margin: 0 auto; }
+  .sig-grid { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+  @media (max-width: 640px) { .sig-grid { grid-template-columns: 1fr; } }
+
+  .sig-company { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: #4ade80; letter-spacing: 2px; line-height: 1; }
+  .sig-tagline { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 6px; letter-spacing: 1px; text-transform: uppercase; }
+  .sig-details { margin-top: 24px; display: flex; flex-direction: column; gap: 6px; }
+  .sig-detail { font-size: 12.5px; color: rgba(255,255,255,0.7); display: flex; gap: 8px; }
+  .sig-detail strong { color: #fff; min-width: 80px; }
+
+  .sig-stamp {
+    width: 140px; height: 140px; border-radius: 50%;
+    border: 3px solid rgba(74,222,128,0.4);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 16px;
+    position: relative;
+  }
+  .sig-stamp::before {
+    content: '';
+    position: absolute; inset: 6px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(74,222,128,0.3);
+  }
+  .sig-stamp-top { font-size: 7px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #4ade80; }
+  .sig-stamp-num { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #fff; margin: 4px 0; }
+  .sig-stamp-bot { font-size: 6.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+
+  .sig-bottom {
+    margin-top: 48px; padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  .sig-copy { font-size: 11px; color: rgba(255,255,255,0.35); }
+  .sig-version { font-size: 11px; color: rgba(74,222,128,0.6); font-weight: 600; }
+
+  /* ── PRINT ── */
+  @media print {
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .signature-section { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .module-card:hover { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     COVER
+════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-inner">
+    <div class="cover-badge"><span></span>Documento Oficial de Entrega · v1.0</div>
+    <div class="cover-title">RO<em> </em>CAMBIOS<br>SISTEMA DE<br>GESTIÓN</div>
+    <div class="cover-sub">
+      Plataforma integral de remesas y cambio de divisas USD → Venezuela.
+      Gestión completa de operaciones, clientes, facturación, caja y métricas.
+    </div>
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Cliente</div>
+        <div class="cover-meta-val">RO Cambios</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Desarrollado por</div>
+        <div class="cover-meta-val">DGP GLOBAL GROUP USA</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Fecha de entrega</div>
+        <div class="cover-meta-val">Junio 2026</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Versión</div>
+        <div class="cover-meta-val">1.0 — Producción</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Plataforma</div>
+        <div class="cover-meta-val">Web App · rocambios.dgp-link.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     DESCRIPCIÓN GENERAL
+════════════════════════════════════════ -->
+<div class="wrap">
+  <div class="section">
+    <div class="section-label">01 · Descripción general</div>
+    <div class="section-title">¿Qué es RO Cambios?</div>
+    <div class="section-sub">Sistema web completo desarrollado a medida para la operación diaria del negocio.</div>
+
+    <div class="intro-card">
+      <div class="intro-icon">💱</div>
+      <div class="intro-text">
+        <strong>RO Cambios</strong> es una aplicación web de gestión integral diseñada exclusivamente para negocios de remesas y cambio de divisas que operan en el corredor <strong>USD → Venezuela (Bolívares)</strong>. Permite crear facturas, gestionar clientes, registrar operaciones con múltiples métodos de pago, hacer seguimiento de tasas del mercado en tiempo real (BCV, Paralelo y USDT/Cripto), realizar cuadres de caja diarios, cerrar semanas operativas y obtener métricas visuales del negocio. Todo desde una sola pantalla, sin instalar nada, accesible desde cualquier dispositivo.
+      </div>
+    </div>
+  </div>
+
+<!-- ════════════════════════════════════════
+     MÓDULOS
+════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">02 · Módulos del sistema</div>
+    <div class="section-title">Todo lo que incluye</div>
+    <div class="section-sub">Cada módulo fue construido a medida según los procesos reales de la operación.</div>
+
+    <div class="modules-grid">
+
+      <!-- TASAS -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#f0fdf4;">📡</div>
+          <div>
+            <div class="module-name">Tasas del mercado en tiempo real</div>
+            <div class="module-tag">Widget siempre visible</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>Consulta automática al iniciar la sesión y cada 24 horas</li>
+          <li>Tres tasas simultáneas: BCV oficial, Paralelo y USDT/Criptodólar</li>
+          <li>Chip activo seleccionable — USDT activo por defecto</li>
+          <li>Histórico de tasas guardado en base de datos (colección <em>tasas_historial</em>)</li>
+          <li>Botón de actualización manual disponible en todo momento</li>
+          <li>Diseño adaptado a móvil: sin scroll horizontal, chips en columna</li>
+        </ul>
+      </div>
+
+      <!-- FACTURACIÓN -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#eff6ff;">🧾</div>
+          <div>
+            <div class="module-name">Facturación</div>
+            <div class="module-tag">Creación y gestión de documentos</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>Creación de facturas con número secuencial automático</li>
+          <li>Selección de cliente del directorio o ingreso rápido</li>
+          <li>Múltiples ítems/servicios por factura con cantidad y precio</li>
+          <li>Selección del empleado que procesa la operación</li>
+          <li>Métodos de pago: Zelle, Transferencia, Pago Móvil, Binance/USDT</li>
+          <li>Campo de referencia y número de comprobante</li>
+          <li>Subida de comprobante de pago (foto desde el celular o PC)</li>
+          <li>Marcado de factura como pagada con un clic</li>
+          <li>Al marcar pagada → se sincroniza automáticamente con Panel de Ventas</li>
+          <li>Hoja de detalle editable por factura (modal deslizante)</li>
+          <li>Notificación automática vía Telegram al equipo cuando se sube un comprobante</li>
+          <li>Notificación emergente en pantalla con botón de WhatsApp al cliente</li>
+          <li>Vista filtrable por estado: Todos / Pendientes / Pagados</li>
+          <li>Buscador integrado por cliente, número de doc o referencia</li>
+        </ul>
+      </div>
+
+      <!-- PANEL DE VENTAS -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#f0fdf4;">📊</div>
+          <div>
+            <div class="module-name">Panel de ventas — Operaciones</div>
+            <div class="module-tag">Registro y seguimiento</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>Recibe automáticamente las facturas marcadas como pagadas</li>
+          <li>Listado de todas las operaciones del negocio con fecha, cliente, empleado y monto</li>
+          <li>Resumen diario global: total del día, operaciones y tasa activa</li>
+          <li>Filtro por fecha desde/hasta</li>
+          <li>Exportación a CSV con todos los campos</li>
+          <li>Actualización en tiempo real (Firestore onSnapshot)</li>
+        </ul>
+      </div>
+
+      <!-- MÉTRICAS -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#fdf4ff;">📈</div>
+          <div>
+            <div class="module-name">Panel de ventas — Métricas</div>
+            <div class="module-tag">Análisis visual del negocio</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>KPIs: total del mes, operaciones, monto promedio por op., empleado del mes</li>
+          <li>Gráfico de barras de los últimos 7 días (Chart.js)</li>
+          <li>Tabla de servicios más vendidos con porcentaje del total</li>
+          <li>Ranking de empleados por volumen y número de operaciones</li>
+          <li>Gráfico de evolución histórica de tasas (BCV, Paralelo, USDT)</li>
+          <li>Filtro de período personalizable (últimos 7, 30, 90 días o rango libre)</li>
+          <li>Se actualiza automáticamente al marcar facturas como pagadas</li>
+        </ul>
+      </div>
+
+      <!-- CAJA -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#fef9e7;">💰</div>
+          <div>
+            <div class="module-name">Cuadre de Caja</div>
+            <div class="module-tag">Cierre diario y semanal</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>Resumen del día: total cobrado, operaciones pendientes, tasa activa</li>
+          <li>Desglose por método de pago: Zelle, Transferencia, Pago Móvil, Binance</li>
+          <li>Desglose por empleado con monto y cantidad de operaciones</li>
+          <li>Lista completa de todas las operaciones cobradas en el día</li>
+          <li>Exportar cuadre del día en PDF imprimible con un clic</li>
+          <li>Alerta automática de cierre de semana disponible (domingos y lunes)</li>
+          <li>Vista de cierre semanal: total de la semana, operaciones, promedio diario</li>
+          <li>Desglose por día dentro del cierre semanal</li>
+        </ul>
+      </div>
+
+      <!-- CLIENTES -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#fff1f2;">👤</div>
+          <div>
+            <div class="module-name">Directorio de clientes</div>
+            <div class="module-tag">Gestión y historial</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>Directorio completo de clientes con nombre, teléfono y método preferido</li>
+          <li>Búsqueda rápida por nombre o teléfono dentro del directorio</li>
+          <li>Historial completo por cliente: todas sus operaciones, total enviado, última fecha</li>
+          <li>KPIs por cliente: monto acumulado, número de operaciones, fecha última transacción</li>
+          <li>Registro de destinatarios Zelle por cliente (nombre de cuenta y correo Zelle)</li>
+          <li>Edición y eliminación de clientes desde el directorio</li>
+        </ul>
+      </div>
+
+      <!-- ACCESO -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#f0f9ff;">🔐</div>
+          <div>
+            <div class="module-name">Acceso y autenticación</div>
+            <div class="module-tag">Seguridad multi-nivel</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>Código de acceso de empresa para primera barrera de seguridad</li>
+          <li>Inicio de sesión con cuenta Google (OAuth 2.0)</li>
+          <li>Soporte para sesión anónima temporal</li>
+          <li>Log de accesos: quién entró, cuándo y desde qué correo</li>
+          <li>Reglas de seguridad en Firestore: documentos públicos de solo lectura, todo lo demás requiere autenticación</li>
+          <li>Pantalla de bienvenida con saludo personalizado por empleado</li>
+        </ul>
+      </div>
+
+      <!-- BÚSQUEDA GLOBAL -->
+      <div class="module-card">
+        <div class="module-header">
+          <div class="module-icon" style="background:#f0fdf4;">🔍</div>
+          <div>
+            <div class="module-name">Búsqueda global</div>
+            <div class="module-tag">Desde cualquier sección</div>
+          </div>
+        </div>
+        <ul class="module-features">
+          <li>Barra de búsqueda en el encabezado, siempre visible</li>
+          <li>Busca simultáneamente en facturas y en el directorio de clientes</li>
+          <li>Resultados en tiempo real desde el primer carácter (mínimo 2)</li>
+          <li>Clic en un documento: abre directamente su hoja de detalle</li>
+          <li>Clic en un cliente: abre su historial completo de operaciones</li>
+          <li>Hasta 8 resultados simultáneos con icono, título y subtítulo descriptivo</li>
+        </ul>
+      </div>
+
+    </div><!-- /modules-grid -->
+  </div><!-- /section módulos -->
+
+<!-- ════════════════════════════════════════
+     FLUJO OPERATIVO
+════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">03 · Flujo operativo</div>
+    <div class="section-title">Cómo funciona el día a día</div>
+    <div class="section-sub">Proceso estándar de una operación de remesa de inicio a fin.</div>
+
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot">1</div><div class="flow-connector"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Cliente solicita envío</div>
+          <div class="flow-desc">El operador busca al cliente en el directorio o lo registra. Selecciona el servicio, monto en USD y el destinatario Zelle. El sistema calcula automáticamente la equivalencia en Bolívares según la tasa activa seleccionada.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot">2</div><div class="flow-connector"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Se crea la factura</div>
+          <div class="flow-desc">El operador selecciona el empleado que procesa, el método de pago (Zelle, Pago Móvil, Transferencia o Binance) e ingresa la referencia. La factura queda en estado <em>Pendiente</em> hasta recibir el pago.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot">3</div><div class="flow-connector"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Cliente sube comprobante</div>
+          <div class="flow-desc">El cliente puede fotografiar y subir su comprobante directamente desde el enlace de la factura. Al subirse, el equipo recibe una notificación automática en Telegram y aparece un aviso en pantalla con botón de WhatsApp directo al cliente para confirmar.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot">4</div><div class="flow-connector"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Se confirma el pago</div>
+          <div class="flow-desc">El operador verifica el comprobante y marca la factura como <em>Pagada</em>. Automáticamente la operación se registra en el Panel de Ventas y se incluye en el cuadre de caja del día.</div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-line"><div class="flow-dot">5</div><div class="flow-connector"></div></div>
+        <div class="flow-body">
+          <div class="flow-title">Cierre de caja</div>
+          <div class="flow-desc">Al final del día, el operador abre la sección <em>Caja</em> y obtiene un resumen completo de todo lo cobrado, desglosado por método de pago y por empleado. Puede exportar el cuadre en PDF imprimible. Los domingos y lunes aparece la alerta de cierre de semana con el resumen de los últimos 7 días.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- ════════════════════════════════════════
+     STACK TECNOLÓGICO
+════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">04 · Stack tecnológico</div>
+    <div class="section-title">Tecnologías utilizadas</div>
+    <div class="section-sub">Arquitectura moderna, sin dependencias de servidor propio. Todo en la nube.</div>
+
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-logo">🔥</div>
+        <div><div class="tech-name">Firebase Firestore</div><div class="tech-desc">Base de datos en tiempo real</div></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-logo">🔑</div>
+        <div><div class="tech-name">Firebase Auth</div><div class="tech-desc">Google OAuth + sesión anónima</div></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-logo">☁️</div>
+        <div><div class="tech-name">Cloudinary</div><div class="tech-desc">Almacenamiento de comprobantes</div></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-logo">📊</div>
+        <div><div class="tech-name">Chart.js</div><div class="tech-desc">Gráficos de barras e históricos</div></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-logo">🤖</div>
+        <div><div class="tech-name">Telegram Bot API</div><div class="tech-desc">Notificaciones automáticas al equipo</div></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-logo">💱</div>
+        <div><div class="tech-name">ve.dolarapi.com</div><div class="tech-desc">Tasas BCV, Paralelo y USDT</div></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-logo">🌐</div>
+        <div><div class="tech-name">HTML5 / CSS3 / JS</div><div class="tech-desc">SPA sin frameworks, sin build system</div></div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-logo">🚀</div>
+        <div><div class="tech-name">GitHub + Hosting</div><div class="tech-desc">Deploy continuo en dgp-link.com</div></div>
+      </div>
+    </div>
+  </div>
+
+<!-- ════════════════════════════════════════
+     CONFIDENCIALIDAD Y LICENCIA
+════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-label">05 · Legal</div>
+    <div class="section-title">Confidencialidad y licencia de uso</div>
+    <div class="section-sub">Términos que regulan el uso y la propiedad del software entregado.</div>
+
+    <div class="conf-box">
+      <div class="conf-title">⚠️ Acuerdo de confidencialidad</div>
+      <div class="conf-body">
+        <p>El presente sistema de software, incluyendo su código fuente, diseño visual, arquitectura de base de datos, flujos de datos, lógica de negocio y documentación asociada, constituye información confidencial y propietaria de <strong>DGP GLOBAL GROUP USA</strong>.</p>
+        <p>El cliente (<strong>RO Cambios</strong>) se compromete a no divulgar, compartir, transferir, sublicenciar ni reproducir ninguna parte del sistema a terceros sin autorización escrita y previa de <strong>DGP GLOBAL GROUP USA</strong>. Esto incluye, pero no se limita a, capturas de pantalla del código, exportaciones de la base de datos, credenciales de acceso a los servicios y cualquier material técnico relacionado con el desarrollo.</p>
+        <p>El incumplimiento de este acuerdo puede dar lugar a acciones legales de conformidad con las leyes aplicables en el Estado de la Florida, Estados Unidos, y cualquier jurisdicción donde <strong>DGP GLOBAL GROUP USA</strong> opere o tenga representación legal.</p>
+        <p>Las credenciales de Firebase, Cloudinary, Telegram y demás servicios de terceros configurados durante el desarrollo son de uso exclusivo del sistema entregado y no deben ser compartidas ni reutilizadas en otros proyectos.</p>
+      </div>
+    </div>
+
+    <div class="lic-box">
+      <div class="lic-title">📄 Licencia de uso — Perpetua y no exclusiva</div>
+      <div class="lic-body">
+        <p>DGP GLOBAL GROUP USA otorga al cliente <strong>RO Cambios</strong> una <strong>licencia de uso perpetua, intransferible y no exclusiva</strong> sobre el sistema de software entregado, bajo las siguientes condiciones:</p>
+        <div class="lic-items">
+          <div class="lic-item">El cliente puede usar el sistema de forma indefinida, sin necesidad de renovaciones ni pagos recurrentes de licencia.</div>
+          <div class="lic-item">El cliente puede solicitar modificaciones, mejoras y soporte técnico a DGP GLOBAL GROUP USA, las cuales se cotizarán por separado.</div>
+          <div class="lic-item">La licencia es exclusivamente para el uso del negocio <strong>RO Cambios</strong>. No incluye el derecho de revender, sublicenciar ni transferir el software a terceros.</div>
+          <div class="lic-item">DGP GLOBAL GROUP USA conserva los derechos de autor y propiedad intelectual sobre el código fuente, el diseño y la arquitectura del sistema.</div>
+          <div class="lic-item">El cliente es responsable de los costos de los servicios de terceros contratados para el funcionamiento del sistema (Firebase, Cloudinary, dominio, hosting), una vez entregado el proyecto.</div>
+          <div class="lic-item">DGP GLOBAL GROUP USA no se hace responsable por pérdida de datos, interrupciones del servicio de terceros (Firebase, Cloudinary, etc.) ni por mal uso del sistema por parte del cliente o sus empleados.</div>
+          <div class="lic-item">Cualquier disputa relacionada con este acuerdo se resolverá mediante arbitraje bajo las leyes del Estado de Florida, EE. UU.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 0;"></div>
+</div><!-- /wrap -->
+
+<!-- ════════════════════════════════════════
+     FIRMA DIGITAL
+════════════════════════════════════════ -->
+<div class="signature-section">
+  <div class="signature-inner">
+    <div class="sig-grid">
+      <div>
+        <div class="sig-company">DGP GLOBAL GROUP USA</div>
+        <div class="sig-tagline">Technology · Innovation · Growth</div>
+        <div class="sig-details">
+          <div class="sig-detail"><strong>Proyecto:</strong> RO Cambios — Sistema de Gestión</div>
+          <div class="sig-detail"><strong>Entregado:</strong> Junio 2026</div>
+          <div class="sig-detail"><strong>Versión:</strong> 1.0 · Producción</div>
+          <div class="sig-detail"><strong>URL:</strong> rocambios.dgp-link.com</div>
+          <div class="sig-detail"><strong>Contacto:</strong> DGP GLOBAL GROUP USA</div>
+          <div class="sig-detail"><strong>Correo:</strong> kevinbermudez1412@gmail.com</div>
+        </div>
+      </div>
+      <div class="sig-stamp">
+        <div class="sig-stamp-top">Firma Digital</div>
+        <div class="sig-stamp-num">DGP<br>2026</div>
+        <div class="sig-stamp-bot">Software entregado<br>y certificado</div>
+      </div>
+    </div>
+
+    <div class="sig-bottom">
+      <div class="sig-copy">
+        © 2026 DGP GLOBAL GROUP USA. Todos los derechos reservados.<br>
+        Este documento es parte del paquete de entrega oficial del proyecto RO Cambios.
+      </div>
+      <div class="sig-version">v1.0 · Junio 2026</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
