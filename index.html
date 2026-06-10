@@ -1076,9 +1076,6 @@
   <button class="nav-tab" onclick="switchPage('facturacion', this); _clearNotifBadge();">
     <i class="fa-solid fa-file-invoice-dollar"></i> Facturación<span id="notif-badge" style="display:none;background:#ef4444;color:white;border-radius:20px;font-size:9px;font-weight:700;padding:1px 5px;margin-left:4px;vertical-align:1px;"></span>
   </button>
-  <button class="nav-tab" onclick="switchPage('metricas', this)">
-    <i class="fa-solid fa-chart-bar"></i> Métricas
-  </button>
 </nav>
 
 <!-- TICKER -->
@@ -1145,6 +1142,15 @@
 <div id="page-ventas" class="page active">
   <div class="ventas-main">
 
+    <!-- SUBTABS -->
+    <div class="subtabs" style="padding:0 20px;">
+      <button class="subtab-btn active" id="vsubtab-btn-ops" onclick="switchVentasTab('ops',this)" style="display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Operaciones</button>
+      <button class="subtab-btn" id="vsubtab-btn-met" onclick="switchVentasTab('metricas',this)" style="display:inline-flex;align-items:center;gap:6px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Métricas</button>
+    </div>
+
+    <!-- SUB: OPERACIONES -->
+    <div id="vsubtab-ops">
+
     <!-- BOTTOM ROW -->
     <div class="bottom-row">
       <!-- FORM -->
@@ -1203,6 +1209,50 @@
         <div id="listaVentas"></div>
       </div>
     </div>
+    </div><!-- /vsubtab-ops -->
+
+    <!-- SUB: MÉTRICAS -->
+    <div id="vsubtab-metricas" style="display:none;">
+      <div style="max-width:1100px;margin:0 auto;padding:24px;">
+        <div style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--black);">Métricas y Reportes</div>
+            <div style="font-size:11px;color:#6b7280;margin-top:2px;">Resumen de operaciones</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <select id="metricas-periodo" onchange="renderMetricas()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;background:white;color:var(--black);outline:none;">
+              <option value="semana">Esta semana</option>
+              <option value="mes">Este mes</option>
+              <option value="todo">Todo el tiempo</option>
+            </select>
+            <button onclick="exportCSV()" style="padding:8px 16px;background:var(--black);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Exportar CSV
+            </button>
+          </div>
+        </div>
+        <div id="metricas-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+          <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:var(--blue);border-radius:2px;display:block;"></span>Desglose por Servicio</div>
+            <div id="metricas-servicios"></div>
+          </div>
+          <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+            <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#0f766e;border-radius:2px;display:block;"></span>Tasas — Últimos 7 días</div>
+            <div id="metricas-tasas-hist" style="min-height:40px;"></div>
+            <div style="position:relative;height:180px;margin-top:8px;"><canvas id="tasas-chart"></canvas></div>
+          </div>
+        </div>
+        <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:24px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#b45309;border-radius:2px;display:block;"></span>Por Empleado</div>
+          <div id="metricas-empleados"></div>
+        </div>
+        <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#374151;border-radius:2px;display:block;"></span>Operaciones del período</div>
+          <div id="metricas-tabla" style="overflow-x:auto;"></div>
+        </div>
+      </div>
+    </div><!-- /vsubtab-metricas -->
 
   </div><!-- /ventas-main -->
 </div><!-- /page-ventas -->
@@ -1382,60 +1432,6 @@
   </div><!-- /fact-main -->
 </div><!-- /page-facturacion -->
 
-<!-- PAGE: MÉTRICAS -->
-<div id="page-metricas" class="page">
-  <div style="max-width:1100px;margin:0 auto;padding:32px 24px;">
-
-    <div style="margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--black);">Métricas y Reportes</div>
-        <div style="font-size:11px;color:#6b7280;margin-top:2px;">Resumen de operaciones</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <select id="metricas-periodo" onchange="renderMetricas()" style="padding:8px 12px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:12px;background:white;color:var(--black);outline:none;">
-          <option value="semana">Esta semana</option>
-          <option value="mes">Este mes</option>
-          <option value="todo">Todo el tiempo</option>
-        </select>
-        <button onclick="exportCSV()" style="padding:8px 16px;background:var(--black);color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Exportar CSV
-        </button>
-      </div>
-    </div>
-
-    <!-- KPI Cards row -->
-    <div id="metricas-kpis" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;"></div>
-
-    <!-- Two-column: Desglose por servicio + Tasas del día historial -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
-      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:var(--blue);border-radius:2px;display:block;"></span>Desglose por Servicio</div>
-        <div id="metricas-servicios"></div>
-      </div>
-      <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-        <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#0f766e;border-radius:2px;display:block;"></span>Tasas — Últimos 7 días</div>
-        <div id="metricas-tasas-hist" style="min-height:80px;"></div>
-        <div style="position:relative;height:180px;margin-top:8px;">
-          <canvas id="tasas-chart"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- Operaciones por empleado -->
-    <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;margin-bottom:24px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#b45309;border-radius:2px;display:block;"></span>Por Empleado</div>
-      <div id="metricas-empleados"></div>
-    </div>
-
-    <!-- Últimas operaciones table -->
-    <div style="background:white;border:1.5px solid var(--border);border-radius:14px;padding:20px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--black);margin-bottom:16px;display:flex;align-items:center;gap:8px;"><span style="width:4px;height:14px;background:#374151;border-radius:2px;display:block;"></span>Operaciones del período</div>
-      <div id="metricas-tabla" style="overflow-x:auto;"></div>
-    </div>
-
-  </div>
-</div>
 
 </div><!-- /app-shell -->
 
@@ -1912,7 +1908,14 @@ function switchPage(page, btn) {
   btn.classList.add('active');
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
-  if (page === 'metricas') renderMetricas();
+}
+
+function switchVentasTab(tab, btn) {
+  document.getElementById('vsubtab-btn-ops').classList.toggle('active', tab === 'ops');
+  document.getElementById('vsubtab-btn-met').classList.toggle('active', tab === 'metricas');
+  document.getElementById('vsubtab-ops').style.display      = tab === 'ops'      ? '' : 'none';
+  document.getElementById('vsubtab-metricas').style.display = tab === 'metricas' ? '' : 'none';
+  if (tab === 'metricas') renderMetricas();
 }
 
 function switchSubTab(tab, btn) {
@@ -2430,7 +2433,7 @@ function initDocs() {
       updateHistorialBadge();
       renderResumenDiario();
       if (document.getElementById('subtab-historial').style.display !== 'none') renderHistorial();
-      if (document.getElementById('page-metricas')?.style.display !== 'none') renderMetricas();
+      if (document.getElementById('vsubtab-metricas')?.style.display !== 'none') renderMetricas();
     }, err => {
       console.error('Docs listener error:', err);
     });
