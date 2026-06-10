@@ -1216,9 +1216,6 @@
             <option value="recibo">Recibo — pago ya recibido</option>
           </select>
         </div>
-        <div class="ff" id="plantillas-wrap" style="margin-top:-8px;">
-          <button type="button" class="btn-add-f" style="background:var(--off);color:var(--text-mid);border:1.5px solid var(--border);font-size:10px;display:inline-flex;align-items:center;gap:6px;" onclick="openPlantillasModal()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Cargar plantilla guardada</button>
-        </div>
 
         <div class="ff">
           <label>Nombre del cliente</label>
@@ -1850,6 +1847,14 @@ function initPage() {
   initDocs();
   onTypeChange();
   fetchTasas();
+  loadZelleDirectorio();
+}
+
+function loadZelleDirectorio() {
+  db.collection('directorio_zelle').orderBy('ultimoUso', 'desc').limit(50).get()
+    .then(snap => {
+      zelleDirectorio = snap.docs.map(d => d.data());
+    }).catch(() => {});
 }
 
 /*  Build employee selects, ranking cards, filter buttons  */
@@ -2290,6 +2295,7 @@ function cerrarModalVenta() {
  */
 let cart    = [];
 let docsMap = {};   /* firestoreId -> docData */
+let zelleDirectorio = []; /* [{correo, nombre, ultimoUso}] */
 let sheetLang = 'es';
 let sheetDocCurrent = null;
 
@@ -2493,6 +2499,17 @@ async function saveDoc() {
     createdAt:  firebase.firestore.FieldValue.serverTimestamp()
   };
     const added = await db.collection('documentos').add(docData);
+
+    // Save Zelle entry to directory
+    if (docData.metodoPago === 'zelle' && docData.infoPago?.correo) {
+      const zelleKey = docData.infoPago.correo.trim().toLowerCase().replace(/[^a-z0-9@._+-]/g,'_');
+      db.collection('directorio_zelle').doc(zelleKey).set({
+        correo: docData.infoPago.correo.trim(),
+        nombre: docData.infoPago.nombre?.trim() || '',
+        ultimoUso: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true }).catch(() => {});
+    }
+
     cart = [];
     renderCart();
     document.getElementById('cli-nom').value  = '';
@@ -2629,11 +2646,9 @@ function openSheet(doc) {
       <button class="btn-sheet print"  onclick="window.print()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</button>
       <button class="btn-sheet wa"     onclick="enviarWhatsApp('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
-      <button class="btn-sheet parcial" onclick="abrirPagoParcial('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Registrar Pago</button>
       <button class="btn-sheet marcar" onclick="marcarPagado('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Marcar pagado</button>
       ${doc.enProceso && !doc.pagado ? `<button class="btn-sheet" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);cursor:default;" disabled>⏳ En proceso</button>` : `<button class="btn-sheet proceso" onclick="marcarEnProceso('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);">⏳ En proceso</button>`}
       <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
-      <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
   } else if (isFactura) {
@@ -2642,11 +2657,9 @@ function openSheet(doc) {
       <button class="btn-sheet print"  onclick="window.print()" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Imprimir</button>
       <button class="btn-sheet wa"     onclick="enviarWhatsApp('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp</button>
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
-      <button class="btn-sheet parcial" onclick="abrirPagoParcial('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pago parcial</button>
       <button class="btn-sheet marcar" onclick="marcarPagado('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Marcar pagado</button>
       ${doc.enProceso && !doc.pagado ? `<button class="btn-sheet" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);cursor:default;" disabled>⏳ En proceso</button>` : `<button class="btn-sheet proceso" onclick="marcarEnProceso('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;color:#1d4ed8;border-color:rgba(29,78,216,0.3);">⏳ En proceso</button>`}
       <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
-      <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
   } else {
@@ -2661,7 +2674,6 @@ function openSheet(doc) {
       <button class="btn-sheet link"   onclick="copiarLinkFactura('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Link público</button>
       <button class="btn-sheet link" onclick="reenviarLinkWA('${esc(fsId)}')" style="display:inline-flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Reenviar Link</button>
       ${entregadoBtn}
-      <button class="btn-sheet" style="background:var(--off);color:var(--text-mid);border-color:var(--border);display:inline-flex;align-items:center;gap:6px;" onclick="guardarComoPlantilla('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Plantilla</button>
       <button class="btn-sheet" style="background:#fffbeb;color:#92400e;border-color:rgba(146,64,14,0.25);display:inline-flex;align-items:center;gap:6px;" onclick="duplicarFactura('${esc(fsId)}')" ><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Duplicar</button>
       <button class="btn-sheet close"  onclick="closeModal()" style="grid-column:1/-1;">Cerrar</button>`;
 
@@ -3873,11 +3885,37 @@ function onMetodoPagoChange() {
   const wrap   = document.getElementById('metodo-pago-fields');
   if (metodo === 'bizum') selectMoneda('eur');
   if (!metodo || !METODOS_CAMPOS[metodo]) { wrap.innerHTML = ''; return; }
-  wrap.innerHTML = METODOS_CAMPOS[metodo].map(f => `
+
+  let pickerHTML = '';
+  if (metodo === 'zelle' && zelleDirectorio.length > 0) {
+    const opts = zelleDirectorio.map((z,i) =>
+      `<option value="${i}">${esc(z.nombre || z.correo)} — ${esc(z.correo)}</option>`
+    ).join('');
+    pickerHTML = `
+      <div class="ff" style="margin:0 0 8px;">
+        <label style="font-size:10px">Usar cuenta guardada</label>
+        <select onchange="aplicarZelleGuardado(this.value)" style="background:var(--bg-alt);border-color:var(--blue);">
+          <option value="">— Nuevo / escribir manualmente —</option>
+          ${opts}
+        </select>
+      </div>`;
+  }
+
+  wrap.innerHTML = pickerHTML + METODOS_CAMPOS[metodo].map(f => `
     <div class="ff" style="margin:0">
       <label style="font-size:10px">${f.label}</label>
       <input type="text" id="${f.id}" placeholder="${f.placeholder}">
     </div>`).join('');
+}
+
+function aplicarZelleGuardado(idx) {
+  if (idx === '') return;
+  const z = zelleDirectorio[parseInt(idx)];
+  if (!z) return;
+  const correoEl = document.getElementById('mp-correo');
+  const nombreEl = document.getElementById('mp-nombre');
+  if (correoEl) correoEl.value = z.correo;
+  if (nombreEl) nombreEl.value = z.nombre || '';
 }
 
 function getInfoPago() {
